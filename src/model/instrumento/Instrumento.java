@@ -9,7 +9,7 @@ public abstract class Instrumento {
     protected String categoria;
     protected String procedencia;
     protected String descricao;
-    protected String data;
+    protected String dataFabricacao;
     protected String fabricante;
     protected String fabricacaoPais;
     protected String fabricacaoCidade;
@@ -20,18 +20,19 @@ public abstract class Instrumento {
     protected String altura;
     protected String estadoConservacao;
     protected String marcasInscricoes;
+    protected String status;
 
     public Instrumento(UUID id, String nome, String nomesAdicionais, String categoria, String procedencia,
-            String descricao, String data, String fabricante, String fabricacaoPais, String fabricacaoCidade,
+            String descricao, String dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, String peso, String altura,
-            String estadoConservacao, String marcasInscricoes) {
+            String estadoConservacao, String marcasInscricoes, String status) {
         this.id = id;
         this.nome = nome;
         this.nomesAdicionais = nomesAdicionais;
         this.categoria = categoria;
         this.procedencia = procedencia;
         this.descricao = descricao;
-        this.data = data;
+        this.dataFabricacao = dataFabricacao;
         this.fabricante = fabricante;
         this.fabricacaoPais = fabricacaoPais;
         this.fabricacaoCidade = fabricacaoCidade;
@@ -42,6 +43,7 @@ public abstract class Instrumento {
         this.altura = altura;
         this.estadoConservacao = estadoConservacao;
         this.marcasInscricoes = marcasInscricoes;
+        this.status = status;
     }
     public UUID getId() {
         return id;
@@ -79,11 +81,11 @@ public abstract class Instrumento {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    public String getData() {
-        return data;
+    public String getDataFabricacao() {
+        return dataFabricacao;
     }
-    public void setData(String data) {
-        this.data = data;
+    public void setDataFabricacao(String dataFabricacao) {
+        this.dataFabricacao = dataFabricacao;
     }
     public String getFabricante() {
         return fabricante;
@@ -144,5 +146,11 @@ public abstract class Instrumento {
     }
     public void setMarcasInscricoes(String marcasInscricoes) {
         this.marcasInscricoes = marcasInscricoes;
+    }
+    public String getStatus(){
+        return status;
+    }
+    public void setStatus(String status){
+        this.status = status;
     }
 }
