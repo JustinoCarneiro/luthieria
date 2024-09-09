@@ -1,4 +1,4 @@
-package TestePainel;
+package testepainel;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
