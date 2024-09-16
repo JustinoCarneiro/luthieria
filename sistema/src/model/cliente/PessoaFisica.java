@@ -33,6 +33,9 @@ public class PessoaFisica extends Cliente{
                 ", telefoneCelular='" + getTelefoneCelular() + '\'' +
                 ", email='" + getEmail() + '\'' +
                 ", endereco='" + getEndereco() + '\'' +
+                ", numeroLocal='" + getNumeroLocal() + '\'' +
+                ", complemento='" + getComplemento() + '\'' +
+                ", bairro='" + getBairro() + '\'' +
                 ", cidade='" + getCidade() + '\'' +
                 ", estado='" + getEstado() + '\'' +
                 '}';

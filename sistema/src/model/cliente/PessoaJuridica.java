@@ -36,4 +36,23 @@ public class PessoaJuridica extends Cliente{
         this.cnpj = cnpj;
     }
 
+    @Override
+    public String toString() {
+        return "PessoaFisica { " +
+                "id=" + getId() +
+                ", nomeCompleto='" + getNomeCompleto() + '\'' +
+                ", cnpj='" + cnpj + '\'' +
+                ", dataNascimento='" + getDataNascimento() + '\'' +
+                ", telefoneCelular='" + getTelefoneCelular() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", endereco='" + getEndereco() + '\'' +
+                ", numeroLocal='" + getNumeroLocal() + '\'' +
+                ", complemento='" + getComplemento() + '\'' +
+                ", bairro='" + getBairro() + '\'' +
+                ", cidade='" + getCidade() + '\'' +
+                ", estado='" + getEstado() + '\'' +
+                ", inscricaoEstadual='" + getInscricaoEstadual() + '\'' +
+                ", razaoSocial='" + getRazaoSocial() + '\'' +
+                '}';
+    }
 }

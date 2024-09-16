@@ -1,18 +1,19 @@
 import java.time.LocalDate;
 import java.util.UUID;
 import model.cliente.PessoaFisica;
+import model.cliente.PessoaJuridica;
 
 public class Luthieria {
     public static void main(String[] args) throws Exception {
         Luthier luthier = new Luthier();
 
-        // Gerando um UUID aleatório
-        UUID id = UUID.randomUUID();
+        UUID idFisica = UUID.randomUUID();
+        UUID idJuridica = UUID.randomUUID();
 
         LocalDate dataNascimento = LocalDate.of(1990, 1, 1);
 
         PessoaFisica cliente = new PessoaFisica(
-            id,                       
+            idFisica,                       
             "João da Silva",          
             dataNascimento,             
             "987654321",               
@@ -26,8 +27,26 @@ public class Luthieria {
             "123.456.789-00"       
         );
 
+        PessoaJuridica clienteJuridica = new PessoaJuridica(
+            idJuridica,                      
+            "Empresa Exemplo Ltda",        
+            LocalDate.of(2000, 1, 1),     
+            "987654321",                  
+            "contato@empresa.com",         
+            "Avenida Exemplo",              
+            "456",                         
+            "Sala 202",                    
+            "Bairro Exemplo",              
+            "Cidade Exemplo",             
+            "Estado Exemplo",             
+            "Razão Social Exemplo",       
+            "123.456.789.000",            
+            "12.345.678/0001-99"         
+        );
+
         // Inserindo o cliente no repositório
-        luthier.inserir(cliente);
+        luthier.inserir(clienteFisica);
+        luthier.inserir(clienteJuridica);
 
         // Listando os clientes
         luthier.listar();
