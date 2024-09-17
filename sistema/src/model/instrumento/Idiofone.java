@@ -1,5 +1,6 @@
 package model.instrumento;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class Idiofone extends Instrumento{
@@ -7,7 +8,7 @@ public class Idiofone extends Instrumento{
     private String tipoIdiofone;
     
     public Idiofone(UUID id, String nome, String nomesAdicionais, String categoria, String procedencia,
-            String descricao, String dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
+            String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,
             String estadoConservacao, String marcasInscricoes, String status, String metodoExecucao,
             String tipoIdiofone) {

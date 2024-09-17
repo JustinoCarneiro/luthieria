@@ -1,5 +1,6 @@
 package model.instrumento;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class Cordofone extends Instrumento{
@@ -8,7 +9,7 @@ public class Cordofone extends Instrumento{
     private String metodoExecucaoCorda;
     
     public Cordofone(UUID id, String nome, String nomesAdicionais, String categoria, String procedencia,
-            String descricao, String dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
+            String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,
             String estadoConservacao, String marcasInscricoes, String status, Integer numeroDeCordas,
             String tipoDeCordas, String metodoExecucaoCorda) {
@@ -20,19 +21,19 @@ public class Cordofone extends Instrumento{
         this.metodoExecucaoCorda = metodoExecucaoCorda;
     }
 
-    public Integer getNumeroDeCordas() {
+    public Integer getNumeroCordas() {
         return numeroCordas;
     }
 
-    public void setNumeroDeCordas(Integer numeroCordas) {
+    public void setNumeroCordas(Integer numeroCordas) {
         this.numeroCordas = numeroCordas;
     }
 
-    public String getTipoDeCordas() {
+    public String getTipoCordas() {
         return tipoCordas;
     }
 
-    public void setTipoDeCordas(String tipoCordas) {
+    public void setTipoCordas(String tipoCordas) {
         this.tipoCordas = tipoCordas;
     }
 

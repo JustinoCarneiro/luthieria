@@ -1,23 +1,24 @@
 package model.instrumento;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class Aerofone extends Instrumento{
     private String tipoBocal;
     private String metodoProducaoSom;
-    private String ajusteAfinação;
+    private String ajusteAfinacao;
     
     public Aerofone(UUID id, String nome, String nomesAdicionais, String categoria, String procedencia,
-            String descricao, String dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
+            String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,
             String estadoConservacao, String marcasInscricoes, String status, String tipoBocal,
-            String metodoProducaoSom, String ajusteAfinação) {
+            String metodoProducaoSom, String ajusteAfinacao) {
         super(id, nome, nomesAdicionais, categoria, procedencia, descricao, dataFabricacao, fabricante, fabricacaoPais,
                 fabricacaoCidade, fabricacaoEstado, fabricacaoLocalidade, material, peso, altura, estadoConservacao,
                 marcasInscricoes, status);
         this.tipoBocal = tipoBocal;
         this.metodoProducaoSom = metodoProducaoSom;
-        this.ajusteAfinação = ajusteAfinação;
+        this.ajusteAfinacao = ajusteAfinacao;
     }
 
     public String getTipoBocal() {
@@ -36,11 +37,11 @@ public class Aerofone extends Instrumento{
         this.metodoProducaoSom = metodoProducaoSom;
     }
 
-    public String getAjusteAfinação() {
-        return ajusteAfinação;
+    public String getAjusteAfinacao() {
+        return ajusteAfinacao;
     }
 
-    public void setAjusteAfinação(String ajusteAfinação) {
-        this.ajusteAfinação = ajusteAfinação;
+    public void setAjusteAfinacao(String ajusteAfinacao) {
+        this.ajusteAfinacao = ajusteAfinacao;
     }
 }

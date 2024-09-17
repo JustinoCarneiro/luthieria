@@ -1,5 +1,6 @@
 package model.instrumento;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public abstract class Instrumento {
@@ -9,7 +10,7 @@ public abstract class Instrumento {
     protected String categoria;
     protected String procedencia;
     protected String descricao;
-    protected String dataFabricacao;
+    protected LocalDate dataFabricacao;
     protected String fabricante;
     protected String fabricacaoPais;
     protected String fabricacaoCidade;
@@ -23,7 +24,7 @@ public abstract class Instrumento {
     protected String status;
 
     public Instrumento(UUID id, String nome, String nomesAdicionais, String categoria, String procedencia,
-            String descricao, String dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
+            String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,
             String estadoConservacao, String marcasInscricoes, String status) {
         this.id = id;
@@ -81,10 +82,10 @@ public abstract class Instrumento {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    public String getDataFabricacao() {
+    public LocalDate getDataFabricacao() {
         return dataFabricacao;
     }
-    public void setDataFabricacao(String dataFabricacao) {
+    public void setDataFabricacao(LocalDate dataFabricacao) {
         this.dataFabricacao = dataFabricacao;
     }
     public String getFabricante() {

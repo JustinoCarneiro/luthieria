@@ -18,34 +18,56 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
     String sql;
 
     public void inserir(Cliente cliente) {
+
         Cliente clientePorId = buscaPorId(cliente.getId());
+
         if (clientePorId != null) {
             throw new IllegalArgumentException("Cliente com o mesmo ID já existe.");
         }
 
         if (cliente instanceof PessoaFisica) {
+
             PessoaFisica pessoaFisica = (PessoaFisica) cliente;
             String cpf = pessoaFisica.getCpf();
             Cliente clientePorCpf = buscaPorCpfouCNPJ(cpf);
+
             if (clientePorCpf != null) {
                 throw new IllegalArgumentException("Cliente com o mesmo CPF já existe.");
             }
+
             inserirPessoaFisica(pessoaFisica);
+
         } else if (cliente instanceof PessoaJuridica) {
+
             PessoaJuridica pessoaJuridica = (PessoaJuridica) cliente;
             String cnpj = pessoaJuridica.getCnpj();
             Cliente clientePorCnpj = buscaPorCpfouCNPJ(cnpj);
+
             if (clientePorCnpj != null) {
                 throw new IllegalArgumentException("Cliente com o mesmo CNPJ já existe.");
             }
+
             inserirPessoaJuridica(pessoaJuridica);
+
         } else {
             System.err.println("Tipo de cliente não reconhecido.");
         }
     }
 
+    public void alterar(Cliente clienteAlterado) {
+
+        if (clienteAlterado instanceof PessoaFisica) {
+            alterarPessoaFisica((PessoaFisica) clienteAlterado);
+        } else if (clienteAlterado instanceof PessoaJuridica) {
+            alterarPessoaJuridica((PessoaJuridica) clienteAlterado);
+        } else {
+            System.err.println("Tipo de cliente não reconhecido.");
+        }
+
+    }
 
     public void remover(Cliente cliente){
+
         if(cliente instanceof PessoaFisica){
             sql = "DELETE FROM cliente_pessoa_fisica WHERE id = ?";
         } else if(cliente instanceof PessoaJuridica){
@@ -67,132 +89,9 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
             System.err.println("Erro ao deletar cliente: " + e.getMessage());
         }
     };
-
-    public void alterar(Cliente clienteAlterado) {
-        String sqlUpdate;
     
-        if (clienteAlterado instanceof PessoaFisica) {
-            sql = "SELECT * FROM cliente_pessoa_fisica WHERE id = ?";
-            sqlUpdate = "UPDATE cliente_pessoa_fisica SET nome_completo = ?, data_nascimento = ?, telefone_celular = ?, email = ?, endereco = ?, numero_local = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, cpf = ? WHERE id = ?";
-        } else if (clienteAlterado instanceof PessoaJuridica) {
-            sql = "SELECT * FROM cliente_pessoa_juridica WHERE id = ?";
-            sqlUpdate = "UPDATE cliente_pessoa_juridica SET nome_completo = ?, data_nascimento = ?, telefone_celular = ?, email = ?, endereco = ?, numero_local = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, razao_social = ?, inscricao_estadual = ?, cnpj = ? WHERE id = ?";
-        } else {
-            System.err.println("Tipo de cliente não reconhecido.");
-            return;
-        }
-    
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement psSelect = connection.prepareStatement(sql)) {
-    
-            psSelect.setObject(1, clienteAlterado.getId());
-            ResultSet resultSet = psSelect.executeQuery();
-    
-            if (resultSet.next()) {
-                if (clienteAlterado instanceof PessoaFisica) {
-                    PessoaFisica pessoaFisicaAlterada = (PessoaFisica) clienteAlterado;
-    
-                    String nomeAtual = resultSet.getString("nome_completo");
-                    LocalDate dataNascimentoAtual = resultSet.getDate("data_nascimento").toLocalDate();
-                    String telefoneAtual = resultSet.getString("telefone_celular");
-                    String emailAtual = resultSet.getString("email");
-                    String enderecoAtual = resultSet.getString("endereco");
-                    String numeroLocalAtual = resultSet.getString("numero_local");
-                    String complementoAtual = resultSet.getString("complemento");
-                    String bairroAtual = resultSet.getString("bairro");
-                    String cidadeAtual = resultSet.getString("cidade");
-                    String estadoAtual = resultSet.getString("estado");
-                    String cpfAtual = resultSet.getString("cpf");
-    
-                    String nomeAlterado = pessoaFisicaAlterada.getNomeCompleto() != null && !pessoaFisicaAlterada.getNomeCompleto().equals(nomeAtual) ? pessoaFisicaAlterada.getNomeCompleto() : nomeAtual;
-                    LocalDate dataNascimentoAlterada = pessoaFisicaAlterada.getDataNascimento() != null && !pessoaFisicaAlterada.getDataNascimento().equals(dataNascimentoAtual) ? pessoaFisicaAlterada.getDataNascimento() : dataNascimentoAtual;
-                    String telefoneAlterado = pessoaFisicaAlterada.getTelefoneCelular() != null && !pessoaFisicaAlterada.getTelefoneCelular().equals(telefoneAtual) ? pessoaFisicaAlterada.getTelefoneCelular() : telefoneAtual;
-                    String emailAlterado = pessoaFisicaAlterada.getEmail() != null && !pessoaFisicaAlterada.getEmail().equals(emailAtual) ? pessoaFisicaAlterada.getEmail() : emailAtual;
-                    String enderecoAlterado = pessoaFisicaAlterada.getEndereco() != null && !pessoaFisicaAlterada.getEndereco().equals(enderecoAtual) ? pessoaFisicaAlterada.getEndereco() : enderecoAtual;
-                    String numeroLocalAlterado = pessoaFisicaAlterada.getNumeroLocal() != null && !pessoaFisicaAlterada.getNumeroLocal().equals(numeroLocalAtual) ? pessoaFisicaAlterada.getNumeroLocal() : numeroLocalAtual;
-                    String complementoAlterado = pessoaFisicaAlterada.getComplemento() != null && !pessoaFisicaAlterada.getComplemento().equals(complementoAtual) ? pessoaFisicaAlterada.getComplemento() : complementoAtual;
-                    String bairroAlterado = pessoaFisicaAlterada.getBairro() != null && !pessoaFisicaAlterada.getBairro().equals(bairroAtual) ? pessoaFisicaAlterada.getBairro() : bairroAtual;
-                    String cidadeAlterada = pessoaFisicaAlterada.getCidade() != null && !pessoaFisicaAlterada.getCidade().equals(cidadeAtual) ? pessoaFisicaAlterada.getCidade() : cidadeAtual;
-                    String estadoAlterado = pessoaFisicaAlterada.getEstado() != null && !pessoaFisicaAlterada.getEstado().equals(estadoAtual) ? pessoaFisicaAlterada.getEstado() : estadoAtual;
-                    String cpfAlterado = pessoaFisicaAlterada.getCpf() != null && !pessoaFisicaAlterada.getCpf().equals(cpfAtual) ? pessoaFisicaAlterada.getCpf() : cpfAtual;
-    
-                    try (PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate)) {
-                        psUpdate.setString(1, nomeAlterado);
-                        psUpdate.setDate(2, java.sql.Date.valueOf(dataNascimentoAlterada));
-                        psUpdate.setString(3, telefoneAlterado);
-                        psUpdate.setString(4, emailAlterado);
-                        psUpdate.setString(5, enderecoAlterado);
-                        psUpdate.setString(6, numeroLocalAlterado);
-                        psUpdate.setString(7, complementoAlterado);
-                        psUpdate.setString(8, bairroAlterado);
-                        psUpdate.setString(9, cidadeAlterada);
-                        psUpdate.setString(10, estadoAlterado);
-                        psUpdate.setString(11, cpfAlterado);
-                        psUpdate.setObject(12, pessoaFisicaAlterada.getId());
-    
-                        psUpdate.executeUpdate();
-                        System.out.println("Cliente (Pessoa Física) atualizado com sucesso!");
-                    }
-                } else if (clienteAlterado instanceof PessoaJuridica) {
-                    PessoaJuridica pessoaJuridicaAlterada = (PessoaJuridica) clienteAlterado;
-    
-                    String nomeAtual = resultSet.getString("nome_completo");
-                    LocalDate dataNascimentoAtual = resultSet.getDate("data_nascimento").toLocalDate();
-                    String telefoneAtual = resultSet.getString("telefone_celular");
-                    String emailAtual = resultSet.getString("email");
-                    String enderecoAtual = resultSet.getString("endereco");
-                    String numeroLocalAtual = resultSet.getString("numero_local");
-                    String complementoAtual = resultSet.getString("complemento");
-                    String bairroAtual = resultSet.getString("bairro");
-                    String cidadeAtual = resultSet.getString("cidade");
-                    String estadoAtual = resultSet.getString("estado");
-                    String razaoSocialAtual = resultSet.getString("razao_social");
-                    String inscricaoEstadualAtual = resultSet.getString("inscricao_estadual");
-                    String cnpjAtual = resultSet.getString("cnpj");
-    
-                    String nomeAlterado = pessoaJuridicaAlterada.getNomeCompleto() != null && !pessoaJuridicaAlterada.getNomeCompleto().equals(nomeAtual) ? pessoaJuridicaAlterada.getNomeCompleto() : nomeAtual;
-                    LocalDate dataNascimentoAlterada = pessoaJuridicaAlterada.getDataNascimento() != null && !pessoaJuridicaAlterada.getDataNascimento().equals(dataNascimentoAtual) ? pessoaJuridicaAlterada.getDataNascimento() : dataNascimentoAtual;
-                    String telefoneAlterado = pessoaJuridicaAlterada.getTelefoneCelular() != null && !pessoaJuridicaAlterada.getTelefoneCelular().equals(telefoneAtual) ? pessoaJuridicaAlterada.getTelefoneCelular() : telefoneAtual;
-                    String emailAlterado = pessoaJuridicaAlterada.getEmail() != null && !pessoaJuridicaAlterada.getEmail().equals(emailAtual) ? pessoaJuridicaAlterada.getEmail() : emailAtual;
-                    String enderecoAlterado = pessoaJuridicaAlterada.getEndereco() != null && !pessoaJuridicaAlterada.getEndereco().equals(enderecoAtual) ? pessoaJuridicaAlterada.getEndereco() : enderecoAtual;
-                    String numeroLocalAlterado = pessoaJuridicaAlterada.getNumeroLocal() != null && !pessoaJuridicaAlterada.getNumeroLocal().equals(numeroLocalAtual) ? pessoaJuridicaAlterada.getNumeroLocal() : numeroLocalAtual;
-                    String complementoAlterado = pessoaJuridicaAlterada.getComplemento() != null && !pessoaJuridicaAlterada.getComplemento().equals(complementoAtual) ? pessoaJuridicaAlterada.getComplemento() : complementoAtual;
-                    String bairroAlterado = pessoaJuridicaAlterada.getBairro() != null && !pessoaJuridicaAlterada.getBairro().equals(bairroAtual) ? pessoaJuridicaAlterada.getBairro() : bairroAtual;
-                    String cidadeAlterada = pessoaJuridicaAlterada.getCidade() != null && !pessoaJuridicaAlterada.getCidade().equals(cidadeAtual) ? pessoaJuridicaAlterada.getCidade() : cidadeAtual;
-                    String estadoAlterado = pessoaJuridicaAlterada.getEstado() != null && !pessoaJuridicaAlterada.getEstado().equals(estadoAtual) ? pessoaJuridicaAlterada.getEstado() : estadoAtual;
-                    String razaoSocialAlterada = pessoaJuridicaAlterada.getRazaoSocial() != null && !pessoaJuridicaAlterada.getRazaoSocial().equals(razaoSocialAtual) ? pessoaJuridicaAlterada.getRazaoSocial() : razaoSocialAtual;
-                    String inscricaoEstadualAlterada = pessoaJuridicaAlterada.getInscricaoEstadual() != null && !pessoaJuridicaAlterada.getInscricaoEstadual().equals(inscricaoEstadualAtual) ? pessoaJuridicaAlterada.getInscricaoEstadual() : inscricaoEstadualAtual;
-                    String cnpjAlterado = pessoaJuridicaAlterada.getCnpj() != null && !pessoaJuridicaAlterada.getCnpj().equals(cnpjAtual) ? pessoaJuridicaAlterada.getCnpj() : cnpjAtual;
-    
-                    try (PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate)) {
-                        psUpdate.setString(1, nomeAlterado);
-                        psUpdate.setDate(2, java.sql.Date.valueOf(dataNascimentoAlterada));
-                        psUpdate.setString(3, telefoneAlterado);
-                        psUpdate.setString(4, emailAlterado);
-                        psUpdate.setString(5, enderecoAlterado);
-                        psUpdate.setString(6, numeroLocalAlterado);
-                        psUpdate.setString(7, complementoAlterado);
-                        psUpdate.setString(8, bairroAlterado);
-                        psUpdate.setString(9, cidadeAlterada);
-                        psUpdate.setString(10, estadoAlterado);
-                        psUpdate.setString(11, razaoSocialAlterada);
-                        psUpdate.setString(12, inscricaoEstadualAlterada);
-                        psUpdate.setString(13, cnpjAlterado);
-                        psUpdate.setObject(14, pessoaJuridicaAlterada.getId());
-    
-                        psUpdate.executeUpdate();
-                        System.out.println("Cliente (Pessoa Jurídica) atualizado com sucesso!");
-                    }
-                }
-            } else {
-                System.err.println("Cliente não encontrado.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public List<Cliente> listar() {
+
         List<Cliente> clientes = new ArrayList<>();
     
         String sqlPessoaFisica = "SELECT * FROM cliente_pessoa_fisica";
@@ -203,6 +102,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
             ResultSet resultSetFisica = pstmtFisica.executeQuery()) {
     
             while (resultSetFisica.next()) {
+                
                 UUID id = (UUID) resultSetFisica.getObject("id");
                 String nomeCompleto = resultSetFisica.getString("nome_completo");
                 LocalDate dataNascimento = resultSetFisica.getDate("data_nascimento").toLocalDate();
@@ -376,10 +276,14 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
     }
 
     private void inserirPessoaFisica(PessoaFisica pessoaFisica) {
+        
+        UUID id = UUID.randomUUID();
         String sql = "INSERT INTO cliente_pessoa_fisica (id, nome_completo, data_nascimento, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, cpf) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection connection = DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setObject(1, pessoaFisica.getId());
+
+            ps.setObject(1, id);
             ps.setString(2, pessoaFisica.getNomeCompleto());
             ps.setDate(3, java.sql.Date.valueOf(pessoaFisica.getDataNascimento()));
             ps.setString(4, pessoaFisica.getTelefoneCelular());
@@ -398,10 +302,14 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
     }
 
     private void inserirPessoaJuridica(PessoaJuridica pessoaJuridica) {
+
+        UUID id = UUID.randomUUID();
         String sql = "INSERT INTO cliente_pessoa_juridica (id, nome_completo, data_nascimento, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, razao_social, inscricao_estadual, cnpj) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
         try (Connection connection = DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setObject(1, pessoaJuridica.getId());
+
+            ps.setObject(1, id);
             ps.setString(2, pessoaJuridica.getNomeCompleto());
             ps.setDate(3, java.sql.Date.valueOf(pessoaJuridica.getDataNascimento()));
             ps.setString(4, pessoaJuridica.getTelefoneCelular());
@@ -416,8 +324,70 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
             ps.setString(13, pessoaJuridica.getInscricaoEstadual());
             ps.setString(14, pessoaJuridica.getCnpj());
             ps.executeUpdate();
+
         } catch (SQLException e) {
             System.err.println("Erro ao inserir cliente (pessoa jurídica): " + e.getMessage());
+        }
+    }
+
+    private void alterarPessoaFisica(PessoaFisica pessoaFisicaAlterada) {
+
+        String sqlUpdate = "UPDATE cliente_pessoa_fisica SET nome_completo = ?, data_nascimento = ?, telefone_celular = ?, email = ?, endereco = ?, numero_local = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, cpf = ? WHERE id = ?";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate)) {
+
+                psUpdate.setString(1, pessoaFisicaAlterada.getNomeCompleto());
+                psUpdate.setDate(2, java.sql.Date.valueOf(pessoaFisicaAlterada.getDataNascimento()));
+                psUpdate.setString(3, pessoaFisicaAlterada.getTelefoneCelular());
+                psUpdate.setString(3, pessoaFisicaAlterada.getTelefoneCelular());
+                psUpdate.setString(4, pessoaFisicaAlterada.getEmail());
+                psUpdate.setString(5, pessoaFisicaAlterada.getEndereco());
+                psUpdate.setString(6, pessoaFisicaAlterada.getNumeroLocal());
+                psUpdate.setString(7, pessoaFisicaAlterada.getComplemento());
+                psUpdate.setString(8, pessoaFisicaAlterada.getBairro());
+                psUpdate.setString(9, pessoaFisicaAlterada.getCidade());
+                psUpdate.setString(10, pessoaFisicaAlterada.getEstado());
+                psUpdate.setString(11, pessoaFisicaAlterada.getCpf());
+                psUpdate.setObject(12, pessoaFisicaAlterada.getId());
+
+                psUpdate.executeUpdate();
+
+                System.out.println("Cliente (Pessoa Física) atualizado com sucesso!");
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar cliente (pessoa física): " + e.getMessage());
+        }
+    }
+    
+    private void alterarPessoaJuridica(PessoaJuridica pessoaJuridicaAlterada) {
+
+        String sqlUpdate = "UPDATE cliente_pessoa_juridica SET nome_completo = ?, data_nascimento = ?, telefone_celular = ?, email = ?, endereco = ?, numero_local = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, razao_social = ?, inscricao_estadual = ?, cnpj = ? WHERE id = ?";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate)) {
+
+            psUpdate.setString(1, pessoaJuridicaAlterada.getNomeCompleto());
+            psUpdate.setDate(2, java.sql.Date.valueOf(pessoaJuridicaAlterada.getDataNascimento()));
+            psUpdate.setString(3, pessoaJuridicaAlterada.getTelefoneCelular());
+            psUpdate.setString(4, pessoaJuridicaAlterada.getEmail());
+            psUpdate.setString(5, pessoaJuridicaAlterada.getEndereco());
+            psUpdate.setString(6, pessoaJuridicaAlterada.getNumeroLocal());
+            psUpdate.setString(7, pessoaJuridicaAlterada.getComplemento());
+            psUpdate.setString(8, pessoaJuridicaAlterada.getBairro());
+            psUpdate.setString(9, pessoaJuridicaAlterada.getCidade());
+            psUpdate.setString(10, pessoaJuridicaAlterada.getEstado());
+            psUpdate.setString(11, pessoaJuridicaAlterada.getRazaoSocial());
+            psUpdate.setString(12, pessoaJuridicaAlterada.getInscricaoEstadual());
+            psUpdate.setString(13, pessoaJuridicaAlterada.getCnpj());
+            psUpdate.setObject(14, pessoaJuridicaAlterada.getId());
+
+            psUpdate.executeUpdate();
+
+            System.out.println("Cliente (Pessoa Jurídica) atualizado com sucesso!");
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar cliente (pessoa jurídica): " + e.getMessage());
         }
     }
 }
