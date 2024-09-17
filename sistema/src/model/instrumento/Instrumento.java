@@ -16,15 +16,15 @@ public abstract class Instrumento {
     protected String fabricacaoEstado;
     protected String fabricacaoLocalidade;
     protected String material;
-    protected String peso;
-    protected String altura;
+    protected double peso;
+    protected double altura;
     protected String estadoConservacao;
     protected String marcasInscricoes;
     protected String status;
 
     public Instrumento(UUID id, String nome, String nomesAdicionais, String categoria, String procedencia,
             String descricao, String dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
-            String fabricacaoEstado, String fabricacaoLocalidade, String material, String peso, String altura,
+            String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,
             String estadoConservacao, String marcasInscricoes, String status) {
         this.id = id;
         this.nome = nome;
@@ -123,16 +123,16 @@ public abstract class Instrumento {
     public void setMaterial(String material) {
         this.material = material;
     }
-    public String getPeso() {
+    public double getPeso() {
         return peso;
     }
-    public void setPeso(String peso) {
+    public void setPeso(double peso) {
         this.peso = peso;
     }
-    public String getAltura() {
+    public double getAltura() {
         return altura;
     }
-    public void setAltura(String altura) {
+    public void setAltura(double altura) {
         this.altura = altura;
     }
     public String getEstadoConservacao() {
