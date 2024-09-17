@@ -25,4 +25,8 @@ public class Luthier {
             System.out.println(clientes.get(i));
         }
     }
+
+    public void remover(Cliente cliente){
+        repositorioCliente.remover(cliente);
+    }
 }

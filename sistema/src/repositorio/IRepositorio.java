@@ -1,6 +1,5 @@
 package repositorio;
 
-import java.util.UUID;
 import java.util.List;
 
 public interface IRepositorio <Objeto>{

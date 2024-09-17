@@ -2,7 +2,7 @@
 
 # Parar o serviço PostgreSQL se estiver rodando fora do Docker
 echo "Parando o serviço PostgreSQL..."
-sudo service postgresql stop
+service postgresql stop
 
 # Parar e remover containers, redes e volumes Docker
 echo "Parando e removendo containers e redes Docker..."

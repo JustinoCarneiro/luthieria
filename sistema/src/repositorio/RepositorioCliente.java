@@ -19,6 +19,23 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
     String sql;
 
     public void inserir(Cliente cliente){
+        Cliente clientePorId = buscaPorId(cliente.getId());
+        if (clientePorId != null) {
+            throw new IllegalArgumentException("Cliente com o mesmo ID já existe.");
+        }
+
+        if(cliente instanceof PessoaFisica){
+            String cpf = ((PessoaFisica) cliente).getCpf();
+            Cliente clienteFisicoPorCpf = buscaPorCpfouCNPJ(cpf);
+
+            if (clienteFisicoPorCpf != null) throw new IllegalArgumentException("Cliente com o mesmo CPF já existe.");
+        } else if(cliente instanceof PessoaJuridica){
+            String cnpj = ((PessoaJuridica) cliente).getCnpj();
+            Cliente clienteJuridicaPorCnpj = buscaPorCpfouCNPJ(cnpj);
+
+            if (clienteJuridicaPorCnpj != null) throw new IllegalArgumentException("Cliente com o mesmo CNPJ já existe.");
+        }
+
         if(cliente instanceof PessoaFisica){
             PessoaFisica pessoaFisica = (PessoaFisica) cliente;
 
@@ -72,8 +89,8 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
                                         "estado,"+
                                         "razao_social,"+
                                         "inscricao_estadual,"+
-                                        "cnpj,"+
-                                        ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                        "cnpj"+
+                                        ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
                                         try (Connection connection = DatabaseConnection.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -103,7 +120,6 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
     };
 
     public void remover(Cliente cliente){
-
         if(cliente instanceof PessoaFisica){
             sql = "DELETE FROM cliente_pessoa_fisica WHERE id = ?";
         } else if(cliente instanceof PessoaJuridica){
@@ -249,8 +265,6 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
             e.printStackTrace();
         }
     }
-    
-    
 
     public List<Cliente> listar() {
         List<Cliente> clientes = new ArrayList<>();
@@ -324,4 +338,116 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         return clientes;
     }
     
+    public Cliente buscaPorId(UUID id){
+        String sqlPf = "SELECT * FROM cliente_pessoa_fisica WHERE id = ?";
+        String sqlPj = "SELECT * FROM cliente_pessoa_juridica WHERE id = ?";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement psPf = connection.prepareStatement(sqlPf);
+            PreparedStatement psPj = connection.prepareStatement(sqlPj)) {
+
+            psPf.setObject(1, id);
+            ResultSet resultSetPf = psPf.executeQuery();
+            
+            if (resultSetPf.next()) {
+                return new PessoaFisica(
+                    (UUID) resultSetPf.getObject("id"),
+                    resultSetPf.getString("nome_completo"),
+                    resultSetPf.getDate("data_nascimento").toLocalDate(),
+                    resultSetPf.getString("telefone_celular"),
+                    resultSetPf.getString("email"),
+                    resultSetPf.getString("endereco"),
+                    resultSetPf.getString("numero_local"),
+                    resultSetPf.getString("complemento"),
+                    resultSetPf.getString("bairro"),
+                    resultSetPf.getString("cidade"),
+                    resultSetPf.getString("estado"),
+                    resultSetPf.getString("cpf")
+                );
+            }
+
+            psPj.setObject(1, id);
+            ResultSet resultSetPj = psPj.executeQuery();
+            
+            if (resultSetPj.next()) {
+                return new PessoaJuridica(
+                    (UUID) resultSetPj.getObject("id"),
+                    resultSetPj.getString("nome_completo"),
+                    resultSetPj.getDate("data_nascimento").toLocalDate(),
+                    resultSetPj.getString("telefone_celular"),
+                    resultSetPj.getString("email"),
+                    resultSetPj.getString("endereco"),
+                    resultSetPj.getString("numero_local"),
+                    resultSetPj.getString("complemento"),
+                    resultSetPj.getString("bairro"),
+                    resultSetPj.getString("cidade"),
+                    resultSetPj.getString("estado"),
+                    resultSetPj.getString("razao_social"),
+                    resultSetPj.getString("inscricao_estadual"),
+                    resultSetPj.getString("cnpj")
+                );
+            }
+            
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar cliente por ID: " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public Cliente buscaPorCpfouCNPJ(String identificador) {
+        String sqlPf = "SELECT * FROM cliente_pessoa_fisica WHERE cpf = ?";
+        String sqlPj = "SELECT * FROM cliente_pessoa_juridica WHERE cnpj = ?";
+    
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement psPf = connection.prepareStatement(sqlPf);
+             PreparedStatement psPj = connection.prepareStatement(sqlPj)) {
+    
+            psPf.setString(1, identificador);
+            ResultSet resultSetPf = psPf.executeQuery();
+            
+            if (resultSetPf.next()) {
+                return new PessoaFisica(
+                    (UUID) resultSetPf.getObject("id"),
+                    resultSetPf.getString("nome_completo"),
+                    resultSetPf.getDate("data_nascimento").toLocalDate(),
+                    resultSetPf.getString("telefone_celular"),
+                    resultSetPf.getString("email"),
+                    resultSetPf.getString("endereco"),
+                    resultSetPf.getString("numero_local"),
+                    resultSetPf.getString("complemento"),
+                    resultSetPf.getString("bairro"),
+                    resultSetPf.getString("cidade"),
+                    resultSetPf.getString("estado"),
+                    resultSetPf.getString("cpf")
+                );
+            }
+    
+            psPj.setObject(1, identificador);
+            ResultSet resultSetPj = psPj.executeQuery();
+            
+            if (resultSetPj.next()) {
+                return new PessoaJuridica(
+                    (UUID) resultSetPj.getObject("id"),
+                    resultSetPj.getString("nome_completo"),
+                    resultSetPj.getDate("data_nascimento").toLocalDate(),
+                    resultSetPj.getString("telefone_celular"),
+                    resultSetPj.getString("email"),
+                    resultSetPj.getString("endereco"),
+                    resultSetPj.getString("numero_local"),
+                    resultSetPj.getString("complemento"),
+                    resultSetPj.getString("bairro"),
+                    resultSetPj.getString("cidade"),
+                    resultSetPj.getString("estado"),
+                    resultSetPj.getString("razao_social"),
+                    resultSetPj.getString("inscricao_estadual"),
+                    resultSetPj.getString("cnpj")
+                );
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar cliente por CPF/CNPJ: " + e.getMessage());
+        }
+    
+        return null;
+    }
 }

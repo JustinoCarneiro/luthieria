@@ -12,7 +12,7 @@ public class Luthieria {
 
         LocalDate dataNascimento = LocalDate.of(1990, 1, 1);
 
-        PessoaFisica cliente = new PessoaFisica(
+        PessoaFisica clienteFisica = new PessoaFisica(
             idFisica,                       
             "João da Silva",          
             dataNascimento,             
@@ -44,11 +44,9 @@ public class Luthieria {
             "12.345.678/0001-99"         
         );
 
-        // Inserindo o cliente no repositório
         luthier.inserir(clienteFisica);
         luthier.inserir(clienteJuridica);
 
-        // Listando os clientes
         luthier.listar();
     }
 }
