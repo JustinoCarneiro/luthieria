@@ -15,109 +15,35 @@ import model.cliente.PessoaFisica;
 import model.cliente.PessoaJuridica;
 
 public class RepositorioCliente implements IRepositorio<Cliente>{
-    List<Cliente> clientes = new ArrayList<>();
     String sql;
 
-    public void inserir(Cliente cliente){
+    public void inserir(Cliente cliente) {
         Cliente clientePorId = buscaPorId(cliente.getId());
         if (clientePorId != null) {
             throw new IllegalArgumentException("Cliente com o mesmo ID já existe.");
         }
 
-        if(cliente instanceof PessoaFisica){
-            String cpf = ((PessoaFisica) cliente).getCpf();
-            Cliente clienteFisicoPorCpf = buscaPorCpfouCNPJ(cpf);
-
-            if (clienteFisicoPorCpf != null) throw new IllegalArgumentException("Cliente com o mesmo CPF já existe.");
-        } else if(cliente instanceof PessoaJuridica){
-            String cnpj = ((PessoaJuridica) cliente).getCnpj();
-            Cliente clienteJuridicaPorCnpj = buscaPorCpfouCNPJ(cnpj);
-
-            if (clienteJuridicaPorCnpj != null) throw new IllegalArgumentException("Cliente com o mesmo CNPJ já existe.");
-        }
-
-        if(cliente instanceof PessoaFisica){
+        if (cliente instanceof PessoaFisica) {
             PessoaFisica pessoaFisica = (PessoaFisica) cliente;
-
-            sql = "INSERT INTO cliente_pessoa_fisica ("+
-                                        "id,"+
-                                        "nome_completo,"+
-                                        "data_nascimento,"+
-                                        "telefone_celular,"+
-                                        "email,"+
-                                        "endereco,"+
-                                        "numero_local,"+
-                                        "complemento,"+
-                                        "bairro,"+
-                                        "cidade,"+
-                                        "estado,"+
-                                        "cpf"+
-                                        ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            try (Connection connection = DatabaseConnection.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setObject(1, pessoaFisica.getId());
-                ps.setString(2, pessoaFisica.getNomeCompleto());
-                ps.setDate(3, java.sql.Date.valueOf(pessoaFisica.getDataNascimento()));
-                ps.setString(4, pessoaFisica.getTelefoneCelular());
-                ps.setString(5, pessoaFisica.getEmail());
-                ps.setString(6, pessoaFisica.getEndereco());
-                ps.setString(7, pessoaFisica.getNumeroLocal());
-                ps.setString(8, pessoaFisica.getComplemento());
-                ps.setString(9, pessoaFisica.getBairro());
-                ps.setString(10, pessoaFisica.getCidade());
-                ps.setString(11, pessoaFisica.getEstado());
-                ps.setString(12, pessoaFisica.getCpf());
-
-                ps.executeUpdate();
-            } catch(SQLException e) {
-                System.err.println("Erro ao inserir cliente (pessoa física): " + e.getMessage());
+            String cpf = pessoaFisica.getCpf();
+            Cliente clientePorCpf = buscaPorCpfouCNPJ(cpf);
+            if (clientePorCpf != null) {
+                throw new IllegalArgumentException("Cliente com o mesmo CPF já existe.");
             }
-        } else if(cliente instanceof PessoaJuridica){
+            inserirPessoaFisica(pessoaFisica);
+        } else if (cliente instanceof PessoaJuridica) {
             PessoaJuridica pessoaJuridica = (PessoaJuridica) cliente;
-
-            sql = "INSERT INTO cliente_pessoa_juridica ("+
-                                        "id,"+
-                                        "nome_completo,"+
-                                        "data_nascimento,"+
-                                        "telefone_celular,"+
-                                        "email,"+
-                                        "endereco,"+
-                                        "numero_local,"+
-                                        "complemento,"+
-                                        "bairro,"+
-                                        "cidade,"+
-                                        "estado,"+
-                                        "razao_social,"+
-                                        "inscricao_estadual,"+
-                                        "cnpj"+
-                                        ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-                                        try (Connection connection = DatabaseConnection.getConnection();
-                PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setObject(1, pessoaJuridica.getId());
-                ps.setString(2, pessoaJuridica.getNomeCompleto());
-                ps.setDate(3, java.sql.Date.valueOf(pessoaJuridica.getDataNascimento()));
-                ps.setString(4, pessoaJuridica.getTelefoneCelular());
-                ps.setString(5, pessoaJuridica.getEmail());
-                ps.setString(6, pessoaJuridica.getEndereco());
-                ps.setString(7, pessoaJuridica.getNumeroLocal());
-                ps.setString(8, pessoaJuridica.getComplemento());
-                ps.setString(9, pessoaJuridica.getBairro());
-                ps.setString(10, pessoaJuridica.getCidade());
-                ps.setString(11, pessoaJuridica.getEstado());
-                ps.setString(12, pessoaJuridica.getRazaoSocial());
-                ps.setString(13, pessoaJuridica.getInscricaoEstadual());
-                ps.setString(14, pessoaJuridica.getCnpj());
-
-                ps.executeUpdate();
-            } catch(SQLException e) {
-                System.err.println("Erro ao inserir cliente (pessoa jurídica): " + e.getMessage());
+            String cnpj = pessoaJuridica.getCnpj();
+            Cliente clientePorCnpj = buscaPorCpfouCNPJ(cnpj);
+            if (clientePorCnpj != null) {
+                throw new IllegalArgumentException("Cliente com o mesmo CNPJ já existe.");
             }
+            inserirPessoaJuridica(pessoaJuridica);
         } else {
             System.err.println("Tipo de cliente não reconhecido.");
-            return;
         }
-    };
+    }
+
 
     public void remover(Cliente cliente){
         if(cliente instanceof PessoaFisica){
@@ -270,6 +196,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         List<Cliente> clientes = new ArrayList<>();
     
         String sqlPessoaFisica = "SELECT * FROM cliente_pessoa_fisica";
+        String sqlPessoaJuridica = "SELECT * FROM cliente_pessoa_juridica";
 
         try (Connection connection = DatabaseConnection.getConnection();
             PreparedStatement pstmtFisica = connection.prepareStatement(sqlPessoaFisica);
@@ -296,12 +223,9 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
     
                 clientes.add(pessoaFisica);
             }
-    
         } catch (SQLException e) {
             System.err.println("Erro ao listar clientes (Pessoa Física): " + e.getMessage());
         }
-    
-        String sqlPessoaJuridica = "SELECT * FROM cliente_pessoa_juridica";
 
         try (Connection connection = DatabaseConnection.getConnection();
             PreparedStatement pstmtJuridica = connection.prepareStatement(sqlPessoaJuridica);
@@ -449,5 +373,51 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         }
     
         return null;
+    }
+
+    private void inserirPessoaFisica(PessoaFisica pessoaFisica) {
+        String sql = "INSERT INTO cliente_pessoa_fisica (id, nome_completo, data_nascimento, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, cpf) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, pessoaFisica.getId());
+            ps.setString(2, pessoaFisica.getNomeCompleto());
+            ps.setDate(3, java.sql.Date.valueOf(pessoaFisica.getDataNascimento()));
+            ps.setString(4, pessoaFisica.getTelefoneCelular());
+            ps.setString(5, pessoaFisica.getEmail());
+            ps.setString(6, pessoaFisica.getEndereco());
+            ps.setString(7, pessoaFisica.getNumeroLocal());
+            ps.setString(8, pessoaFisica.getComplemento());
+            ps.setString(9, pessoaFisica.getBairro());
+            ps.setString(10, pessoaFisica.getCidade());
+            ps.setString(11, pessoaFisica.getEstado());
+            ps.setString(12, pessoaFisica.getCpf());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Erro ao inserir cliente (pessoa física): " + e.getMessage());
+        }
+    }
+
+    private void inserirPessoaJuridica(PessoaJuridica pessoaJuridica) {
+        String sql = "INSERT INTO cliente_pessoa_juridica (id, nome_completo, data_nascimento, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, razao_social, inscricao_estadual, cnpj) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setObject(1, pessoaJuridica.getId());
+            ps.setString(2, pessoaJuridica.getNomeCompleto());
+            ps.setDate(3, java.sql.Date.valueOf(pessoaJuridica.getDataNascimento()));
+            ps.setString(4, pessoaJuridica.getTelefoneCelular());
+            ps.setString(5, pessoaJuridica.getEmail());
+            ps.setString(6, pessoaJuridica.getEndereco());
+            ps.setString(7, pessoaJuridica.getNumeroLocal());
+            ps.setString(8, pessoaJuridica.getComplemento());
+            ps.setString(9, pessoaJuridica.getBairro());
+            ps.setString(10, pessoaJuridica.getCidade());
+            ps.setString(11, pessoaJuridica.getEstado());
+            ps.setString(12, pessoaJuridica.getRazaoSocial());
+            ps.setString(13, pessoaJuridica.getInscricaoEstadual());
+            ps.setString(14, pessoaJuridica.getCnpj());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Erro ao inserir cliente (pessoa jurídica): " + e.getMessage());
+        }
     }
 }
