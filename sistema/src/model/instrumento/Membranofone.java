@@ -44,4 +44,32 @@ public class Membranofone extends Instrumento{
     public void setAjusteTensao(String ajusteTensao) {
         this.ajusteTensao = ajusteTensao;
     }
+
+    @Override
+    public String toString() {
+        return "Membranofone{" +
+                "tipoMembrana='" + tipoMembrana + "'" +
+                ", metodoTocarMembrana='" + metodoTocarMembrana + "'" +
+                ", ajusteTensao='" + ajusteTensao + "'" +
+                ", id=" + getId() +
+                ", nome='" + getNome() + "'" +
+                ", nomesAdicionais='" + getNomesAdicionais() + "'" +
+                ", categoria='" + getCategoria() + "'" +
+                ", procedencia='" + getProcedencia() + "'" +
+                ", descricao='" + getDescricao() + "'" +
+                ", dataFabricacao=" + getDataFabricacao() +
+                ", fabricante='" + getFabricante() + "'" +
+                ", fabricacaoPais='" + getFabricacaoPais() + "'" +
+                ", fabricacaoCidade='" + getFabricacaoCidade() + "'" +
+                ", fabricacaoEstado='" + getFabricacaoEstado() + "'" +
+                ", fabricacaoLocalidade='" + getFabricacaoLocalidade() + "'" +
+                ", material='" + getMaterial() + "'" +
+                ", peso=" + getPeso() +
+                ", altura=" + getAltura() +
+                ", estadoConservacao='" + getEstadoConservacao() + "'" +
+                ", marcasInscricoes='" + getMarcasInscricoes() + "'" +
+                ", status='" + getStatus() + "'" +
+                '}';
+    }
+
 }

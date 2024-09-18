@@ -44,4 +44,32 @@ public class Cordofone extends Instrumento{
     public void setMetodoExecucaoCorda(String metodoExecucaoCorda) {
         this.metodoExecucaoCorda = metodoExecucaoCorda;
     }
+
+    @Override
+    public String toString() {
+        return "Cordofone{" +
+                "numeroCordas=" + numeroCordas +
+                ", tipoCordas='" + tipoCordas + "'" +
+                ", metodoExecucaoCorda='" + metodoExecucaoCorda + "'" +
+                ", id=" + getId() +
+                ", nome='" + getNome() + "'" +
+                ", nomesAdicionais='" + getNomesAdicionais() + "'" +
+                ", categoria='" + getCategoria() + "'" +
+                ", procedencia='" + getProcedencia() + "'" +
+                ", descricao='" + getDescricao() + "'" +
+                ", dataFabricacao=" + getDataFabricacao() +
+                ", fabricante='" + getFabricante() + "'" +
+                ", fabricacaoPais='" + getFabricacaoPais() + "'" +
+                ", fabricacaoCidade='" + getFabricacaoCidade() + "'" +
+                ", fabricacaoEstado='" + getFabricacaoEstado() + "'" +
+                ", fabricacaoLocalidade='" + getFabricacaoLocalidade() + "'" +
+                ", material='" + getMaterial() + "'" +
+                ", peso=" + getPeso() +
+                ", altura=" + getAltura() +
+                ", estadoConservacao='" + getEstadoConservacao() + "'" +
+                ", marcasInscricoes='" + getMarcasInscricoes() + "'" +
+                ", status='" + getStatus() + "'" +
+                '}';
+    }
+
 }

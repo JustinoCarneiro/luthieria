@@ -44,4 +44,32 @@ public class Aerofone extends Instrumento{
     public void setAjusteAfinacao(String ajusteAfinacao) {
         this.ajusteAfinacao = ajusteAfinacao;
     }
+
+    @Override
+    public String toString() {
+        return "Aerofone{" +
+                "tipoBocal='" + tipoBocal + "'" +
+                ", metodoProducaoSom='" + metodoProducaoSom + "'" +
+                ", ajusteAfinacao='" + ajusteAfinacao + "'" +
+                ", id=" + getId() +
+                ", nome='" + getNome() + "'" +
+                ", nomesAdicionais='" + getNomesAdicionais() + "'" +
+                ", categoria='" + getCategoria() + "'" +
+                ", procedencia='" + getProcedencia() + "'" +
+                ", descricao='" + getDescricao() + "'" +
+                ", dataFabricacao=" + getDataFabricacao() +
+                ", fabricante='" + getFabricante() + "'" +
+                ", fabricacaoPais='" + getFabricacaoPais() + "'" +
+                ", fabricacaoCidade='" + getFabricacaoCidade() + "'" +
+                ", fabricacaoEstado='" + getFabricacaoEstado() + "'" +
+                ", fabricacaoLocalidade='" + getFabricacaoLocalidade() + "'" +
+                ", material='" + getMaterial() + "'" +
+                ", peso=" + getPeso() +
+                ", altura=" + getAltura() +
+                ", estadoConservacao='" + getEstadoConservacao() + "'" +
+                ", marcasInscricoes='" + getMarcasInscricoes() + "'" +
+                ", status='" + getStatus() + "'" +
+                '}';
+    }
+
 }

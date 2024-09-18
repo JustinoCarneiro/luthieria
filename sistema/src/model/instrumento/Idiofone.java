@@ -34,4 +34,31 @@ public class Idiofone extends Instrumento{
     public void setTipoIdiofone(String tipoIdiofone) {
         this.tipoIdiofone = tipoIdiofone;
     }
+
+    @Override
+    public String toString() {
+        return "Idiofone{" +
+                "metodoExecucao='" + metodoExecucao + "'" +
+                ", tipoIdiofone='" + tipoIdiofone + "'" +
+                ", id=" + getId() +
+                ", nome='" + getNome() + "'" +
+                ", nomesAdicionais='" + getNomesAdicionais() + "'" +
+                ", categoria='" + getCategoria() + "'" +
+                ", procedencia='" + getProcedencia() + "'" +
+                ", descricao='" + getDescricao() + "'" +
+                ", dataFabricacao=" + getDataFabricacao() +
+                ", fabricante='" + getFabricante() + "'" +
+                ", fabricacaoPais='" + getFabricacaoPais() + "'" +
+                ", fabricacaoCidade='" + getFabricacaoCidade() + "'" +
+                ", fabricacaoEstado='" + getFabricacaoEstado() + "'" +
+                ", fabricacaoLocalidade='" + getFabricacaoLocalidade() + "'" +
+                ", material='" + getMaterial() + "'" +
+                ", peso=" + getPeso() +
+                ", altura=" + getAltura() +
+                ", estadoConservacao='" + getEstadoConservacao() + "'" +
+                ", marcasInscricoes='" + getMarcasInscricoes() + "'" +
+                ", status='" + getStatus() + "'" +
+                '}';
+    }
+
 }
