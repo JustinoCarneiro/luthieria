@@ -2,30 +2,26 @@ package model;
 
 import java.time.LocalDate;
 import java.util.UUID;
-import java.util.Vector;
-
-import model.cliente.Cliente;
-import model.instrumento.Instrumento;
 
 public class OrdemServico {
     private UUID id;
-    private Integer codigo;
+    private String codigo;
     private String tipoServico;
-    private Instrumento instrumento;
-    private Cliente cliente;
+    private UUID idInstrumento;
+    private UUID idCliente;
     private double valorServico;
-    private Vector<String> pecas;
+    private String pecas;
     private String statusInstrumento;
     private String observacaoStatus;
     private LocalDate previsaoEntrega;
 
-    public OrdemServico(UUID id, Integer codigo, String tipoServico, Instrumento instrumento, Cliente cliente,
-            double valorServico, Vector<String> pecas, String statusInstrumento, String observacaoStatus, LocalDate previsaoEntrega) {
+    public OrdemServico(UUID id, String codigo, String tipoServico, UUID idInstrumento, UUID idCliente,
+            double valorServico, String pecas, String statusInstrumento, String observacaoStatus, LocalDate previsaoEntrega) {
         this.id = id;
         this.codigo = codigo;
         this.tipoServico = tipoServico;
-        this.instrumento = instrumento;
-        this.cliente = cliente;
+        this.idInstrumento = idInstrumento;
+        this.idCliente = idCliente;
         this.valorServico = valorServico;
         this.pecas = pecas;
         this.statusInstrumento = statusInstrumento;
@@ -39,10 +35,10 @@ public class OrdemServico {
     public void setId(UUID id) {
         this.id = id;
     }
-    public Integer getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
-    public void setCodigo(Integer codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
     public String getTipoServico() {
@@ -51,17 +47,17 @@ public class OrdemServico {
     public void setTipoServico(String tipoServico) {
         this.tipoServico = tipoServico;
     }
-    public Instrumento getInstrumento() {
-        return instrumento;
+    public UUID getIdInstrumento() {
+        return idInstrumento;
     }
-    public void setInstrumento(Instrumento instrumento) {
-        this.instrumento = instrumento;
+    public void setIdInstrumento(UUID idInstrumento) {
+        this.idInstrumento = idInstrumento;
     }
-    public Cliente getCliente() {
-        return cliente;
+    public UUID getIdCliente() {
+        return idCliente;
     }
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setIdCliente(UUID idCliente) {
+        this.idCliente = idCliente;
     }
     public double getValorServico() {
         return valorServico;
@@ -69,10 +65,10 @@ public class OrdemServico {
     public void setValorServico(double valorServico) {
         this.valorServico = valorServico;
     }
-    public Vector<String> getPecas() {
+    public String getPecas() {
         return pecas;
     }
-    public void setPecas(Vector<String> pecas) {
+    public void setPecas(String pecas) {
         this.pecas = pecas;
     }
 
@@ -98,5 +94,21 @@ public class OrdemServico {
 
     public void setPrevisaoEntrega(LocalDate previsaoEntrega) {
         this.previsaoEntrega = previsaoEntrega;
+    }
+
+    @Override
+    public String toString() {
+        return "OrdemServico{" +
+                "id=" + id +
+                ", codigo='" + codigo + '\'' +
+                ", tipoServico='" + tipoServico + '\'' +
+                ", idInstrumento=" + idInstrumento +
+                ", idCliente=" + idCliente +
+                ", valorServico=" + valorServico +
+                ", pecas='" + pecas + '\'' +
+                ", statusInstrumento='" + statusInstrumento + '\'' +
+                ", observacaoStatus='" + observacaoStatus + '\'' +
+                ", previsaoEntrega=" + previsaoEntrega +
+                '}';
     }
 }

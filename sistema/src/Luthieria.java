@@ -1,5 +1,7 @@
 import java.time.LocalDate;
 import java.util.UUID;
+
+import model.OrdemServico;
 import model.cliente.PessoaFisica;
 import model.cliente.PessoaJuridica;
 import model.instrumento.Aerofone;
@@ -151,14 +153,29 @@ public class Luthieria {
             "Cordas de tensão"
         );
 
+        OrdemServico ordemServico = new OrdemServico(
+            UUID.randomUUID(),
+            "12345", 
+            "Conserto",
+            idIdiofone, 
+            idFisica, 
+            500.0, 
+            "Troca de peças", 
+            "Em andamento", 
+            "Descrição do status", 
+            LocalDate.now().plusDays(7) 
+        );
+
         luthier.inserir(clienteFisica);
         luthier.inserir(clienteJuridica);
         luthier.inserir(idiofone);
         luthier.inserir(cordofone);
         luthier.inserir(aerofone);
         luthier.inserir(membranofone);
+        luthier.inserir(ordemServico);
 
         luthier.listarClientes();
         luthier.listarInstrumentos();
+        luthier.listarOrdensServicos();
     }
 }

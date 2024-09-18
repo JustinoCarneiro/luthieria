@@ -22,7 +22,8 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         Cliente clientePorId = buscaPorId(cliente.getId());
 
         if (clientePorId != null) {
-            throw new IllegalArgumentException("Cliente com o mesmo ID já existe.");
+            System.out.println("O cliente já existe no banco de dados.");
+            return;
         }
 
         if (cliente instanceof PessoaFisica) {
@@ -32,7 +33,8 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
             Cliente clientePorCpf = buscaPorCpfouCNPJ(cpf);
 
             if (clientePorCpf != null) {
-                throw new IllegalArgumentException("Cliente com o mesmo CPF já existe.");
+                System.out.println("O cliente já existe no banco de dados.");
+                return;
             }
 
             inserirPessoaFisica(pessoaFisica);
@@ -44,7 +46,8 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
             Cliente clientePorCnpj = buscaPorCpfouCNPJ(cnpj);
 
             if (clientePorCnpj != null) {
-                throw new IllegalArgumentException("Cliente com o mesmo CNPJ já existe.");
+                System.out.println("O cliente já existe no banco de dados.");
+                return;
             }
 
             inserirPessoaJuridica(pessoaJuridica);

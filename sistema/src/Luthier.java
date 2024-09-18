@@ -1,19 +1,23 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import model.OrdemServico;
 import model.cliente.Cliente;
 import model.instrumento.Instrumento;
 import repositorio.RepositorioCliente;
 import repositorio.RepositorioInstrumento;
+import repositorio.RepositorioOrdemServico;
 
 public class Luthier {
     
     RepositorioCliente repositorioCliente;
     RepositorioInstrumento repositorioInstrumento;
+    RepositorioOrdemServico repositorioOrdemServico;
 
     public Luthier() {
         this.repositorioCliente = new RepositorioCliente();
         this.repositorioInstrumento = new RepositorioInstrumento();
+        this.repositorioOrdemServico = new RepositorioOrdemServico();
     }
 
     public void inserir(Object objeto){
@@ -21,6 +25,8 @@ public class Luthier {
             repositorioCliente.inserir((Cliente) objeto);
         } else if(objeto instanceof Instrumento){
             repositorioInstrumento.inserir((Instrumento) objeto);
+        } else if(objeto instanceof OrdemServico){
+            repositorioOrdemServico.inserir((OrdemServico) objeto);
         }
     }
 
@@ -44,11 +50,23 @@ public class Luthier {
         }
     }
 
+    public void listarOrdensServicos(){
+        List<OrdemServico> ordensservicos = new ArrayList<>();
+
+        ordensservicos = repositorioOrdemServico.listar();
+
+        for(int i=0; i<ordensservicos.size(); i++){
+            System.out.println(ordensservicos.get(i));
+        }
+    }
+
     public void remover(Object objeto){
         if(objeto instanceof Cliente){
             repositorioCliente.remover((Cliente) objeto);
         } else if(objeto instanceof Instrumento){
             repositorioInstrumento.remover((Instrumento) objeto);
+        } else if(objeto instanceof OrdemServico){
+            repositorioOrdemServico.remover((OrdemServico) objeto);
         }
     }
 }
