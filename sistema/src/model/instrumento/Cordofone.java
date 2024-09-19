@@ -8,12 +8,12 @@ public class Cordofone extends Instrumento{
     private String tipoCordas;
     private String metodoExecucaoCorda;
     
-    public Cordofone(UUID id, String nome, String nomesAdicionais, String categoria, String procedencia,
+    public Cordofone(UUID id, String nome, String nomesAdicionais, String modelo, String categoria, String procedencia,
             String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,
             String estadoConservacao, String marcasInscricoes, String status, Integer numeroDeCordas,
             String tipoDeCordas, String metodoExecucaoCorda) {
-        super(id, nome, nomesAdicionais, categoria, procedencia, descricao, dataFabricacao, fabricante, fabricacaoPais,
+        super(id, nome, nomesAdicionais, modelo, categoria, procedencia, descricao, dataFabricacao, fabricante, fabricacaoPais,
                 fabricacaoCidade, fabricacaoEstado, fabricacaoLocalidade, material, peso, altura, estadoConservacao,
                 marcasInscricoes, status);
         this.numeroCordas = numeroDeCordas;
@@ -54,6 +54,7 @@ public class Cordofone extends Instrumento{
                 ", id=" + getId() +
                 ", nome='" + getNome() + "'" +
                 ", nomesAdicionais='" + getNomesAdicionais() + "'" +
+                ", modelo='" + getModelo() + "'" +
                 ", categoria='" + getCategoria() + "'" +
                 ", procedencia='" + getProcedencia() + "'" +
                 ", descricao='" + getDescricao() + "'" +

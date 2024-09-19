@@ -4,12 +4,11 @@ import java.util.UUID;
 
 public class Notificacao {
     private UUID id;
-    private OrdemServico ordemServico;
+    private UUID idOrdemServico;
     
-    
-    public Notificacao(UUID id, OrdemServico ordemServico) {
+    public Notificacao(UUID id, UUID idOrdemServico) {
         this.id = id;
-        this.ordemServico = ordemServico;
+        this.idOrdemServico = idOrdemServico;
     }
     
     public UUID getId() {
@@ -19,10 +18,11 @@ public class Notificacao {
         this.id = id;
     }
    
-    public OrdemServico getOrdemServico() {
-        return ordemServico;
+    public UUID getIdOrdemServico() {
+        return idOrdemServico;
     }
-    public void setOrdemServico(OrdemServico ordemServico) {
-        this.ordemServico = ordemServico;
+
+    public void setIdOrdemServico(UUID idOrdemServico) {
+        this.idOrdemServico = idOrdemServico;
     }
 }

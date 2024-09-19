@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import model.OrdemServico;
 import model.cliente.Cliente;
@@ -68,5 +69,37 @@ public class Luthier {
         } else if(objeto instanceof OrdemServico){
             repositorioOrdemServico.remover((OrdemServico) objeto);
         }
+    }
+
+    public String gerarNotificacao(UUID idOrdemServico) {
+        OrdemServico ordemServico = repositorioOrdemServico.buscarPorId(idOrdemServico);
+        if (ordemServico == null) {
+            return "Ordem de serviço não encontrada.";
+        }
+
+        Instrumento instrumento = repositorioInstrumento.buscarPorId(ordemServico.getIdInstrumento());
+        if (instrumento == null) {
+            return "Instrumento não encontrado para a ordem de serviço.";
+        }
+
+        Cliente cliente = repositorioCliente.buscaPorId(ordemServico.getIdCliente());
+        if (cliente == null) {
+            return "Cliente não encontrado para a ordem de serviço.";
+        }
+
+        StringBuilder mensagem = new StringBuilder();
+        mensagem.append("O Instrumento ").append(instrumento.getNome()).append(" ").append(instrumento.getModelo())
+                .append(", em nome do cliente ").append(cliente.getNomeCompleto()).append(", está em ")
+                .append(instrumento.getStatus()).append(" para ").append(ordemServico.getTipoServico())
+                .append(", e tem previsão de ser entregue dia ").append(ordemServico.getPrevisaoEntrega())
+                .append(". Segundo a ordem de serviço número ").append(ordemServico.getCodigo());
+
+        if (!ordemServico.getPecas().isEmpty()) {
+            mensagem.append(", está sendo utilizado ").append(ordemServico.getPecas());
+        }
+
+        mensagem.append(".");
+
+        return mensagem.toString();
     }
 }

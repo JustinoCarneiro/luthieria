@@ -7,6 +7,7 @@ public abstract class Instrumento {
     protected UUID id;
     protected String nome;
     protected String nomesAdicionais;
+    protected String modelo;
     protected String categoria;
     protected String procedencia;
     protected String descricao;
@@ -23,13 +24,14 @@ public abstract class Instrumento {
     protected String marcasInscricoes;
     protected String status;
 
-    public Instrumento(UUID id, String nome, String nomesAdicionais, String categoria, String procedencia,
+    public Instrumento(UUID id, String nome, String nomesAdicionais, String modelo, String categoria, String procedencia,
             String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,
             String estadoConservacao, String marcasInscricoes, String status) {
         this.id = id;
         this.nome = nome;
         this.nomesAdicionais = nomesAdicionais;
+        this.modelo = modelo;
         this.categoria = categoria;
         this.procedencia = procedencia;
         this.descricao = descricao;
@@ -153,5 +155,11 @@ public abstract class Instrumento {
     }
     public void setStatus(String status){
         this.status = status;
+    }
+    public String getModelo() {
+        return modelo;
+    }
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
     }
 }

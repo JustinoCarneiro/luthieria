@@ -68,6 +68,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                     UUID id = (UUID) rs.getObject("id");
                     String nome = rs.getString("nome");
                     String nomesAdicionais = rs.getString("nomes_adicionais");
+                    String modelo = rs.getString("modelo");
                     String categoria = rs.getString("categoria");
                     String procedencia = rs.getString("procedencia");
                     String descricao = rs.getString("descricao");
@@ -87,7 +88,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                     String tipoIdiofone = rs.getString("tipo_idiofone");
             
                     Idiofone instrumento = new Idiofone(
-                        id, nome, nomesAdicionais, categoria, procedencia, descricao, dataFabricacao,
+                        id, nome, nomesAdicionais, modelo, categoria, procedencia, descricao, dataFabricacao,
                         fabricante, fabricacaoPais, fabricacaoCidade, fabricacaoEstado, fabricacaoLocalidade,
                         material, peso, altura, estadoConservacao, marcasInscricoes, status,
                         metodoExecucao, tipoIdiofone
@@ -106,6 +107,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                 UUID id = (UUID) rs.getObject("id");
                 String nome = rs.getString("nome");
                 String nomesAdicionais = rs.getString("nomes_adicionais");
+                String modelo = rs.getString("modelo");
                 String categoria = rs.getString("categoria");
                 String procedencia = rs.getString("procedencia");
                 String descricao = rs.getString("descricao");
@@ -126,7 +128,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                 String ajusteTensao = rs.getString("ajuste_de_tensao");
 
                 Membranofone instrumento = new Membranofone(
-                    id, nome, nomesAdicionais, categoria, procedencia, descricao, dataFabricacao,
+                    id, nome, nomesAdicionais, modelo, categoria, procedencia, descricao, dataFabricacao,
                     fabricante, fabricacaoPais, fabricacaoCidade, fabricacaoEstado, fabricacaoLocalidade,
                     material, peso, altura, estadoConservacao, marcasInscricoes, status,
                     tipoMembrana, metodoTocarMembrana, ajusteTensao
@@ -145,6 +147,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                 UUID id = (UUID) rs.getObject("id");
                 String nome = rs.getString("nome");
                 String nomesAdicionais = rs.getString("nomes_adicionais");
+                String modelo = rs.getString("modelo");
                 String categoria = rs.getString("categoria");
                 String procedencia = rs.getString("procedencia");
                 String descricao = rs.getString("descricao");
@@ -165,7 +168,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                 String metodoExecucaoCorda = rs.getString("metodo_execucao_corda");
 
                 Cordofone instrumento = new Cordofone(
-                    id, nome, nomesAdicionais, categoria, procedencia, descricao, dataFabricacao,
+                    id, nome, nomesAdicionais, modelo, categoria, procedencia, descricao, dataFabricacao,
                     fabricante, fabricacaoPais, fabricacaoCidade, fabricacaoEstado, fabricacaoLocalidade,
                     material, peso, altura, estadoConservacao, marcasInscricoes, status,
                     numeroCordas, tipoCordas, metodoExecucaoCorda
@@ -184,6 +187,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                 UUID id = (UUID) rs.getObject("id");
                 String nome = rs.getString("nome");
                 String nomesAdicionais = rs.getString("nomes_adicionais");
+                String modelo = rs.getString("modelo");
                 String categoria = rs.getString("categoria");
                 String procedencia = rs.getString("procedencia");
                 String descricao = rs.getString("descricao");
@@ -204,7 +208,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                 String ajusteAfinacao = rs.getString("ajuste_de_afinacao");
 
                 Aerofone instrumento = new Aerofone(
-                    id, nome, nomesAdicionais, categoria, procedencia, descricao, dataFabricacao,
+                    id, nome, nomesAdicionais, modelo, categoria, procedencia, descricao, dataFabricacao,
                     fabricante, fabricacaoPais, fabricacaoCidade, fabricacaoEstado, fabricacaoLocalidade,
                     material, peso, altura, estadoConservacao, marcasInscricoes, status,
                     tipoBocal, metodoProducaoSom, ajusteAfinacao
