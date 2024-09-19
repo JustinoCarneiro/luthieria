@@ -256,7 +256,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
 
     private void inserirIdiofone(Idiofone idiofone) {
         UUID id = UUID.randomUUID();
-        String sqlInsert = "INSERT INTO instrumentos_idiofones (id, nome, nomes_adicionais, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, metodo_execucao, tipo_idiofone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlInsert = "INSERT INTO instrumentos_idiofones (id, nome, nomes_adicionais, modelo, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, metodo_execucao, tipo_idiofone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement psInsert = connection.prepareStatement(sqlInsert)) {
@@ -264,23 +264,24 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
             psInsert.setObject(1, id);
             psInsert.setString(2, idiofone.getNome());
             psInsert.setString(3, idiofone.getNomesAdicionais());
-            psInsert.setString(4, idiofone.getCategoria());
-            psInsert.setString(5, idiofone.getProcedencia());
-            psInsert.setString(6, idiofone.getDescricao());
-            psInsert.setDate(7, java.sql.Date.valueOf(idiofone.getDataFabricacao()));
-            psInsert.setString(8, idiofone.getFabricante());
-            psInsert.setString(9, idiofone.getFabricacaoPais());
-            psInsert.setString(10, idiofone.getFabricacaoCidade());
-            psInsert.setString(11, idiofone.getFabricacaoEstado());
-            psInsert.setString(12, idiofone.getFabricacaoLocalidade());
-            psInsert.setString(13, idiofone.getMaterial());
-            psInsert.setDouble(14, idiofone.getPeso());
-            psInsert.setDouble(15, idiofone.getAltura());
-            psInsert.setString(16, idiofone.getEstadoConservacao());
-            psInsert.setString(17, idiofone.getMarcasInscricoes());
-            psInsert.setString(18, idiofone.getStatus());
-            psInsert.setString(19, idiofone.getMetodoExecucao());
-            psInsert.setString(20, idiofone.getTipoIdiofone());
+            psInsert.setString(4, idiofone.getModelo());
+            psInsert.setString(5, idiofone.getCategoria());
+            psInsert.setString(6, idiofone.getProcedencia());
+            psInsert.setString(7, idiofone.getDescricao());
+            psInsert.setDate(8,java.sql.Date.valueOf(idiofone.getDataFabricacao()));
+            psInsert.setString(9, idiofone.getFabricante());
+            psInsert.setString(10, idiofone.getFabricacaoPais());
+            psInsert.setString(11, idiofone.getFabricacaoCidade());
+            psInsert.setString(12, idiofone.getFabricacaoEstado());
+            psInsert.setString(13, idiofone.getFabricacaoLocalidade());
+            psInsert.setString(14, idiofone.getMaterial());
+            psInsert.setDouble(15, idiofone.getPeso());
+            psInsert.setDouble(16, idiofone.getAltura());
+            psInsert.setString(17, idiofone.getEstadoConservacao());
+            psInsert.setString(18, idiofone.getMarcasInscricoes());
+            psInsert.setString(19, idiofone.getStatus());
+            psInsert.setString(20, idiofone.getMetodoExecucao());
+            psInsert.setString(21, idiofone.getTipoIdiofone());
             
             psInsert.executeUpdate();
             
@@ -291,7 +292,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
     
     private void inserirMembranofone(Membranofone membranofone) {
         UUID id = UUID.randomUUID();
-        String sqlInsert = "INSERT INTO instrumentos_membranofones (id, nome, nomes_adicionais, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, tipo_membrana, metodo_tocar_membrana, ajuste_de_tensao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlInsert = "INSERT INTO instrumentos_membranofones (id, nome, nomes_adicionais, modelo, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, tipo_membrana, metodo_tocar_membrana, ajuste_de_tensao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement psInsert = connection.prepareStatement(sqlInsert)) {
@@ -299,24 +300,25 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
             psInsert.setObject(1, id);
             psInsert.setString(2, membranofone.getNome());
             psInsert.setString(3, membranofone.getNomesAdicionais());
-            psInsert.setString(4, membranofone.getCategoria());
-            psInsert.setString(5, membranofone.getProcedencia());
-            psInsert.setString(6, membranofone.getDescricao());
-            psInsert.setDate(7, java.sql.Date.valueOf(membranofone.getDataFabricacao()));
-            psInsert.setString(8, membranofone.getFabricante());
-            psInsert.setString(9, membranofone.getFabricacaoPais());
-            psInsert.setString(10, membranofone.getFabricacaoCidade());
-            psInsert.setString(11, membranofone.getFabricacaoEstado());
-            psInsert.setString(12, membranofone.getFabricacaoLocalidade());
-            psInsert.setString(13, membranofone.getMaterial());
-            psInsert.setDouble(14, membranofone.getPeso());
-            psInsert.setDouble(15, membranofone.getAltura());
-            psInsert.setString(16, membranofone.getEstadoConservacao());
-            psInsert.setString(17, membranofone.getMarcasInscricoes());
-            psInsert.setString(18, membranofone.getStatus());
-            psInsert.setString(19, membranofone.getTipoMembrana());
-            psInsert.setString(20, membranofone.getMetodoTocarMembrana());
-            psInsert.setString(21, membranofone.getAjusteTensao());
+            psInsert.setString(4, membranofone.getModelo());
+            psInsert.setString(5, membranofone.getCategoria());
+            psInsert.setString(6, membranofone.getProcedencia());
+            psInsert.setString(7, membranofone.getDescricao());
+            psInsert.setDate(8,java.sql.Date.valueOf(membranofone.getDataFabricacao()));
+            psInsert.setString(9, membranofone.getFabricante());
+            psInsert.setString(10, membranofone.getFabricacaoPais());
+            psInsert.setString(11, membranofone.getFabricacaoCidade());
+            psInsert.setString(12, membranofone.getFabricacaoEstado());
+            psInsert.setString(13, membranofone.getFabricacaoLocalidade());
+            psInsert.setString(14, membranofone.getMaterial());
+            psInsert.setDouble(15, membranofone.getPeso());
+            psInsert.setDouble(16, membranofone.getAltura());
+            psInsert.setString(17, membranofone.getEstadoConservacao());
+            psInsert.setString(18, membranofone.getMarcasInscricoes());
+            psInsert.setString(19, membranofone.getStatus());
+            psInsert.setString(20, membranofone.getTipoMembrana());
+            psInsert.setString(21, membranofone.getMetodoTocarMembrana());
+            psInsert.setString(22, membranofone.getAjusteTensao());
             
             psInsert.executeUpdate();
             
@@ -327,7 +329,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
 
     private void inserirCordofone(Cordofone cordofone) {
         UUID id = UUID.randomUUID();
-        String sqlInsert = "INSERT INTO instrumentos_cordofones (id, nome, nomes_adicionais, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, numero_de_cordas, tipo_de_cordas, metodo_execucao_corda) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlInsert = "INSERT INTO instrumentos_cordofones (id, nome, nomes_adicionais, modelo, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, numero_de_cordas, tipo_de_cordas, metodo_execucao_corda) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement psInsert = connection.prepareStatement(sqlInsert)) {
@@ -335,24 +337,25 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
             psInsert.setObject(1, id);
             psInsert.setString(2, cordofone.getNome());
             psInsert.setString(3, cordofone.getNomesAdicionais());
-            psInsert.setString(4, cordofone.getCategoria());
-            psInsert.setString(5, cordofone.getProcedencia());
-            psInsert.setString(6, cordofone.getDescricao());
-            psInsert.setDate(7, java.sql.Date.valueOf(cordofone.getDataFabricacao()));
-            psInsert.setString(8, cordofone.getFabricante());
-            psInsert.setString(9, cordofone.getFabricacaoPais());
-            psInsert.setString(10, cordofone.getFabricacaoCidade());
-            psInsert.setString(11, cordofone.getFabricacaoEstado());
-            psInsert.setString(12, cordofone.getFabricacaoLocalidade());
-            psInsert.setString(13, cordofone.getMaterial());
-            psInsert.setDouble(14, cordofone.getPeso());
-            psInsert.setDouble(15, cordofone.getAltura());
-            psInsert.setString(16, cordofone.getEstadoConservacao());
-            psInsert.setString(17, cordofone.getMarcasInscricoes());
-            psInsert.setString(18, cordofone.getStatus());
-            psInsert.setInt(19, cordofone.getNumeroCordas());
-            psInsert.setString(20, cordofone.getTipoCordas());
-            psInsert.setString(21, cordofone.getMetodoExecucaoCorda());
+            psInsert.setString(4, cordofone.getModelo());
+            psInsert.setString(5, cordofone.getCategoria());
+            psInsert.setString(6, cordofone.getProcedencia());
+            psInsert.setString(7, cordofone.getDescricao());
+            psInsert.setDate(8,java.sql.Date.valueOf(cordofone.getDataFabricacao()));
+            psInsert.setString(9, cordofone.getFabricante());
+            psInsert.setString(10, cordofone.getFabricacaoPais());
+            psInsert.setString(11, cordofone.getFabricacaoCidade());
+            psInsert.setString(12, cordofone.getFabricacaoEstado());
+            psInsert.setString(13, cordofone.getFabricacaoLocalidade());
+            psInsert.setString(14, cordofone.getMaterial());
+            psInsert.setDouble(15, cordofone.getPeso());
+            psInsert.setDouble(16, cordofone.getAltura());
+            psInsert.setString(17, cordofone.getEstadoConservacao());
+            psInsert.setString(18, cordofone.getMarcasInscricoes());
+            psInsert.setString(19, cordofone.getStatus());
+            psInsert.setInt(20, cordofone.getNumeroCordas());
+            psInsert.setString(21, cordofone.getTipoCordas());
+            psInsert.setString(22, cordofone.getMetodoExecucaoCorda());
             
             psInsert.executeUpdate();
             
@@ -363,7 +366,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
 
     private void inserirAerofone(Aerofone aerofone) {
         UUID id = UUID.randomUUID();
-        String sqlInsert = "INSERT INTO instrumentos_aerofones (id, nome, nomes_adicionais, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, tipo_de_bocal, metodo_de_producao_de_som, ajuste_de_afinacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlInsert = "INSERT INTO instrumentos_aerofones (id, nome, nomes_adicionais, modelo, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, tipo_de_bocal, metodo_de_producao_de_som, ajuste_de_afinacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement psInsert = connection.prepareStatement(sqlInsert)) {
@@ -371,24 +374,25 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
             psInsert.setObject(1, id);
             psInsert.setString(2, aerofone.getNome());
             psInsert.setString(3, aerofone.getNomesAdicionais());
-            psInsert.setString(4, aerofone.getCategoria());
-            psInsert.setString(5, aerofone.getProcedencia());
-            psInsert.setString(6, aerofone.getDescricao());
-            psInsert.setDate(7, java.sql.Date.valueOf(aerofone.getDataFabricacao()));
-            psInsert.setString(8, aerofone.getFabricante());
-            psInsert.setString(9, aerofone.getFabricacaoPais());
-            psInsert.setString(10, aerofone.getFabricacaoCidade());
-            psInsert.setString(11, aerofone.getFabricacaoEstado());
-            psInsert.setString(12, aerofone.getFabricacaoLocalidade());
-            psInsert.setString(13, aerofone.getMaterial());
-            psInsert.setDouble(14, aerofone.getPeso());
-            psInsert.setDouble(15, aerofone.getAltura());
-            psInsert.setString(16, aerofone.getEstadoConservacao());
-            psInsert.setString(17, aerofone.getMarcasInscricoes());
-            psInsert.setString(18, aerofone.getStatus());
-            psInsert.setString(19, aerofone.getTipoBocal());
-            psInsert.setString(20, aerofone.getMetodoProducaoSom());
-            psInsert.setString(21, aerofone.getAjusteAfinacao());
+            psInsert.setString(4, aerofone.getModelo());
+            psInsert.setString(5, aerofone.getCategoria());
+            psInsert.setString(6, aerofone.getProcedencia());
+            psInsert.setString(7, aerofone.getDescricao());
+            psInsert.setDate(8,java.sql.Date.valueOf(aerofone.getDataFabricacao()));
+            psInsert.setString(9, aerofone.getFabricante());
+            psInsert.setString(10, aerofone.getFabricacaoPais());
+            psInsert.setString(11, aerofone.getFabricacaoCidade());
+            psInsert.setString(12, aerofone.getFabricacaoEstado());
+            psInsert.setString(13, aerofone.getFabricacaoLocalidade());
+            psInsert.setString(14, aerofone.getMaterial());
+            psInsert.setDouble(15, aerofone.getPeso());
+            psInsert.setDouble(16, aerofone.getAltura());
+            psInsert.setString(17, aerofone.getEstadoConservacao());
+            psInsert.setString(18, aerofone.getMarcasInscricoes());
+            psInsert.setString(19, aerofone.getStatus());
+            psInsert.setString(20, aerofone.getTipoBocal());
+            psInsert.setString(21, aerofone.getMetodoProducaoSom());
+            psInsert.setString(22, aerofone.getAjusteAfinacao());
             
             psInsert.executeUpdate();
             
@@ -398,31 +402,32 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
     }
 
     private void alterarIdiofone(Idiofone idiofone) {
-        String sqlUpdate = "UPDATE instrumentos_idiofones SET nome = ?, nomes_adicionais = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, metodo_execucao = ?, tipo_idiofone = ? WHERE id = ?";
+        String sqlUpdate = "UPDATE instrumentos_idiofones SET nome = ?, nomes_adicionais = ?, modelo = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, metodo_execucao = ?, tipo_idiofone = ? WHERE id = ?";
         
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate)) {
             
             psUpdate.setString(1, idiofone.getNome());
             psUpdate.setString(2, idiofone.getNomesAdicionais());
-            psUpdate.setString(3, idiofone.getCategoria());
-            psUpdate.setString(4, idiofone.getProcedencia());
-            psUpdate.setString(5, idiofone.getDescricao());
-            psUpdate.setDate(6, java.sql.Date.valueOf(idiofone.getDataFabricacao()));
-            psUpdate.setString(7, idiofone.getFabricante());
-            psUpdate.setString(8, idiofone.getFabricacaoPais());
-            psUpdate.setString(9, idiofone.getFabricacaoCidade());
-            psUpdate.setString(10, idiofone.getFabricacaoEstado());
-            psUpdate.setString(11, idiofone.getFabricacaoLocalidade());
-            psUpdate.setString(12, idiofone.getMaterial());
-            psUpdate.setDouble(13, idiofone.getPeso());
-            psUpdate.setDouble(14, idiofone.getAltura());
-            psUpdate.setString(15, idiofone.getEstadoConservacao());
-            psUpdate.setString(16, idiofone.getMarcasInscricoes());
-            psUpdate.setString(17, idiofone.getStatus());
-            psUpdate.setString(18, idiofone.getMetodoExecucao());
-            psUpdate.setString(19, idiofone.getTipoIdiofone());
-            psUpdate.setObject(20, idiofone.getId());
+            psUpdate.setString(3, idiofone.getModelo());
+            psUpdate.setString(4, idiofone.getCategoria());
+            psUpdate.setString(5, idiofone.getProcedencia());
+            psUpdate.setString(6, idiofone.getDescricao());
+            psUpdate.setDate(7,java.sql.Date.valueOf(idiofone.getDataFabricacao()));
+            psUpdate.setString(8, idiofone.getFabricante());
+            psUpdate.setString(9, idiofone.getFabricacaoPais());
+            psUpdate.setString(10, idiofone.getFabricacaoCidade());
+            psUpdate.setString(11, idiofone.getFabricacaoEstado());
+            psUpdate.setString(12, idiofone.getFabricacaoLocalidade());
+            psUpdate.setString(13, idiofone.getMaterial());
+            psUpdate.setDouble(14, idiofone.getPeso());
+            psUpdate.setDouble(15, idiofone.getAltura());
+            psUpdate.setString(16, idiofone.getEstadoConservacao());
+            psUpdate.setString(17, idiofone.getMarcasInscricoes());
+            psUpdate.setString(18, idiofone.getStatus());
+            psUpdate.setString(19, idiofone.getMetodoExecucao());
+            psUpdate.setString(20, idiofone.getTipoIdiofone());
+            psUpdate.setObject(21, idiofone.getId());
             
             psUpdate.executeUpdate();
             
@@ -432,32 +437,33 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
     }
     
     private void alterarMembranofone(Membranofone membranofone) {
-        String sqlUpdate = "UPDATE instrumentos_membranofones SET nome = ?, nomes_adicionais = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, tipo_membrana = ?, metodo_tocar_membrana = ?, ajuste_de_tensao = ? WHERE id = ?";
+        String sqlUpdate = "UPDATE instrumentos_membranofones SET nome = ?, nomes_adicionais = ?, modelo = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, tipo_membrana = ?, metodo_tocar_membrana = ?, ajuste_de_tensao = ? WHERE id = ?";
         
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate)) {
             
             psUpdate.setString(1, membranofone.getNome());
             psUpdate.setString(2, membranofone.getNomesAdicionais());
-            psUpdate.setString(3, membranofone.getCategoria());
-            psUpdate.setString(4, membranofone.getProcedencia());
-            psUpdate.setString(5, membranofone.getDescricao());
-            psUpdate.setDate(6, java.sql.Date.valueOf(membranofone.getDataFabricacao()));
-            psUpdate.setString(7, membranofone.getFabricante());
-            psUpdate.setString(8, membranofone.getFabricacaoPais());
-            psUpdate.setString(9, membranofone.getFabricacaoCidade());
-            psUpdate.setString(10, membranofone.getFabricacaoEstado());
-            psUpdate.setString(11, membranofone.getFabricacaoLocalidade());
-            psUpdate.setString(12, membranofone.getMaterial());
-            psUpdate.setDouble(13, membranofone.getPeso());
-            psUpdate.setDouble(14, membranofone.getAltura());
-            psUpdate.setString(15, membranofone.getEstadoConservacao());
-            psUpdate.setString(16, membranofone.getMarcasInscricoes());
-            psUpdate.setString(17, membranofone.getStatus());
-            psUpdate.setString(18, membranofone.getTipoMembrana());
-            psUpdate.setString(19, membranofone.getMetodoTocarMembrana());
-            psUpdate.setString(20, membranofone.getAjusteTensao());
-            psUpdate.setObject(21, membranofone.getId());
+            psUpdate.setString(3, membranofone.getModelo());
+            psUpdate.setString(4, membranofone.getCategoria());
+            psUpdate.setString(5, membranofone.getProcedencia());
+            psUpdate.setString(6, membranofone.getDescricao());
+            psUpdate.setDate(7,java.sql.Date.valueOf(membranofone.getDataFabricacao()));
+            psUpdate.setString(8, membranofone.getFabricante());
+            psUpdate.setString(9, membranofone.getFabricacaoPais());
+            psUpdate.setString(10, membranofone.getFabricacaoCidade());
+            psUpdate.setString(11, membranofone.getFabricacaoEstado());
+            psUpdate.setString(12, membranofone.getFabricacaoLocalidade());
+            psUpdate.setString(13, membranofone.getMaterial());
+            psUpdate.setDouble(14, membranofone.getPeso());
+            psUpdate.setDouble(15, membranofone.getAltura());
+            psUpdate.setString(16, membranofone.getEstadoConservacao());
+            psUpdate.setString(17, membranofone.getMarcasInscricoes());
+            psUpdate.setString(18, membranofone.getStatus());
+            psUpdate.setString(19, membranofone.getTipoMembrana());
+            psUpdate.setString(20, membranofone.getMetodoTocarMembrana());
+            psUpdate.setString(21, membranofone.getAjusteTensao());
+            psUpdate.setObject(22, membranofone.getId());
             
             psUpdate.executeUpdate();
             
@@ -467,32 +473,33 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
     }
     
     private void alterarCordofone(Cordofone cordofone) {
-        String sqlUpdate = "UPDATE instrumentos_cordofones SET nome = ?, nomes_adicionais = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, numero_de_cordas = ?, tipo_de_cordas = ?, metodo_execucao_corda = ? WHERE id = ?";
+        String sqlUpdate = "UPDATE instrumentos_cordofones SET nome = ?, nomes_adicionais = ?, modelo = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, numero_de_cordas = ?, tipo_de_cordas = ?, metodo_execucao_corda = ? WHERE id = ?";
         
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate)) {
             
             psUpdate.setString(1, cordofone.getNome());
             psUpdate.setString(2, cordofone.getNomesAdicionais());
-            psUpdate.setString(3, cordofone.getCategoria());
-            psUpdate.setString(4, cordofone.getProcedencia());
-            psUpdate.setString(5, cordofone.getDescricao());
-            psUpdate.setDate(6, java.sql.Date.valueOf(cordofone.getDataFabricacao()));
-            psUpdate.setString(7, cordofone.getFabricante());
-            psUpdate.setString(8, cordofone.getFabricacaoPais());
-            psUpdate.setString(9, cordofone.getFabricacaoCidade());
-            psUpdate.setString(10, cordofone.getFabricacaoEstado());
-            psUpdate.setString(11, cordofone.getFabricacaoLocalidade());
-            psUpdate.setString(12, cordofone.getMaterial());
-            psUpdate.setDouble(13, cordofone.getPeso());
-            psUpdate.setDouble(14, cordofone.getAltura());
-            psUpdate.setString(15, cordofone.getEstadoConservacao());
-            psUpdate.setString(16, cordofone.getMarcasInscricoes());
-            psUpdate.setString(17, cordofone.getStatus());
-            psUpdate.setInt(18, cordofone.getNumeroCordas());
-            psUpdate.setString(19, cordofone.getTipoCordas());
-            psUpdate.setString(20, cordofone.getMetodoExecucaoCorda());
-            psUpdate.setObject(21, cordofone.getId());
+            psUpdate.setString(3, cordofone.getModelo());
+            psUpdate.setString(4, cordofone.getCategoria());
+            psUpdate.setString(5, cordofone.getProcedencia());
+            psUpdate.setString(6, cordofone.getDescricao());
+            psUpdate.setDate(7,java.sql.Date.valueOf(cordofone.getDataFabricacao()));
+            psUpdate.setString(8, cordofone.getFabricante());
+            psUpdate.setString(9, cordofone.getFabricacaoPais());
+            psUpdate.setString(10, cordofone.getFabricacaoCidade());
+            psUpdate.setString(11, cordofone.getFabricacaoEstado());
+            psUpdate.setString(12, cordofone.getFabricacaoLocalidade());
+            psUpdate.setString(13, cordofone.getMaterial());
+            psUpdate.setDouble(14, cordofone.getPeso());
+            psUpdate.setDouble(15, cordofone.getAltura());
+            psUpdate.setString(16, cordofone.getEstadoConservacao());
+            psUpdate.setString(17, cordofone.getMarcasInscricoes());
+            psUpdate.setString(18, cordofone.getStatus());
+            psUpdate.setInt(19, cordofone.getNumeroCordas());
+            psUpdate.setString(20, cordofone.getTipoCordas());
+            psUpdate.setString(21, cordofone.getMetodoExecucaoCorda());
+            psUpdate.setObject(22, cordofone.getId());
             
             psUpdate.executeUpdate();
             
@@ -502,32 +509,33 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
     }
     
     private void alterarAerofone(Aerofone aerofone) {
-        String sqlUpdate = "UPDATE instrumentos_aerofones SET nome = ?, nomes_adicionais = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, tipo_de_bocal = ?, metodo_de_producao_de_som = ?, ajuste_de_afinacao = ? WHERE id = ?";
+        String sqlUpdate = "UPDATE instrumentos_aerofones SET nome = ?, nomes_adicionais = ?, modelo = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, tipo_de_bocal = ?, metodo_de_producao_de_som = ?, ajuste_de_afinacao = ? WHERE id = ?";
         
         try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate)) {
             
             psUpdate.setString(1, aerofone.getNome());
             psUpdate.setString(2, aerofone.getNomesAdicionais());
-            psUpdate.setString(3, aerofone.getCategoria());
-            psUpdate.setString(4, aerofone.getProcedencia());
-            psUpdate.setString(5, aerofone.getDescricao());
-            psUpdate.setDate(6, java.sql.Date.valueOf(aerofone.getDataFabricacao()));
-            psUpdate.setString(7, aerofone.getFabricante());
-            psUpdate.setString(8, aerofone.getFabricacaoPais());
-            psUpdate.setString(9, aerofone.getFabricacaoCidade());
-            psUpdate.setString(10, aerofone.getFabricacaoEstado());
-            psUpdate.setString(11, aerofone.getFabricacaoLocalidade());
-            psUpdate.setString(12, aerofone.getMaterial());
-            psUpdate.setDouble(13, aerofone.getPeso());
-            psUpdate.setDouble(14, aerofone.getAltura());
-            psUpdate.setString(15, aerofone.getEstadoConservacao());
-            psUpdate.setString(16, aerofone.getMarcasInscricoes());
-            psUpdate.setString(17, aerofone.getStatus());
-            psUpdate.setString(18, aerofone.getTipoBocal());
-            psUpdate.setString(19, aerofone.getMetodoProducaoSom());
-            psUpdate.setString(20, aerofone.getAjusteAfinacao());
-            psUpdate.setObject(21, aerofone.getId());
+            psUpdate.setString(3, aerofone.getModelo());
+            psUpdate.setString(4, aerofone.getCategoria());
+            psUpdate.setString(5, aerofone.getProcedencia());
+            psUpdate.setString(6, aerofone.getDescricao());
+            psUpdate.setDate(7,java.sql.Date.valueOf(aerofone.getDataFabricacao()));
+            psUpdate.setString(8, aerofone.getFabricante());
+            psUpdate.setString(9, aerofone.getFabricacaoPais());
+            psUpdate.setString(10, aerofone.getFabricacaoCidade());
+            psUpdate.setString(11, aerofone.getFabricacaoEstado());
+            psUpdate.setString(12, aerofone.getFabricacaoLocalidade());
+            psUpdate.setString(13, aerofone.getMaterial());
+            psUpdate.setDouble(14, aerofone.getPeso());
+            psUpdate.setDouble(15, aerofone.getAltura());
+            psUpdate.setString(16, aerofone.getEstadoConservacao());
+            psUpdate.setString(17, aerofone.getMarcasInscricoes());
+            psUpdate.setString(18, aerofone.getStatus());
+            psUpdate.setString(19, aerofone.getTipoBocal());
+            psUpdate.setString(20, aerofone.getMetodoProducaoSom());
+            psUpdate.setString(21, aerofone.getAjusteAfinacao());
+            psUpdate.setObject(22, aerofone.getId());
             
             psUpdate.executeUpdate();
             
@@ -551,6 +559,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                         (UUID) rs.getObject("id"),
                         rs.getString("nome"),
                         rs.getString("nomes_adicionais"),
+                        rs.getString("modelo"),
                         rs.getString("categoria"),
                         rs.getString("procedencia"),
                         rs.getString("descricao"),
@@ -593,6 +602,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                         (UUID) rs.getObject("id"),
                         rs.getString("nome"),
                         rs.getString("nomes_adicionais"),
+                        rs.getString("modelo"),
                         rs.getString("categoria"),
                         rs.getString("procedencia"),
                         rs.getString("descricao"),
@@ -636,6 +646,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                         (UUID) rs.getObject("id"),
                         rs.getString("nome"),
                         rs.getString("nomes_adicionais"),
+                        rs.getString("modelo"),
                         rs.getString("categoria"),
                         rs.getString("procedencia"),
                         rs.getString("descricao"),
@@ -679,6 +690,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                         (UUID) rs.getObject("id"),
                         rs.getString("nome"),
                         rs.getString("nomes_adicionais"),
+                        rs.getString("modelo"),
                         rs.getString("categoria"),
                         rs.getString("procedencia"),
                         rs.getString("descricao"),
