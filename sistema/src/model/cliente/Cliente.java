@@ -19,7 +19,7 @@ public abstract class Cliente {
     public Cliente(UUID id, String nomeCompleto, LocalDate dataNascimento, String telefoneCelular,
             String email, String endereco, String numeroLocal, String complemento, String bairro,
             String cidade, String estado){
-        this.id = UUID.randomUUID();
+        this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.dataNascimento = dataNascimento;
         this.telefoneCelular = telefoneCelular;

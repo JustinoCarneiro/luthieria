@@ -13,6 +13,7 @@ public class Luthieria {
     public static void main(String[] args) throws Exception {
         Luthier luthier = new Luthier();
 
+        UUID idOrdemServico = UUID.randomUUID();
         UUID idFisica = UUID.randomUUID();
         UUID idJuridica = UUID.randomUUID();
         UUID idIdiofone = UUID.randomUUID();
@@ -28,7 +29,7 @@ public class Luthieria {
 
         PessoaFisica clienteFisica = new PessoaFisica(
             idFisica,                       
-            "João da Silva",          
+            "Maria da Dores",          
             dataNascimentoFisica,             
             "987654321",               
             "joao@example.com",        
@@ -157,12 +158,16 @@ public class Luthieria {
             "Cordas de tensão"
         );
 
+
+        UUID idInstrumentoString = UUID.fromString("fb83f066-162f-44a2-9fc0-3d8bc5202caf");
+        UUID idFisicaString = UUID.fromString("2690581e-3688-4c55-a555-29a1ea5530e9");
+
         OrdemServico ordemServico = new OrdemServico(
-            UUID.randomUUID(),
+            idOrdemServico,
             "12345", 
             "Conserto",
-            idIdiofone, 
-            idFisica, 
+            idInstrumentoString, 
+            idFisicaString, 
             500.0, 
             "Troca de peças", 
             "Em andamento", 
@@ -181,5 +186,11 @@ public class Luthieria {
         luthier.listarClientes();
         luthier.listarInstrumentos();
         luthier.listarOrdensServicos();
+
+        UUID idOrdemServicoString = UUID.fromString("ed5b6154-7225-4717-8bfd-a86d93c29f21");
+        
+        System.out.println(idOrdemServico);
+        System.out.println(luthier.gerarNotificacao(idOrdemServicoString));
+
     }
 }

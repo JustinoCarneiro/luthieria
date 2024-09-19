@@ -37,6 +37,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
                 return;
             }
 
+            System.out.println("teste se estã entrnado aqui.");
             inserirPessoaFisica(pessoaFisica);
 
         } else if (cliente instanceof PessoaJuridica) {

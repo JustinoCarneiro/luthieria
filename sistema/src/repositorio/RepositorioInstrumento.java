@@ -231,6 +231,8 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
     public Instrumento buscarPorId(UUID id) {
         Instrumento instrumento = null;
 
+        System.out.println("Dentro de buscarPorId: " + id);
+
         instrumento = buscaIdiofonePorId(id);
         if (instrumento != null) {
             return instrumento; 
@@ -708,7 +710,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
                         rs.getString("status"),
                         rs.getString("tipo_de_bocal"),
                         rs.getString("metodo_de_producao_de_som"),
-                        rs.getString("ajuste_de afinacao")
+                        rs.getString("ajuste_de_afinacao")
                     );
                 }
             }
