@@ -31,6 +31,16 @@ public class Luthier {
         }
     }
 
+    public void alterar(Object objeto){
+        if(objeto instanceof Cliente){
+            repositorioCliente.alterar((Cliente) objeto);
+        } else if(objeto instanceof Instrumento){
+            repositorioInstrumento.alterar((Instrumento) objeto);
+        } else if(objeto instanceof OrdemServico){
+            repositorioOrdemServico.alterar((OrdemServico) objeto);
+        }
+    }
+
     public void listarClientes(){
         List<Cliente> clientes = new ArrayList<>();
 

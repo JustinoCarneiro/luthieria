@@ -546,7 +546,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
 
-    public Idiofone buscaIdiofonePorId(UUID id) {
+    private Idiofone buscaIdiofonePorId(UUID id) {
         String sqlSelect = "SELECT * FROM instrumentos_idiofones WHERE id = ?";
         Idiofone idiofone = null;
 
@@ -589,7 +589,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         return idiofone;
     }
 
-    public Membranofone buscaMembranofonePorId(UUID id) {
+    private Membranofone buscaMembranofonePorId(UUID id) {
         String sqlSelect = "SELECT * FROM instrumentos_membranofones WHERE id = ?";
         Membranofone membranofone = null;
 
@@ -633,7 +633,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         return membranofone;
     }
 
-    public Cordofone buscaCordofonePorId(UUID id) {
+    private Cordofone buscaCordofonePorId(UUID id) {
         String sqlSelect = "SELECT * FROM instrumentos_cordofones WHERE id = ?";
         Cordofone cordofone = null;
 
@@ -677,7 +677,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         return cordofone;
     }
 
-    public Aerofone buscaAerofonePorId(UUID id) {
+    private Aerofone buscaAerofonePorId(UUID id) {
         String sqlSelect = "SELECT * FROM instrumentos_aerofones WHERE id = ?";
         Aerofone aerofone = null;
 

@@ -34,7 +34,7 @@ public class RepositorioOrdemServico {
 
         String ultimoCodigo = obterUltimoCodigo();
 
-        String novoCodigo = gerarNovoCodigo(anoMes, ultimoCodigo);
+        String novoCodigo = gerarCodigo(anoMes, ultimoCodigo);
 
         sql = "INSERT INTO ordens_servicos (id, codigo, tipo_servico, id_instrumento, id_cliente, valor_servico, pecas, status_instrumento, observacao_status, previsao_entrega) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -149,7 +149,7 @@ public class RepositorioOrdemServico {
         return ultimoCodigo;
     }
 
-    private String gerarNovoCodigo(String anoMes, String ultimoCodigo) {
+    private String gerarCodigo(String anoMes, String ultimoCodigo) {
         int incremento = 1; 
     
         if (ultimoCodigo != null && ultimoCodigo.startsWith(anoMes)) {
