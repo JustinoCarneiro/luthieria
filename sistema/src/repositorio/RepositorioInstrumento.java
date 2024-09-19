@@ -225,7 +225,30 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
     }
 
     public void remover(Instrumento instrumento){
+        if(instrumento instanceof Idiofone){
+            sql = "DELETE FROM instrumentos_idiofones WHERE id = ?";
+        } else if(instrumento instanceof Membranofone){
+            sql = "DELETE FROM instrumentos_membranofones WHERE id = ?";
+        } else if(instrumento instanceof Aerofone){
+            sql = "DELETE FROM instrumentos_aerofones WHERE id = ?";
+        }else if(instrumento instanceof Cordofone){
+            sql = "DELETE FROM instrumentos_cordofones WHERE id = ?";
+        }else {
+            System.err.println("Tipo de instrumento não reconhecido.");
+            return;
+        }
 
+        try (Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setObject(1, instrumento.getId());
+            ps.executeUpdate();
+
+            System.out.println("Instrumento deletado com sucesso!");
+
+        } catch (SQLException e) {
+            System.err.println("Erro ao deletar instrumento: " + e.getMessage());
+        }
     }
 
     public Instrumento buscarPorId(UUID id) {
