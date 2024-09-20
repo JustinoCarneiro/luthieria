@@ -11,7 +11,10 @@ import model.instrumento.Membranofone;
 
 public class Luthieria {
     public static void main(String[] args) throws Exception {
-        Luthier luthier = new Luthier();
+
+        
+
+       /*  Luthier luthier = new Luthier();
 
         UUID idOrdemServico = UUID.randomUUID();
         UUID idFisica = UUID.randomUUID();
@@ -190,7 +193,7 @@ public class Luthieria {
         UUID idOrdemServicoString = UUID.fromString("ed5b6154-7225-4717-8bfd-a86d93c29f21");
         
         System.out.println(idOrdemServico);
-        System.out.println(luthier.gerarNotificacao(idOrdemServicoString));
+        System.out.println(luthier.gerarNotificacao(idOrdemServicoString));*/
 
     }
 }
