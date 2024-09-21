@@ -5,12 +5,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    public static Connection getConnection() throws SQLException {
-        String url = "jdbc:postgresql://" + System.getenv("POSTGRES_HOST") + ":" + System.getenv("POSTGRES_PORT") + "/" + System.getenv("POSTGRES_DB");
-        String user = System.getenv("POSTGRES_USER");
-        String password = System.getenv("POSTGRES_PASSWORD");
+    
+    private static final String URL = "jdbc:postgresql://localhost:5432/bdluthieria";
+    private static final String USER = "admin";
+    private static final String PASSWORD = "1234";
 
-        return DriverManager.getConnection(url, user, password);
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
+            System.err.println("Erro ao estabelecer a conexão com o banco de dados: " + e.getMessage());
+            return null;  // ou rethrow e use um mecanismo de logging mais robusto
+        }
     }
 }
-

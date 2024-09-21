@@ -3,5 +3,6 @@
         "sistema/src"
     ],
     "java.project.outputPath": "bin",
-    "java.project.referencedLibraries": []
+    "java.project.referencedLibraries": [],
+    "java.dependency.packagePresentation": "hierarchical"
 }
