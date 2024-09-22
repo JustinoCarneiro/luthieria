@@ -1,4 +1,4 @@
-import java.time.LocalDate;
+/*import java.time.LocalDate;
 import java.util.UUID;
 
 import model.OrdemServico;
@@ -7,22 +7,16 @@ import model.cliente.PessoaJuridica;
 import model.instrumento.Aerofone;
 import model.instrumento.Cordofone;
 import model.instrumento.Idiofone;
-import model.instrumento.Membranofone;
+import model.instrumento.Membranofone;*/
 
-/*import javax.swing.JFrame;
-
-import gui.JanelaPrincipal;*/
+import gui.JanelaPrincipal;
 
 public class Luthieria {
     public static void main(String[] args) throws Exception {
 
-        /*JanelaPrincipal frame = new JanelaPrincipal ("Teste 3");
+        new JanelaPrincipal();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.setVisible(true);*/
-
-        Luthier luthier = new Luthier();
+        /*Luthier luthier = new Luthier();
 
         UUID idOrdemServico = UUID.randomUUID();
         UUID idFisica = UUID.randomUUID();
@@ -201,6 +195,6 @@ public class Luthieria {
         UUID idOrdemServicoString = UUID.fromString("ed5b6154-7225-4717-8bfd-a86d93c29f21");
         
         System.out.println(idOrdemServico);
-        System.out.println(luthier.gerarNotificacao(idOrdemServicoString));
+        System.out.println(luthier.gerarNotificacao(idOrdemServicoString)); */
     }
 }
