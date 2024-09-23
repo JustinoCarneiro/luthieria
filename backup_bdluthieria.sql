@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.4 (Debian 16.4-1.pgdg120+1)
--- Dumped by pg_dump version 16.4 (Debian 16.4-1.pgdg120+1)
+-- Dumped from database version 14.12 (Ubuntu 14.12-0ubuntu0.22.04.1)
+-- Dumped by pg_dump version 14.13 (Ubuntu 14.13-0ubuntu0.22.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -49,7 +49,6 @@ ALTER TABLE public.cliente_pessoa_fisica OWNER TO admin;
 CREATE TABLE public.cliente_pessoa_juridica (
     id uuid NOT NULL,
     nome_completo character varying(255) NOT NULL,
-    data_nascimento date,
     telefone_celular character varying(255),
     email character varying(255),
     endereco character varying(255),
@@ -218,7 +217,6 @@ ALTER TABLE public.ordens_servicos OWNER TO admin;
 --
 
 COPY public.cliente_pessoa_fisica (id, nome_completo, data_nascimento, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, cpf) FROM stdin;
-2690581e-3688-4c55-a555-29a1ea5530e9	João da Silva	1990-01-01	987654321	joao@example.com	Rua Exemplo	123	Apto 101	Bairro Exemplo	Cidade Exemplo	Estado Exemplo	123.456.789-00
 \.
 
 
@@ -226,8 +224,8 @@ COPY public.cliente_pessoa_fisica (id, nome_completo, data_nascimento, telefone_
 -- Data for Name: cliente_pessoa_juridica; Type: TABLE DATA; Schema: public; Owner: admin
 --
 
-COPY public.cliente_pessoa_juridica (id, nome_completo, data_nascimento, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, razao_social, inscricao_estadual, cnpj) FROM stdin;
-475ebd1c-b11b-4fed-9747-182963f66fa4	Empresa Exemplo Ltda	2000-01-01	987654321	contato@empresa.com	Avenida Exemplo	456	Sala 202	Bairro Exemplo	Cidade Exemplo	Estado Exemplo	Razão Social Exemplo	123.456.789.000	12.345.678/0001-99
+COPY public.cliente_pessoa_juridica (id, nome_completo, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, razao_social, inscricao_estadual, cnpj) FROM stdin;
+475ebd1c-b11b-4fed-9747-182963f66fa4	Empresa Exemplo Ltda	11111	contato@empresa.com	Avenida Exemplo	4756	Sala 700	Bairro Exemplo	Cidade Exemplo	Estado Exemplo	Razão Social Exemplo	123.456.789.000	12.345.678/0001-99
 \.
 
 
@@ -237,6 +235,7 @@ COPY public.cliente_pessoa_juridica (id, nome_completo, data_nascimento, telefon
 
 COPY public.instrumentos_aerofones (id, nome, nomes_adicionais, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, tipo_de_bocal, metodo_de_producao_de_som, ajuste_de_afinacao, modelo) FROM stdin;
 fb83f066-162f-44a2-9fc0-3d8bc5202caf	Flauta	\N	Aerofone	Brasil	Instrumento musical de sopro	2021-08-08	Fabricante Exemplo	Brasil	Cidade Exemplo	Estado Exemplo	\N	Bambu	0.2	0.5	Ótimo	Sem marcas	Ativo	Bocal transversal	Sopro direto	Parafusos de ajuste	modelo 3
+522c3888-f16b-4e3f-8dba-872f81854e54	Flauta	\N	Aerofone	Brasil	Instrumento musical de sopro	2021-08-08	Fabricante Exemplo	Brasil	Cidade Exemplo	Estado Exemplo	\N	Bambu	0.2	0.5	Ótimo	Sem marcas	Ativo	Bocal transversal	Sopro direto	Parafusos de ajuste	modelo 3
 \.
 
 
@@ -245,6 +244,7 @@ fb83f066-162f-44a2-9fc0-3d8bc5202caf	Flauta	\N	Aerofone	Brasil	Instrumento music
 --
 
 COPY public.instrumentos_cordofones (id, nome, nomes_adicionais, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, numero_de_cordas, tipo_de_cordas, metodo_execucao_corda, modelo) FROM stdin;
+8bb5b6eb-a59a-4fab-bf0a-1934bc5f3ce1	Violão	\N	Cordofone	Brasil	Instrumento musical de cordas	2022-05-05	Fabricante Exemplo	Brasil	Cidade Exemplo	Estado Exemplo	\N	Madeira	2	1	Ótimo	Sem marcas	Ativo	6	Nylon	Dedilhado	modelo 2
 \.
 
 
@@ -253,6 +253,7 @@ COPY public.instrumentos_cordofones (id, nome, nomes_adicionais, categoria, proc
 --
 
 COPY public.instrumentos_idiofones (id, nome, nomes_adicionais, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, metodo_execucao, tipo_idiofone, modelo) FROM stdin;
+cb45ccff-d3cd-4d20-8dde-48860c75575c	Triângulo	\N	Idiofone	Brasil	Instrumento musical de percussão	2023-01-01	Fabricante Exemplo	Brasil	Cidade Exemplo	Estado Exemplo	\N	Metal	0.5	0.3	Ótimo	Sem marcas	Ativo	Agitado com as mãos	Metalofone	modelo 1
 \.
 
 
@@ -261,6 +262,7 @@ COPY public.instrumentos_idiofones (id, nome, nomes_adicionais, categoria, proce
 --
 
 COPY public.instrumentos_membranofones (id, nome, nomes_adicionais, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, tipo_membrana, metodo_tocar_membrana, ajuste_de_tensao, modelo) FROM stdin;
+4fc49930-8cf9-4c33-938a-9973b294f918	Tambor	\N	Membranofone	Brasil	Instrumento musical de percussão com membrana	2020-11-11	Fabricante Exemplo	Brasil	Cidade Exemplo	Estado Exemplo	\N	Couro	1	0.6	Ótimo	Sem marcas	Ativo	Membrana de animal	Batida com baqueta	Cordas de tensão	modelo 4
 \.
 
 
@@ -270,6 +272,7 @@ COPY public.instrumentos_membranofones (id, nome, nomes_adicionais, categoria, p
 
 COPY public.ordens_servicos (id, codigo, tipo_servico, id_instrumento, id_cliente, valor_servico, pecas, status_instrumento, observacao_status, previsao_entrega) FROM stdin;
 ed5b6154-7225-4717-8bfd-a86d93c29f21	20240900003	Conserto	fb83f066-162f-44a2-9fc0-3d8bc5202caf	2690581e-3688-4c55-a555-29a1ea5530e9	500.00	Troca de peças	Em andamento	Descrição do status	2024-09-26
+ab994c11-3f69-4f87-8cc6-7d274197b603	20240900004	Conserto	fb83f066-162f-44a2-9fc0-3d8bc5202caf	2690581e-3688-4c55-a555-29a1ea5530e9	500.00	Troca de peças	Em andamento	Descrição do status	2024-09-27
 \.
 
 
