@@ -15,7 +15,7 @@ public class DatabaseConnection {
             return DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
             System.err.println("Erro ao estabelecer a conexão com o banco de dados: " + e.getMessage());
-            return null;  // ou rethrow e use um mecanismo de logging mais robusto
+            return null; 
         }
     }
 }
