@@ -1,12 +1,10 @@
 package model.cliente;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 public abstract class Cliente {
     private UUID id;
     protected String nomeCompleto;
-    protected LocalDate dataNascimento;
     protected String telefoneCelular;
     protected String email;
     protected String endereco;
@@ -16,12 +14,14 @@ public abstract class Cliente {
     protected String cidade;
     protected String estado;
 
-    public Cliente(UUID id, String nomeCompleto, LocalDate dataNascimento, String telefoneCelular,
+    public Cliente(){
+    }
+
+    public Cliente(UUID id, String nomeCompleto, String telefoneCelular,
             String email, String endereco, String numeroLocal, String complemento, String bairro,
             String cidade, String estado){
         this.id = id;
         this.nomeCompleto = nomeCompleto;
-        this.dataNascimento = dataNascimento;
         this.telefoneCelular = telefoneCelular;
         this.email = email;
         this.endereco = endereco;
@@ -43,12 +43,6 @@ public abstract class Cliente {
     }
     public void setNomeCompleto(String nomeCompleto) {
         this.nomeCompleto = nomeCompleto;
-    }
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
     }
     public String getTelefoneCelular() {
         return telefoneCelular;

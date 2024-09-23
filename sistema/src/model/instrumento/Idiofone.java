@@ -7,6 +7,10 @@ public class Idiofone extends Instrumento{
     private String metodoExecucao;
     private String tipoIdiofone;
     
+    public Idiofone(){
+        super();
+    }
+
     public Idiofone(UUID id, String nome, String nomesAdicionais, String modelo, String categoria, String procedencia,
             String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,

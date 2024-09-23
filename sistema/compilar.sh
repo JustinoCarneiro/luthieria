@@ -10,7 +10,7 @@ rm -rf $DESTINO
 mkdir -p $DESTINO
 
 # Compilar todos os arquivos .java dentro de src e também os que estão diretamente em src
-javac -d $DESTINO -cp src:$DRIVER_PATH src/**/*.java src/*.java
+javac -d $DESTINO -cp src:$DRIVER_PATH src/**/*.java
 
 # Copiar arquivos de recursos (imagens, etc.) para o diretório de destino
 cp -r src/gui/arquivos $DESTINO/gui/
@@ -20,7 +20,7 @@ if [ $? -eq 0 ]; then
   echo "Compilação concluída com sucesso!"
   
   # Executar o programa principal (classe Luthieria) com o driver JDBC no classpath
-  java -cp $DESTINO:$DRIVER_PATH Luthieria
+  java -cp $DESTINO:$DRIVER_PATH inicio.Luthieria
 else
   echo "Erro na compilação."
 fi

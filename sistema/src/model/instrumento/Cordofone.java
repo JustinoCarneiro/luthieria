@@ -8,6 +8,10 @@ public class Cordofone extends Instrumento{
     private String tipoCordas;
     private String metodoExecucaoCorda;
     
+    public Cordofone(){
+        super();
+    }
+
     public Cordofone(UUID id, String nome, String nomesAdicionais, String modelo, String categoria, String procedencia,
             String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,

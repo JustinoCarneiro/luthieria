@@ -8,6 +8,10 @@ public class Membranofone extends Instrumento{
     private String metodoTocarMembrana;
     private String ajusteTensao;
     
+    public Membranofone(){
+        super();
+    }
+
     public Membranofone(UUID id, String nome, String nomesAdicionais, String modelo, String categoria, String procedencia,
             String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,

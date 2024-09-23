@@ -5,14 +5,20 @@ import java.util.UUID;
 
 public class PessoaFisica extends Cliente{
     private String cpf;
+    private LocalDate dataNascimento;
+
+    public PessoaFisica() {
+        super();
+    }
 
     public PessoaFisica(UUID id, String nomeCompleto, LocalDate dataNascimento, String telefoneCelular,
             String email, String endereco, String numeroLocal, String complemento, String bairro,
             String cidade, String estado, String cpf) {
                 
-        super(id, nomeCompleto, dataNascimento, telefoneCelular, email, endereco, numeroLocal,
+        super(id, nomeCompleto, telefoneCelular, email, endereco, numeroLocal,
                 complemento, bairro, cidade, estado);
         this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
     }
 
     public String getCpf() {
@@ -21,6 +27,14 @@ public class PessoaFisica extends Cliente{
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     @Override

@@ -24,6 +24,9 @@ public abstract class Instrumento {
     protected String marcasInscricoes;
     protected String status;
 
+    public Instrumento(){
+    }
+
     public Instrumento(UUID id, String nome, String nomesAdicionais, String modelo, String categoria, String procedencia,
             String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,
             String fabricacaoEstado, String fabricacaoLocalidade, String material, double peso, double altura,

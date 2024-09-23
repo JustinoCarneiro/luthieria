@@ -7,6 +7,10 @@ public class Aerofone extends Instrumento{
     private String tipoBocal;
     private String metodoProducaoSom;
     private String ajusteAfinacao;
+
+    public Aerofone(){
+        super();
+    }
     
     public Aerofone(UUID id, String nome, String nomesAdicionais, String modelo, String categoria, String procedencia,
             String descricao, LocalDate dataFabricacao, String fabricante, String fabricacaoPais, String fabricacaoCidade,

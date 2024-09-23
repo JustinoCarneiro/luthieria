@@ -138,7 +138,6 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
             while (resultSetJuridica.next()) {
                 UUID id = (UUID) resultSetJuridica.getObject("id");
                 String nomeCompleto = resultSetJuridica.getString("nome_completo");
-                LocalDate dataNascimento = resultSetJuridica.getDate("data_nascimento").toLocalDate();
                 String telefoneCelular = resultSetJuridica.getString("telefone_celular");
                 String email = resultSetJuridica.getString("email");
                 String endereco = resultSetJuridica.getString("endereco");
@@ -152,7 +151,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
                 String cnpj = resultSetJuridica.getString("cnpj");
     
                 PessoaJuridica pessoaJuridica = new PessoaJuridica(
-                    id, nomeCompleto, dataNascimento, telefoneCelular, email, endereco,
+                    id, nomeCompleto, telefoneCelular, email, endereco,
                     numeroLocal, complemento, bairro, cidade, estado, razaoSocial, inscricaoEstadual, cnpj
                 );
     
@@ -201,7 +200,6 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
                 return new PessoaJuridica(
                     (UUID) resultSetPj.getObject("id"),
                     resultSetPj.getString("nome_completo"),
-                    resultSetPj.getDate("data_nascimento").toLocalDate(),
                     resultSetPj.getString("telefone_celular"),
                     resultSetPj.getString("email"),
                     resultSetPj.getString("endereco"),
@@ -258,7 +256,6 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
                 return new PessoaJuridica(
                     (UUID) resultSetPj.getObject("id"),
                     resultSetPj.getString("nome_completo"),
-                    resultSetPj.getDate("data_nascimento").toLocalDate(),
                     resultSetPj.getString("telefone_celular"),
                     resultSetPj.getString("email"),
                     resultSetPj.getString("endereco"),
@@ -308,25 +305,24 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
     private void inserirPessoaJuridica(PessoaJuridica pessoaJuridica) {
 
         UUID id = UUID.randomUUID();
-        String sql = "INSERT INTO cliente_pessoa_juridica (id, nome_completo, data_nascimento, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, razao_social, inscricao_estadual, cnpj) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cliente_pessoa_juridica (id, nome_completo, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, razao_social, inscricao_estadual, cnpj) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection connection = DatabaseConnection.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setObject(1, id);
             ps.setString(2, pessoaJuridica.getNomeCompleto());
-            ps.setDate(3, java.sql.Date.valueOf(pessoaJuridica.getDataNascimento()));
-            ps.setString(4, pessoaJuridica.getTelefoneCelular());
-            ps.setString(5, pessoaJuridica.getEmail());
-            ps.setString(6, pessoaJuridica.getEndereco());
-            ps.setString(7, pessoaJuridica.getNumeroLocal());
-            ps.setString(8, pessoaJuridica.getComplemento());
-            ps.setString(9, pessoaJuridica.getBairro());
-            ps.setString(10, pessoaJuridica.getCidade());
-            ps.setString(11, pessoaJuridica.getEstado());
-            ps.setString(12, pessoaJuridica.getRazaoSocial());
-            ps.setString(13, pessoaJuridica.getInscricaoEstadual());
-            ps.setString(14, pessoaJuridica.getCnpj());
+            ps.setString(3, pessoaJuridica.getTelefoneCelular());
+            ps.setString(4, pessoaJuridica.getEmail());
+            ps.setString(5, pessoaJuridica.getEndereco());
+            ps.setString(6, pessoaJuridica.getNumeroLocal());
+            ps.setString(7, pessoaJuridica.getComplemento());
+            ps.setString(8, pessoaJuridica.getBairro());
+            ps.setString(9, pessoaJuridica.getCidade());
+            ps.setString(10, pessoaJuridica.getEstado());
+            ps.setString(11, pessoaJuridica.getRazaoSocial());
+            ps.setString(12, pessoaJuridica.getInscricaoEstadual());
+            ps.setString(13, pessoaJuridica.getCnpj());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -343,7 +339,6 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
 
                 psUpdate.setString(1, pessoaFisicaAlterada.getNomeCompleto());
                 psUpdate.setDate(2, java.sql.Date.valueOf(pessoaFisicaAlterada.getDataNascimento()));
-                psUpdate.setString(3, pessoaFisicaAlterada.getTelefoneCelular());
                 psUpdate.setString(3, pessoaFisicaAlterada.getTelefoneCelular());
                 psUpdate.setString(4, pessoaFisicaAlterada.getEmail());
                 psUpdate.setString(5, pessoaFisicaAlterada.getEndereco());
@@ -366,25 +361,24 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
     
     private void alterarPessoaJuridica(PessoaJuridica pessoaJuridicaAlterada) {
 
-        String sqlUpdate = "UPDATE cliente_pessoa_juridica SET nome_completo = ?, data_nascimento = ?, telefone_celular = ?, email = ?, endereco = ?, numero_local = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, razao_social = ?, inscricao_estadual = ?, cnpj = ? WHERE id = ?";
+        String sqlUpdate = "UPDATE cliente_pessoa_juridica SET nome_completo = ?, telefone_celular = ?, email = ?, endereco = ?, numero_local = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, razao_social = ?, inscricao_estadual = ?, cnpj = ? WHERE id = ?";
 
         try (Connection connection = DatabaseConnection.getConnection();
             PreparedStatement psUpdate = connection.prepareStatement(sqlUpdate)) {
 
             psUpdate.setString(1, pessoaJuridicaAlterada.getNomeCompleto());
-            psUpdate.setDate(2, java.sql.Date.valueOf(pessoaJuridicaAlterada.getDataNascimento()));
-            psUpdate.setString(3, pessoaJuridicaAlterada.getTelefoneCelular());
-            psUpdate.setString(4, pessoaJuridicaAlterada.getEmail());
-            psUpdate.setString(5, pessoaJuridicaAlterada.getEndereco());
-            psUpdate.setString(6, pessoaJuridicaAlterada.getNumeroLocal());
-            psUpdate.setString(7, pessoaJuridicaAlterada.getComplemento());
-            psUpdate.setString(8, pessoaJuridicaAlterada.getBairro());
-            psUpdate.setString(9, pessoaJuridicaAlterada.getCidade());
-            psUpdate.setString(10, pessoaJuridicaAlterada.getEstado());
-            psUpdate.setString(11, pessoaJuridicaAlterada.getRazaoSocial());
-            psUpdate.setString(12, pessoaJuridicaAlterada.getInscricaoEstadual());
-            psUpdate.setString(13, pessoaJuridicaAlterada.getCnpj());
-            psUpdate.setObject(14, pessoaJuridicaAlterada.getId());
+            psUpdate.setString(2, pessoaJuridicaAlterada.getTelefoneCelular());
+            psUpdate.setString(3, pessoaJuridicaAlterada.getEmail());
+            psUpdate.setString(4, pessoaJuridicaAlterada.getEndereco());
+            psUpdate.setString(5, pessoaJuridicaAlterada.getNumeroLocal());
+            psUpdate.setString(6, pessoaJuridicaAlterada.getComplemento());
+            psUpdate.setString(7, pessoaJuridicaAlterada.getBairro());
+            psUpdate.setString(8, pessoaJuridicaAlterada.getCidade());
+            psUpdate.setString(9, pessoaJuridicaAlterada.getEstado());
+            psUpdate.setString(10, pessoaJuridicaAlterada.getRazaoSocial());
+            psUpdate.setString(11, pessoaJuridicaAlterada.getInscricaoEstadual());
+            psUpdate.setString(12, pessoaJuridicaAlterada.getCnpj());
+            psUpdate.setObject(13, pessoaJuridicaAlterada.getId());
 
             psUpdate.executeUpdate();
 

@@ -1,3 +1,5 @@
+package inicio;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -41,7 +43,7 @@ public class Luthier {
         }
     }
 
-    public void listarClientes(){
+    public List<Cliente> listarClientes(){
         List<Cliente> clientes = new ArrayList<>();
 
         clientes = repositorioCliente.listar();
@@ -49,9 +51,11 @@ public class Luthier {
         for(int i=0; i<clientes.size(); i++){
             System.out.println(clientes.get(i));
         }
+
+        return clientes;
     }
 
-    public void listarInstrumentos(){
+    public List<Instrumento> listarInstrumentos(){
         List<Instrumento> instrumentos = new ArrayList<>();
 
         instrumentos = repositorioInstrumento.listar();
@@ -59,9 +63,11 @@ public class Luthier {
         for(int i=0; i<instrumentos.size(); i++){
             System.out.println(instrumentos.get(i));
         }
+
+        return instrumentos;
     }
 
-    public void listarOrdensServicos(){
+    public List<OrdemServico> listarOrdensServicos(){
         List<OrdemServico> ordensservicos = new ArrayList<>();
 
         ordensservicos = repositorioOrdemServico.listar();
@@ -69,6 +75,8 @@ public class Luthier {
         for(int i=0; i<ordensservicos.size(); i++){
             System.out.println(ordensservicos.get(i));
         }
+
+        return ordensservicos;
     }
 
     public void remover(Object objeto){
