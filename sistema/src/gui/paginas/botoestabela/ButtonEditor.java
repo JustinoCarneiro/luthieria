@@ -14,13 +14,17 @@ import javax.swing.table.TableCellEditor;
 
 import gui.paginas.Clientes;
 import gui.paginas.Instrumentos;
+import gui.paginas.OrdensServicos;
 import gui.paginas.forms.ClienteForms;
 import gui.paginas.forms.FormCloseListener;
 import gui.paginas.forms.InstrumentoForms;
+import gui.paginas.forms.OrdemServicoForms;
+import model.OrdemServico;
 import model.cliente.Cliente;
 import model.instrumento.Instrumento;
 import repositorio.RepositorioCliente;
 import repositorio.RepositorioInstrumento;
+import repositorio.RepositorioOrdemServico;
 
 public class ButtonEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
 
@@ -63,7 +67,6 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
     public void actionPerformed(ActionEvent e) {
         if (isPushed) {
             if (itemPanel instanceof Clientes) {
-
                 RepositorioCliente repositorio = new RepositorioCliente();
                 Cliente cliente = repositorio.buscaPorId(itemId);
 
@@ -72,8 +75,8 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
                 } else {
                     abrirFormularioCliente(cliente);
                 }
-            } else if (itemPanel instanceof Instrumentos) {
 
+            } else if (itemPanel instanceof Instrumentos) {
                 RepositorioInstrumento repositorio = new RepositorioInstrumento();
                 Instrumento instrumento = repositorio.buscarPorId(itemId);
 
@@ -81,6 +84,15 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
                     ((Instrumentos) itemPanel).excluirInstrumento(instrumento);
                 } else {
                     abrirFormularioInstrumento(instrumento);
+                }
+            } else if(itemPanel instanceof OrdensServicos){
+                RepositorioOrdemServico repositorio = new RepositorioOrdemServico();
+                OrdemServico ordemServico = repositorio.buscarPorId(itemId);
+
+                if("excluir".equals(actionType)){
+                    ((OrdensServicos) itemPanel).excluirOrdemServico(ordemServico);
+                } else {
+                    abrirFormularioOrdemServico(ordemServico);
                 }
             }
         }
@@ -117,6 +129,23 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
         });
 
         dialog.add(instrumentoForms);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setVisible(true);
+    }
+
+    private void abrirFormularioOrdemServico(OrdemServico ordemServico) {
+        JDialog dialog = new JDialog((JFrame) null, "Formulário Instrumento", true);
+        dialog.setSize(500, 400);
+        dialog.setLocationRelativeTo(null);
+
+        OrdemServicoForms ordemServicoForms = new OrdemServicoForms(ordemServico, new FormCloseListener() {
+            @Override
+            public void onClose() {
+                ((OrdensServicos) itemPanel).atualizarTabelaOrdensServicos();
+            }
+        });
+
+        dialog.add(ordemServicoForms);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
     }

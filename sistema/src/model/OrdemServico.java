@@ -15,6 +15,8 @@ public class OrdemServico {
     private String observacaoStatus;
     private LocalDate previsaoEntrega;
 
+    public OrdemServico(){}
+
     public OrdemServico(UUID id, String codigo, String tipoServico, UUID idInstrumento, UUID idCliente,
             double valorServico, String pecas, String statusInstrumento, String observacaoStatus, LocalDate previsaoEntrega) {
         this.id = id;
