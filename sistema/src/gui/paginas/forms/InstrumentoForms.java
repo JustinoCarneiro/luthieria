@@ -1,5 +1,6 @@
 package gui.paginas.forms;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,7 +60,8 @@ public class InstrumentoForms extends JPanel {
     private FormCloseListener closeListener;
 
     public InstrumentoForms(Instrumento instrumento, FormCloseListener closeListener){
-        setLayout(new GridLayout(18, 2, 10, 10));
+        setLayout(new GridLayout(36, 4, 10, 10));
+        setPreferredSize(new Dimension(400, 800));
 
         this.closeListener = closeListener;
 

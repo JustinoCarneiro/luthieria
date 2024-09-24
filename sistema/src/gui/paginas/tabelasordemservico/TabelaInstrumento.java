@@ -1,41 +1,50 @@
-package gui.paginas;
+package gui.paginas.tabelasordemservico;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ButtonGroup;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.JRadioButton;
 
-import gui.paginas.botoestabela.ButtonEditor;
-import gui.paginas.botoestabela.ButtonRenderer;
 import gui.paginas.forms.FormCloseListener;
 import gui.paginas.forms.InstrumentoForms;
+import gui.paginas.tabelasordemservico.botoes.ButtonEditor;
+import gui.paginas.tabelasordemservico.botoes.ButtonRenderer;
+import gui.paginas.tabelasordemservico.botoes.RadioButtonEditor;
+import gui.paginas.tabelasordemservico.botoes.RadioButtonRenderer;
 import inicio.Luthier;
 import model.instrumento.Aerofone;
 import model.instrumento.Cordofone;
 import model.instrumento.Idiofone;
 import model.instrumento.Instrumento;
 import model.instrumento.Membranofone;
+import repositorio.RepositorioInstrumento;
 
-public class Instrumentos extends JPanel{
+public class TabelaInstrumento extends JPanel{
     private JTable table;
     private DefaultTableModel tableModel;
     private JComboBox<String> filtroTipoInstrumento;
     private JTextField campoPesquisa;
+    private ButtonGroup group;
     
-    public Instrumentos(){
+    public TabelaInstrumento(){
+
         setLayout(new BorderLayout());
 
         JPanel panelSelecao = new JPanel();
@@ -57,7 +66,7 @@ public class Instrumentos extends JPanel{
 
         add(panelSelecao, BorderLayout.NORTH);
 
-        String[] columnNames = {"Nome", "Modelo", "Fabricante", "Detalhes", "Excluir"};
+        String[] columnNames = {"Nome", "Modelo", "Fabricante", "Detalhes", "Selecionar"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel) {
             @Override
@@ -69,9 +78,21 @@ public class Instrumentos extends JPanel{
         table.getColumn("Detalhes").setCellRenderer(new ButtonRenderer("Ver Detalhes"));
         table.getColumn("Detalhes").setCellEditor(new ButtonEditor(new JButton("Ver Detalhes"), this));
 
-        table.getColumn("Excluir").setCellRenderer(new ButtonRenderer("Excluir"));
-        table.getColumn("Excluir").setCellEditor(new ButtonEditor(new JButton("Excluir"), this));
+        table.getColumn("Selecionar").setCellRenderer(new RadioButtonRenderer());
+        table.getColumn("Selecionar").setCellEditor(new RadioButtonEditor());
 
+        group = new ButtonGroup();
+
+        tableModel.addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.INSERT) {
+                    JRadioButton radioButton = new JRadioButton();
+                    group.add(radioButton);
+                    tableModel.setValueAt(radioButton, e.getFirstRow(), 4);
+                }
+            }
+        });
 
         table.setIntercellSpacing(new java.awt.Dimension(10, 10));
         table.setRowHeight(30);
@@ -103,7 +124,7 @@ public class Instrumentos extends JPanel{
         JDialog dialog = new JDialog();
         dialog.setTitle("Adicionar Instrumento");
         dialog.setModal(true);
-        dialog.setSize(400, 800);
+        dialog.setSize(400, 200);
         dialog.setLocationRelativeTo(this);
     
         JComboBox<String> tipoClienteCombo = new JComboBox<>(new String[]{"Idiofone", "Membranofone", "Cordofone", "Aerofone"});
@@ -152,6 +173,7 @@ public class Instrumentos extends JPanel{
 
     public void atualizarTabelaInstrumentos() {
         tableModel.setRowCount(0);
+        group.clearSelection();
 
         List<Instrumento> instrumentos = new Luthier().listarInstrumentos();
         String tipoSelecionado = (String) filtroTipoInstrumento.getSelectedItem();
@@ -185,29 +207,28 @@ public class Instrumentos extends JPanel{
         }
 
         if (instrumentosFiltrados.isEmpty()) {
-            tableModel.addRow(new Object[]{"Sem instrumentos no momento", "", "", ""});
+            tableModel.addRow(new Object[]{"Sem instrumentos no momento", "", "", false});
         } else {
             for (Instrumento instrumento : instrumentosFiltrados) {
+                JRadioButton radioButton = new JRadioButton();
+                group.add(radioButton);
                 tableModel.addRow(new Object[]{
                     instrumento.getNome(),
                     instrumento.getModelo(),
                     instrumento.getFabricante(),
                     instrumento.getId(),
-                    "Excluir"
+                    false
                 });
             }
         }
     }
 
-    public void excluirInstrumento(Instrumento instrumento) {
-        int resposta = JOptionPane.showConfirmDialog(this, 
-            "Deseja realmente excluir este instrumento?", 
-            "Confirmar Exclusão", 
-            JOptionPane.YES_NO_OPTION);
-        
-        if (resposta == JOptionPane.YES_OPTION) {
-            new Luthier().remover(instrumento);
-            atualizarTabelaInstrumentos();
+    public Instrumento getInstrumentoSelecionado(){
+        int selectedRow = table.getSelectedRow();
+        if(selectedRow != -1){
+            UUID idInstrumento = (UUID) tableModel.getValueAt(selectedRow, 3);
+            return new RepositorioInstrumento().buscarPorId(idInstrumento);
         }
+        return null;
     }
 }

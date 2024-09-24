@@ -5,10 +5,13 @@ import java.util.UUID;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.format.DateTimeFormatter;
+
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
@@ -52,6 +55,9 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
         } else if (column == 4) {
             button.setText("Excluir");
             actionType = "excluir";
+        } else if(column == 5){
+            button.setText("Notificação");
+            actionType = "notificação";
         }
 
         return button;
@@ -91,8 +97,10 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
 
                 if("excluir".equals(actionType)){
                     ((OrdensServicos) itemPanel).excluirOrdemServico(ordemServico);
-                } else {
+                } else if("detalhes".equals(actionType)){
                     abrirFormularioOrdemServico(ordemServico);
+                } else{
+                    gerarNotificacao(ordemServico);
                 }
             }
         }
@@ -118,7 +126,7 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
 
     private void abrirFormularioInstrumento(Instrumento instrumento) {
         JDialog dialog = new JDialog((JFrame) null, "Formulário Instrumento", true);
-        dialog.setSize(500, 400);
+        dialog.setSize(400, 800);
         dialog.setLocationRelativeTo(null);
 
         InstrumentoForms instrumentoForms = new InstrumentoForms(instrumento, new FormCloseListener() {
@@ -149,4 +157,47 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
     }
+
+    private void gerarNotificacao(OrdemServico ordemServico) {
+        RepositorioInstrumento repositorioInstrumento = new RepositorioInstrumento();
+        RepositorioCliente repositorioCliente = new RepositorioCliente();
+    
+        Instrumento instrumento = repositorioInstrumento.buscarPorId(ordemServico.getIdInstrumento());
+        Cliente cliente = repositorioCliente.buscaPorId(ordemServico.getIdCliente());
+    
+        String instrumentoNome = instrumento != null ? instrumento.getNome() : "Instrumento desconhecido";
+        String clienteNome = cliente != null ? cliente.getNomeCompleto() : "Cliente desconhecido";
+    
+        String mensagem = String.format("O Instrumento %s, em nome do cliente %s, " +
+                "está em %s,%s%s e tem previsão de ser entregue dia %s, segundo a ordem de serviço número %s, " +
+                "%s.",
+                instrumentoNome,
+                clienteNome,
+                ordemServico.getTipoServico(),
+                ordemServico.getStatusInstrumento() != null ? " para " + ordemServico.getStatusInstrumento() : "",
+                ordemServico.getObservacaoStatus() != null ? ", " + ordemServico.getObservacaoStatus(): ",",
+                ordemServico.getPrevisaoEntrega() != null ? ordemServico.getPrevisaoEntrega().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString() : "data não disponível",
+                ordemServico.getCodigo(),
+                ordemServico.getPecas() != null && !ordemServico.getPecas().isEmpty() ? 
+                "está sendo utilizado novo conjunto de peças: " + ordemServico.getPecas() : 
+                "não necessitou de material/peças");
+    
+      
+        JDialog dialog = new JDialog((JFrame) null, "Notificação de Ordem de Serviço", true);
+        dialog.setSize(400, 300);
+        dialog.setLocationRelativeTo(null);
+    
+       
+        JLabel label = new JLabel("<html>" + mensagem.replaceAll("\n", "<br/>") + "</html>");
+        dialog.add(label);
+    
+     
+        JButton button = new JButton("Fechar");
+        button.addActionListener(e -> dialog.dispose());
+        dialog.add(button, "South");
+    
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setVisible(true);
+    }
+    
 }

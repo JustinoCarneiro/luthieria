@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
+import java.time.format.DateTimeParseException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,12 +16,15 @@ import javax.swing.JTextField;
 
 import inicio.Luthier;
 import model.OrdemServico;
+import model.cliente.Cliente;
+import model.instrumento.Instrumento;
+import repositorio.RepositorioCliente;
+import repositorio.RepositorioInstrumento;
 
 public class OrdemServicoForms extends JPanel{
-    private JTextField codigoField;
     private JTextField tipoServicoField;
-    private JTextField idInstrumentoField;
-    private JTextField idClienteField;
+    private JTextField instrumentoField;
+    private JTextField clienteField;
     private JTextField valorServicoField;
     private JTextField pecasField;
     private JTextField statusInstrumentoField;
@@ -30,29 +33,35 @@ public class OrdemServicoForms extends JPanel{
 
     private JButton salvarButton;
     private FormCloseListener closeListener;
+    private Instrumento instrumento;
+    private Cliente cliente;
 
     public OrdemServicoForms(OrdemServico ordemServico, FormCloseListener closeListener) {
         this.closeListener = closeListener;
-        setLayout(new GridLayout(10, 2, 10, 10));
+        setLayout(new GridLayout(9, 2, 10, 10));
 
-        codigoField = new JTextField(20);
         tipoServicoField = new JTextField(20);
-        idInstrumentoField = new JTextField(36); 
-        idClienteField = new JTextField(36); 
+        instrumentoField = new JTextField(36); 
+        clienteField = new JTextField(36); 
         valorServicoField = new JTextField(10);
         pecasField = new JTextField(50);
         statusInstrumentoField = new JTextField(20);
         observacaoStatusField = new JTextField(100);
         previsaoEntregaField = new JTextField(10); 
 
-        add(new JLabel("Código:"));
-        add(codigoField);
         add(new JLabel("Tipo de Serviço:"));
         add(tipoServicoField);
-        add(new JLabel("ID Instrumento:"));
-        add(idInstrumentoField);
-        add(new JLabel("ID Cliente:"));
-        add(idClienteField);
+
+        add(new JLabel("Instrumento:"));
+        instrumentoField.setEditable(false);
+        instrumentoField.setBackground(Color.LIGHT_GRAY);
+        add(instrumentoField);
+
+        add(new JLabel("Cliente:"));
+        clienteField.setEditable(false);
+        clienteField.setBackground(Color.LIGHT_GRAY);
+        add(clienteField);
+        
         add(new JLabel("Valor do Serviço:"));
         add(valorServicoField);
         add(new JLabel("Peças:"));
@@ -64,9 +73,7 @@ public class OrdemServicoForms extends JPanel{
         add(new JLabel("Previsão de Entrega:"));
         add(previsaoEntregaField);
 
-        if (ordemServico != null) {
-            preencherDados(ordemServico);
-        }
+        preencherDados(ordemServico);
 
         salvarButton = new JButton("Salvar");
         add(salvarButton);
@@ -79,19 +86,21 @@ public class OrdemServicoForms extends JPanel{
     }
 
     private void preencherDados(OrdemServico ordemServico) {
-        codigoField.setText(ordemServico.getCodigo());
         tipoServicoField.setText(ordemServico.getTipoServico());
 
         if (ordemServico.getIdInstrumento() != null) {
-            idInstrumentoField.setText(ordemServico.getIdInstrumento().toString());
+            instrumento = new RepositorioInstrumento().buscarPorId(ordemServico.getIdInstrumento());
+
+            instrumentoField.setText(instrumento.getNome());
         } else {
-            idInstrumentoField.setText("");
+            instrumentoField.setText("");
         }
     
         if (ordemServico.getIdCliente() != null) {
-            idClienteField.setText(ordemServico.getIdCliente().toString());
+            cliente = new RepositorioCliente().buscaPorId(ordemServico.getIdCliente());
+            clienteField.setText(cliente.getNomeCompleto());
         } else {
-            idClienteField.setText("");
+            clienteField.setText("");
         }
 
         valorServicoField.setText(String.valueOf(ordemServico.getValorServico()));
@@ -100,29 +109,42 @@ public class OrdemServicoForms extends JPanel{
         observacaoStatusField.setText(ordemServico.getObservacaoStatus());
 
         if (ordemServico.getPrevisaoEntrega() != null) {
-            previsaoEntregaField.setText(ordemServico.getPrevisaoEntrega().toString());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            previsaoEntregaField.setText(ordemServico.getPrevisaoEntrega().format(formatter));
         } else {
-            previsaoEntregaField.setText("");
+            previsaoEntregaField.setText("Data não disponível");
         }
     }
 
     private void salvarAlteracoes(OrdemServico ordemServico) {
-        ordemServico.setCodigo(codigoField.getText());
         ordemServico.setTipoServico(tipoServicoField.getText());
 
-        if (!idInstrumentoField.getText().isEmpty()) {
-        ordemServico.setIdInstrumento(UUID.fromString(idInstrumentoField.getText()));
+        if (!instrumentoField.getText().isEmpty()) {
+            ordemServico.setIdInstrumento(instrumento.getId());
         }
         
-        if (!idClienteField.getText().isEmpty()) {
-            ordemServico.setIdCliente(UUID.fromString(idClienteField.getText()));
+        if (!clienteField.getText().isEmpty()) {
+            ordemServico.setIdCliente(cliente.getId());
         }
         
-        ordemServico.setValorServico(Double.parseDouble(valorServicoField.getText()));
+        try {
+            ordemServico.setValorServico(Double.parseDouble(valorServicoField.getText()));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Valor do serviço inválido. Por favor, insira um número válido.");
+            return;
+        }
+
         ordemServico.setPecas(pecasField.getText());
         ordemServico.setStatusInstrumento(statusInstrumentoField.getText());
         ordemServico.setObservacaoStatus(observacaoStatusField.getText());
-        ordemServico.setPrevisaoEntrega(LocalDate.parse(previsaoEntregaField.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            ordemServico.setPrevisaoEntrega(LocalDate.parse(previsaoEntregaField.getText(), formatter));
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Data de previsão de entrega inválida. Por favor, use o formato 'dd/MM/yyyy'.");
+            return;
+        }
         
         if(ordemServico.getId() != null){
             new Luthier().alterar(ordemServico);

@@ -19,6 +19,8 @@ import gui.paginas.botoestabela.ButtonEditor;
 import gui.paginas.botoestabela.ButtonRenderer;
 import gui.paginas.forms.FormCloseListener;
 import gui.paginas.forms.OrdemServicoForms;
+import gui.paginas.tabelasordemservico.TabelaCliente;
+import gui.paginas.tabelasordemservico.TabelaInstrumento;
 import inicio.Luthier;
 import model.OrdemServico;
 import model.cliente.Cliente;
@@ -30,15 +32,17 @@ public class OrdensServicos extends JPanel{
 
     private JTable table;
     private DefaultTableModel tableModel;
+    private Cliente cliente;
+    private Instrumento instrumento;
 
     public OrdensServicos() {
         setLayout(new BorderLayout());
-        String[] columnNames = {"Código", "Instrumento", "Cliente", "Detalhes", "Excluir"};
+        String[] columnNames = {"Código", "Instrumento", "Cliente", "Detalhes", "Excluir", "Gerar notificação"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 4 || column == 3;
+                return column == 4 || column == 3 || column == 5;
             }
         };
 
@@ -48,10 +52,13 @@ public class OrdensServicos extends JPanel{
         table.getColumn("Excluir").setCellRenderer(new ButtonRenderer("Excluir"));
         table.getColumn("Excluir").setCellEditor(new ButtonEditor(new JButton("Excluir"), this));
 
+        table.getColumn("Gerar notificação").setCellRenderer(new ButtonRenderer("Notificação"));
+        table.getColumn("Gerar notificação").setCellEditor(new ButtonEditor(new JButton("Notificação"), this));
+
         table.setIntercellSpacing(new java.awt.Dimension(10, 10));
         table.setRowHeight(30);
 
-            JScrollPane scrollPane = new JScrollPane(table);
+        JScrollPane scrollPane = new JScrollPane(table);
 
         JPanel panelTabela = new JPanel();
         panelTabela.setLayout(new BorderLayout());
@@ -67,21 +74,99 @@ public class OrdensServicos extends JPanel{
         adicionar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                abrirFormularioOrdemServico();
+                abrirSelecaoCliente();
             }
         });
 
         add(adicionar, BorderLayout.SOUTH);
     }
 
+    private void abrirSelecaoCliente() {
+        JDialog dialogSelecionar = new JDialog();
+        dialogSelecionar.setTitle("Selecionar Cliente");
+        dialogSelecionar.setModal(true);
+        dialogSelecionar.setSize(600, 400);
+        dialogSelecionar.setLocationRelativeTo(this);
+        
+        TabelaCliente tabelaCliente = new TabelaCliente();
+        
+        dialogSelecionar.add(tabelaCliente, BorderLayout.CENTER);
+    
+        JButton confirmar = new JButton("Confirmar Seleção");
+        confirmar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Cliente clienteSelecionado = tabelaCliente.getClienteSelecionado();
+
+                if (clienteSelecionado != null) {
+                    cliente = clienteSelecionado; 
+                    dialogSelecionar.dispose();
+                    abrirSelecaoInstrumento();
+                } else {
+                    JOptionPane.showMessageDialog(dialogSelecionar, 
+                        "Por favor, selecione um cliente.", 
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+    
+        JPanel panelBotoes = new JPanel();
+        panelBotoes.add(confirmar);
+        
+        dialogSelecionar.add(panelBotoes, BorderLayout.SOUTH);
+        
+        dialogSelecionar.setVisible(true);
+    }
+    
+
+    private void abrirSelecaoInstrumento(){
+        JDialog dialogSelecionar = new JDialog();
+        dialogSelecionar.setTitle("Selecionar Instrumento");
+        dialogSelecionar.setModal(true);
+        dialogSelecionar.setSize(600, 400);
+        dialogSelecionar.setLocationRelativeTo(this);
+
+        TabelaInstrumento tabelaInstrumento = new TabelaInstrumento();
+
+        dialogSelecionar.add(tabelaInstrumento, BorderLayout.CENTER);
+
+        JButton confirmar = new JButton("Confirmar Seleção");
+        confirmar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Instrumento instrumentoSelecionado = tabelaInstrumento.getInstrumentoSelecionado();
+
+                if (instrumentoSelecionado != null) {
+                    instrumento = instrumentoSelecionado; 
+                    dialogSelecionar.dispose();
+                    abrirFormularioOrdemServico();
+                } else {
+                    JOptionPane.showMessageDialog(dialogSelecionar, 
+                        "Por favor, selecione um instrumento.", 
+                        "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        JPanel panelBotoes = new JPanel();
+        panelBotoes.add(confirmar);
+
+        dialogSelecionar.add(panelBotoes, BorderLayout.SOUTH);
+        dialogSelecionar.setVisible(true);
+    }
+    
+
     private void abrirFormularioOrdemServico() {
         JDialog dialog = new JDialog();
-        dialog.setTitle("Adicionar Ordem Servico");
+        dialog.setTitle("Adicionar Ordem Serviço");
         dialog.setModal(true);
         dialog.setSize(400, 600); 
         dialog.setLocationRelativeTo(this);
 
         OrdemServico ordemServico = new OrdemServico();
+
+        ordemServico.setIdCliente(cliente.getId());
+        ordemServico.setIdInstrumento(instrumento.getId());
 
         OrdemServicoForms ordemServicoForms = new OrdemServicoForms(ordemServico, new FormCloseListener() {
             @Override
