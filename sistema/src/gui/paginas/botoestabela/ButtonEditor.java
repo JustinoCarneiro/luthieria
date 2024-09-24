@@ -11,9 +11,10 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 import gui.paginas.Clientes;
 import gui.paginas.Instrumentos;
@@ -175,23 +176,27 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
                 clienteNome,
                 ordemServico.getTipoServico(),
                 ordemServico.getStatusInstrumento() != null ? " para " + ordemServico.getStatusInstrumento() : "",
-                ordemServico.getObservacaoStatus() != null ? ", " + ordemServico.getObservacaoStatus(): ",",
+                ordemServico.getObservacaoStatus() != null ? ", " + ordemServico.getObservacaoStatus() : ",",
                 ordemServico.getPrevisaoEntrega() != null ? ordemServico.getPrevisaoEntrega().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString() : "data não disponível",
                 ordemServico.getCodigo(),
-                ordemServico.getPecas() != null && !ordemServico.getPecas().isEmpty() ? 
-                "está sendo utilizado novo conjunto de peças: " + ordemServico.getPecas() : 
+                ordemServico.getPecas() != null && !ordemServico.getPecas().isEmpty() ?
+                "está sendo utilizado novo conjunto de peças: " + ordemServico.getPecas() :
                 "não necessitou de material/peças");
     
-      
         JDialog dialog = new JDialog((JFrame) null, "Notificação de Ordem de Serviço", true);
         dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(null);
     
-       
-        JLabel label = new JLabel("<html>" + mensagem.replaceAll("\n", "<br/>") + "</html>");
-        dialog.add(label);
+        
+        JTextArea textArea = new JTextArea(mensagem);
+
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setEditable(false); 
+        textArea.setCaretPosition(0); 
+
+        dialog.add(new JScrollPane(textArea)); 
     
-     
         JButton button = new JButton("Fechar");
         button.addActionListener(e -> dialog.dispose());
         dialog.add(button, "South");
