@@ -194,6 +194,16 @@ public class OrdensServicos extends JPanel{
                 Instrumento instrumento = new RepositorioInstrumento().buscarPorId(ordemServico.getIdInstrumento());
                 Cliente cliente = new RepositorioCliente().buscaPorId(ordemServico.getIdCliente());
 
+                if (instrumento == null) {
+                    System.out.println("Instrumento não encontrado para a ordem de serviço " + ordemServico.getCodigo());
+                    continue; 
+                }
+            
+                if (cliente == null) {
+                    System.out.println("Cliente não encontrado para a ordem de serviço " + ordemServico.getCodigo());
+                    continue; 
+                }
+
                 tableModel.addRow(new Object[]{
                     ordemServico.getCodigo(),
                     instrumento.getNome(),

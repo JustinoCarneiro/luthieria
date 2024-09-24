@@ -1,5 +1,6 @@
 package inicio;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -11,6 +12,7 @@ import repositorio.RepositorioCliente;
 import repositorio.RepositorioInstrumento;
 import repositorio.RepositorioOrdemServico;
 
+//Classe para controlar CRUD
 public class Luthier {
     
     RepositorioCliente repositorioCliente;
@@ -106,17 +108,17 @@ public class Luthier {
         }
 
         StringBuilder mensagem = new StringBuilder();
-        mensagem.append("O Instrumento ").append(instrumento.getNome()).append(" ").append(instrumento.getModelo())
-                .append(", em nome do cliente ").append(cliente.getNomeCompleto()).append(", está em ")
-                .append(instrumento.getStatus()).append(" para ").append(ordemServico.getTipoServico())
-                .append(", e tem previsão de ser entregue dia ").append(ordemServico.getPrevisaoEntrega())
-                .append(". Segundo a ordem de serviço número ").append(ordemServico.getCodigo());
-
-        if (!ordemServico.getPecas().isEmpty()) {
-            mensagem.append(", está sendo utilizado ").append(ordemServico.getPecas());
-        }
-
-        mensagem.append(".");
+        mensagem.append("O Instrumento ")
+                .append(instrumento.getNome()).append(" ")
+                .append(instrumento.getModelo()).append(", em nome do cliente ")
+                .append(cliente.getNomeCompleto()).append(", está em ")
+                .append(ordemServico.getTipoServico())
+                .append(ordemServico.getStatusInstrumento() != null ? " para " + ordemServico.getStatusInstrumento() : "")
+                .append(ordemServico.getObservacaoStatus() != null ? ", " + ordemServico.getObservacaoStatus() : "").append(", e tem previsão de ser entregue dia ")
+                .append(ordemServico.getPrevisaoEntrega() != null ? ordemServico.getPrevisaoEntrega().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")).toString() : "data não disponível").append(". Segundo a ordem de serviço número ")
+                .append(ordemServico.getCodigo()).append(", ")
+                .append(ordemServico.getPecas() != null && !ordemServico.getPecas().isEmpty() ? "está sendo utilizado novo conjunto de peças: " + ordemServico.getPecas() :
+                "não necessitou de material/peças").append(".");
 
         return mensagem.toString();
     }
