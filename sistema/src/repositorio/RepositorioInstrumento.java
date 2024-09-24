@@ -16,9 +16,11 @@ import model.instrumento.Idiofone;
 import model.instrumento.Instrumento;
 import model.instrumento.Membranofone;
 
+//Classe responsável pelo CRUD da entidade instrumento, seja idiofone, membranofone, aerofone ou cordofone
 public class RepositorioInstrumento implements IRepositorio<Instrumento>{
     String sql;
 
+    //Esse método verifica se o instrumento já existe e em caso negativo o insere no banco de dados, caso idiofone, membranofone, aerofone ou cordofone, no seu banco apropriado
     public void inserir(Instrumento instrumento) {
         Instrumento instrumentoPorId = buscarPorId(instrumento.getId());
 
@@ -39,6 +41,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
     
+    //Método responsável por alterar os dados de um instrumento, verificando se o mesmo é idiofone, membranofone, aerofone ou cordofone
     public void alterar(Instrumento instrumento) {
         if (instrumento instanceof Idiofone) {
             alterarIdiofone((Idiofone) instrumento);
@@ -53,6 +56,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
     
+    //Método responsável por listar todos os instrumentos
     public List<Instrumento> listar(){
         List<Instrumento> instrumentos = new ArrayList<>();
 
@@ -224,6 +228,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         return instrumentos;
     }
 
+    //Método responsável por remover um instrumento do banco de dados
     public void remover(Instrumento instrumento){
         if(instrumento instanceof Idiofone){
             sql = "DELETE FROM instrumentos_idiofones WHERE id = ?";
@@ -251,6 +256,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
 
+    //Método responsável por recuperar o instrumento pelo seu id
     public Instrumento buscarPorId(UUID id) {
         Instrumento instrumento = null;
 
@@ -279,7 +285,9 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         return instrumento;
     }
 
+    //Método auxiliar para inserir especificamente idiofone
     private void inserirIdiofone(Idiofone idiofone) {
+        //Gera o id automaticamente
         UUID id = UUID.randomUUID();
         String sqlInsert = "INSERT INTO instrumentos_idiofones (id, nome, nomes_adicionais, modelo, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, metodo_execucao, tipo_idiofone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
@@ -315,7 +323,9 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
     
+    //Método auxiliar para inserir especificamente membranofone
     private void inserirMembranofone(Membranofone membranofone) {
+        //Gera o id automaticamente
         UUID id = UUID.randomUUID();
         String sqlInsert = "INSERT INTO instrumentos_membranofones (id, nome, nomes_adicionais, modelo, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, tipo_membrana, metodo_tocar_membrana, ajuste_de_tensao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
@@ -352,7 +362,9 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
 
+    //Método auxiliar para inserir especificamente cordofone
     private void inserirCordofone(Cordofone cordofone) {
+        //Gera o id automaticamente
         UUID id = UUID.randomUUID();
         String sqlInsert = "INSERT INTO instrumentos_cordofones (id, nome, nomes_adicionais, modelo, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, numero_de_cordas, tipo_de_cordas, metodo_execucao_corda) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
@@ -389,7 +401,9 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
 
+    //Método auxiliar para inserir especificamente aerofone
     private void inserirAerofone(Aerofone aerofone) {
+        //Gera o id automaticamente
         UUID id = UUID.randomUUID();
         String sqlInsert = "INSERT INTO instrumentos_aerofones (id, nome, nomes_adicionais, modelo, categoria, procedencia, descricao, data_fabricacao, fabricante, fabricacao_pais, fabricacao_cidade, fabricacao_estado, fabricacao_localidade, material, peso, altura, estado_conservacao, marcas_inscricoes, status, tipo_de_bocal, metodo_de_producao_de_som, ajuste_de_afinacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
@@ -426,6 +440,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
 
+    //Método auxiliar para alterar especificamente idiofone
     private void alterarIdiofone(Idiofone idiofone) {
         String sqlUpdate = "UPDATE instrumentos_idiofones SET nome = ?, nomes_adicionais = ?, modelo = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, metodo_execucao = ?, tipo_idiofone = ? WHERE id = ?";
         
@@ -461,6 +476,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
     
+    //Método auxiliar para alterar especificamente membranofone
     private void alterarMembranofone(Membranofone membranofone) {
         String sqlUpdate = "UPDATE instrumentos_membranofones SET nome = ?, nomes_adicionais = ?, modelo = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, tipo_membrana = ?, metodo_tocar_membrana = ?, ajuste_de_tensao = ? WHERE id = ?";
         
@@ -497,6 +513,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
     
+    //Método auxiliar para alterar especificamente cordofone
     private void alterarCordofone(Cordofone cordofone) {
         String sqlUpdate = "UPDATE instrumentos_cordofones SET nome = ?, nomes_adicionais = ?, modelo = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, numero_de_cordas = ?, tipo_de_cordas = ?, metodo_execucao_corda = ? WHERE id = ?";
         
@@ -533,6 +550,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
     
+    //Método auxiliar para alterar especificamente aerofone
     private void alterarAerofone(Aerofone aerofone) {
         String sqlUpdate = "UPDATE instrumentos_aerofones SET nome = ?, nomes_adicionais = ?, modelo = ?, categoria = ?, procedencia = ?, descricao = ?, data_fabricacao = ?, fabricante = ?, fabricacao_pais = ?, fabricacao_cidade = ?, fabricacao_estado = ?, fabricacao_localidade = ?, material = ?, peso = ?, altura = ?, estado_conservacao = ?, marcas_inscricoes = ?, status = ?, tipo_de_bocal = ?, metodo_de_producao_de_som = ?, ajuste_de_afinacao = ? WHERE id = ?";
         
@@ -569,6 +587,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         }
     }
 
+    //Método auxiliar para recuperar especificamente um idiofone pelo id
     private Idiofone buscaIdiofonePorId(UUID id) {
         String sqlSelect = "SELECT * FROM instrumentos_idiofones WHERE id = ?";
         Idiofone idiofone = null;
@@ -612,6 +631,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         return idiofone;
     }
 
+    //Método auxiliar para recuperar especificamente um membranofone pelo id
     private Membranofone buscaMembranofonePorId(UUID id) {
         String sqlSelect = "SELECT * FROM instrumentos_membranofones WHERE id = ?";
         Membranofone membranofone = null;
@@ -656,6 +676,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         return membranofone;
     }
 
+    //Método auxiliar para recuperar especificamente um cordofone pelo id
     private Cordofone buscaCordofonePorId(UUID id) {
         String sqlSelect = "SELECT * FROM instrumentos_cordofones WHERE id = ?";
         Cordofone cordofone = null;
@@ -700,6 +721,7 @@ public class RepositorioInstrumento implements IRepositorio<Instrumento>{
         return cordofone;
     }
 
+    //Método auxiliar para recuperar especificamente um aerofone pelo id
     private Aerofone buscaAerofonePorId(UUID id) {
         String sqlSelect = "SELECT * FROM instrumentos_aerofones WHERE id = ?";
         Aerofone aerofone = null;

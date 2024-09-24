@@ -3,6 +3,7 @@ package model.instrumento;
 import java.time.LocalDate;
 import java.util.UUID;
 
+//Classe que define os atributos específicos de um cordofone que é um instrumento musical, assim como getters e setters
 public class Cordofone extends Instrumento{
     private Integer numeroCordas;
     private String tipoCordas;
@@ -49,6 +50,7 @@ public class Cordofone extends Instrumento{
         this.metodoExecucaoCorda = metodoExecucaoCorda;
     }
 
+    //Método responsável por entregar o instrumento, quando necessário, como string
     @Override
     public String toString() {
         return "Cordofone{" +

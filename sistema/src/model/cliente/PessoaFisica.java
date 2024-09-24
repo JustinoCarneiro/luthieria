@@ -3,6 +3,7 @@ package model.cliente;
 import java.time.LocalDate;
 import java.util.UUID;
 
+//Classe que define os atributos específicos de uma pessoa física que é um cliente, assim como getters e setters
 public class PessoaFisica extends Cliente{
     private String cpf;
     private LocalDate dataNascimento;
@@ -37,6 +38,7 @@ public class PessoaFisica extends Cliente{
         this.dataNascimento = dataNascimento;
     }
 
+    //Método responsável por entregar o cliente, quando necessário, como string
     @Override
     public String toString() {
         return "PessoaFisica { " +

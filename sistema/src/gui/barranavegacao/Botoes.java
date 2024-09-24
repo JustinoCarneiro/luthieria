@@ -15,6 +15,7 @@ import gui.paginas.Home;
 import gui.paginas.Instrumentos;
 import gui.paginas.OrdensServicos;
 
+//Painel responsável por selecionar as páginas, aqui é chamada a função mostrarPagina() da JanelaPrincipal
 public class Botoes extends JPanel{
 
     public Botoes(JanelaPrincipal frame){

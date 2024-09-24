@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+//Painel responsável por mostrar a primeira página da aplicação, nesse caso está mostrando apenas a logo da loja
 public class Home extends JPanel{
     public Home(){
         setLayout(new GridBagLayout());

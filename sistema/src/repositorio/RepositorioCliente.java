@@ -14,9 +14,11 @@ import model.cliente.Cliente;
 import model.cliente.PessoaFisica;
 import model.cliente.PessoaJuridica;
 
+//Classe responsável pelo CRUD da entidade cliente, tanto pessoa física, quanto pessoa jurídica
 public class RepositorioCliente implements IRepositorio<Cliente>{
     String sql;
 
+    //Esse método verifica se o cliente já existe e em caso negativo o insere no banco de dados, caso pessoa jurídica ou pessoa física, no seu banco apropriado
     public void inserir(Cliente cliente) {
 
         Cliente clientePorId = buscaPorId(cliente.getId());
@@ -37,7 +39,6 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
                 return;
             }
 
-            System.out.println("teste se estã entrnado aqui.");
             inserirPessoaFisica(pessoaFisica);
 
         } else if (cliente instanceof PessoaJuridica) {
@@ -58,6 +59,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         }
     }
 
+    //Método responsável por alterar os dados de um cliente, verificando se o mesmo é pessoa física ou jurídica
     public void alterar(Cliente clienteAlterado) {
 
         if (clienteAlterado instanceof PessoaFisica) {
@@ -70,6 +72,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
 
     }
 
+    //Método responsável por remover um cliente do banco de dados
     public void remover(Cliente cliente){
 
         if(cliente instanceof PessoaFisica){
@@ -94,6 +97,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         }
     };
     
+    //Método responsável por listar todos os clientes
     public List<Cliente> listar() {
 
         List<Cliente> clientes = new ArrayList<>();
@@ -165,6 +169,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         return clientes;
     }
     
+    //Método responsável por recuperar o cliente pelo seu id
     public Cliente buscaPorId(UUID id){
         String sqlPf = "SELECT * FROM cliente_pessoa_fisica WHERE id = ?";
         String sqlPj = "SELECT * FROM cliente_pessoa_juridica WHERE id = ?";
@@ -221,6 +226,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         return null;
     }
 
+    //Método responsável por recuperar o cliente pelo seu cpf ou cnpj, caso pessoa física ou jurídica, respectivamente
     public Cliente buscaPorCpfouCNPJ(String identificador) {
         String sqlPf = "SELECT * FROM cliente_pessoa_fisica WHERE cpf = ?";
         String sqlPj = "SELECT * FROM cliente_pessoa_juridica WHERE cnpj = ?";
@@ -276,8 +282,10 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         return null;
     }
 
+    //Método auxiliar para inserir especificamente pessoa física
     private void inserirPessoaFisica(PessoaFisica pessoaFisica) {
         
+        //Gera o id automaticamente
         UUID id = UUID.randomUUID();
         String sql = "INSERT INTO cliente_pessoa_fisica (id, nome_completo, data_nascimento, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, cpf) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -302,8 +310,10 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         }
     }
 
+    //Método auxiliar para inserir especificamente pessoa juridica
     private void inserirPessoaJuridica(PessoaJuridica pessoaJuridica) {
 
+        //Gera o id automaticamente
         UUID id = UUID.randomUUID();
         String sql = "INSERT INTO cliente_pessoa_juridica (id, nome_completo, telefone_celular, email, endereco, numero_local, complemento, bairro, cidade, estado, razao_social, inscricao_estadual, cnpj) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
@@ -330,6 +340,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         }
     }
 
+    //Método auxiliar para alterar especificamente pessoa física
     private void alterarPessoaFisica(PessoaFisica pessoaFisicaAlterada) {
 
         String sqlUpdate = "UPDATE cliente_pessoa_fisica SET nome_completo = ?, data_nascimento = ?, telefone_celular = ?, email = ?, endereco = ?, numero_local = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, cpf = ? WHERE id = ?";
@@ -359,6 +370,7 @@ public class RepositorioCliente implements IRepositorio<Cliente>{
         }
     }
     
+    //Método auxiliar para alterar especificamente pessoa jurídica
     private void alterarPessoaJuridica(PessoaJuridica pessoaJuridicaAlterada) {
 
         String sqlUpdate = "UPDATE cliente_pessoa_juridica SET nome_completo = ?, telefone_celular = ?, email = ?, endereco = ?, numero_local = ?, complemento = ?, bairro = ?, cidade = ?, estado = ?, razao_social = ?, inscricao_estadual = ?, cnpj = ? WHERE id = ?";

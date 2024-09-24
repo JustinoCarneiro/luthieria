@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.net.URL;
 
+//Barra de navegação para acessar outras páginas na janela principal
 public class BarraNavegacao extends JToolBar {
 
     public BarraNavegacao(JanelaPrincipal frame) {
@@ -16,6 +17,7 @@ public class BarraNavegacao extends JToolBar {
         setFloatable (false);
         setBackground(Color.WHITE);
 
+        //Adiciona logo da loja
         try {
             URL caminhoLogo = getClass().getResource("/gui/arquivos/logo_luthieria.jpg");
 
@@ -37,6 +39,7 @@ public class BarraNavegacao extends JToolBar {
             System.out.println("Erro ao carregar a imagem da logo: " + e.getMessage());
         }
 
+        //Adiciona botões para navegação
         add(new Botoes(frame));
     }
 }

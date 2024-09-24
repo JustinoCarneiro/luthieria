@@ -14,9 +14,11 @@ import java.util.UUID;
 import bd.DatabaseConnection;
 import model.OrdemServico;
 
+//Classe responsável pelo CRUD da entidade ordem de serviço
 public class RepositorioOrdemServico {
     String sql;
 
+    //Esse método verifica se a ordem de serviço já existe e em caso negativo o insere no banco de dados
     public void inserir(OrdemServico ordemServico) {
 
         OrdemServico ordemExistente = buscarPorId(ordemServico.getId());
@@ -26,8 +28,10 @@ public class RepositorioOrdemServico {
             return;
         }
 
+        //gera o id automaticamente
         UUID id = UUID.randomUUID();
 
+        //recupera o período (ano e mês) gerado a ordem para usar na geração do código da ordem de serviço
         LocalDateTime agora = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMM");
         String anoMes = formatter.format(agora);
@@ -59,6 +63,7 @@ public class RepositorioOrdemServico {
         }
     }
 
+    //Método responsável por listar todos as ordens de serviços
     public List<OrdemServico> listar() {
         List<OrdemServico> ordensServicos = new ArrayList<>();
         sql = "SELECT * FROM ordens_servicos";
@@ -89,6 +94,7 @@ public class RepositorioOrdemServico {
         return ordensServicos;
     }
 
+    //Método responsável por remover uma ordem de serviço do banco de dados
     public void remover(OrdemServico ordemServico) {
         String sql = "DELETE FROM ordens_servicos WHERE id = ?";
     
@@ -100,10 +106,11 @@ public class RepositorioOrdemServico {
             ps.executeUpdate();
     
         } catch (SQLException e) {
-            e.printStackTrace(); // ou algum outro tratamento de exceção adequado
+            e.printStackTrace();
         }
     }
     
+    //Método responsável por alterar os dados de uma ordem de serviço
     public void alterar(OrdemServico ordemServico) {
         String sql = "UPDATE ordens_servicos SET codigo = ?, tipo_servico = ?, id_instrumento = ?, id_cliente = ?, valor_servico = ?, pecas = ?, status_instrumento = ?, observacao_status = ?, previsao_entrega = ? WHERE id = ?";
     
@@ -127,41 +134,8 @@ public class RepositorioOrdemServico {
             e.printStackTrace();
         }
     }
-    
-    private String obterUltimoCodigo() {
 
-        sql = "SELECT MAX(codigo) AS ultimo_codigo FROM ordens_servicos";
-
-        String ultimoCodigo = null;
-    
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-    
-            if (rs.next()) {
-                ultimoCodigo = rs.getString("ultimo_codigo");
-            }
-    
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    
-        return ultimoCodigo;
-    }
-
-    private String gerarCodigo(String anoMes, String ultimoCodigo) {
-        int incremento = 1; 
-    
-        if (ultimoCodigo != null && ultimoCodigo.startsWith(anoMes)) {
-            String parteNumerica = ultimoCodigo.substring(anoMes.length());
-            incremento = Integer.parseInt(parteNumerica) + 1;
-        }
-    
-        String incrementoFormatado = String.format("%05d", incremento);
-    
-        return anoMes + incrementoFormatado;
-    }
-
+    //Método responsável por recuperar a ordem de serviço pelo id
     public OrdemServico buscarPorId(UUID id) {
         String sql = "SELECT * FROM ordens_servicos WHERE id = ?";
         OrdemServico ordemServico = null;
@@ -192,5 +166,41 @@ public class RepositorioOrdemServico {
         }
     
         return ordemServico;
+    }
+    
+    //Método auxiliar para recuperar o último código gerado de ordem de serviços no banco de dados
+    private String obterUltimoCodigo() {
+
+        sql = "SELECT MAX(codigo) AS ultimo_codigo FROM ordens_servicos";
+
+        String ultimoCodigo = null;
+    
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+    
+            if (rs.next()) {
+                ultimoCodigo = rs.getString("ultimo_codigo");
+            }
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return ultimoCodigo;
+    }
+
+    //Método auxiliar responsável por gerar o código da ordem de serviço quando criada
+    private String gerarCodigo(String anoMes, String ultimoCodigo) {
+        int incremento = 1; 
+    
+        if (ultimoCodigo != null && ultimoCodigo.startsWith(anoMes)) {
+            String parteNumerica = ultimoCodigo.substring(anoMes.length());
+            incremento = Integer.parseInt(parteNumerica) + 1;
+        }
+    
+        String incrementoFormatado = String.format("%05d", incremento);
+    
+        return anoMes + incrementoFormatado;
     }
 }

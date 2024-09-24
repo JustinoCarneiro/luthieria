@@ -12,7 +12,7 @@ import repositorio.RepositorioCliente;
 import repositorio.RepositorioInstrumento;
 import repositorio.RepositorioOrdemServico;
 
-//Classe para controlar CRUD
+//Classe para controlar CRUD e gerar notificação
 public class Luthier {
     
     RepositorioCliente repositorioCliente;

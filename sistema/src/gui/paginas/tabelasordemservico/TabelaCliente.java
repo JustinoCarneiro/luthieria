@@ -32,6 +32,7 @@ import model.cliente.PessoaJuridica;
 import repositorio.RepositorioCliente;
 import inicio.Luthier;
 
+//Painel responsável por mostrar os clientes inseridos, assim como fazer alterações, remoções e adições com gui
 public class TabelaCliente extends JPanel {
 
     private JTable table;
@@ -61,8 +62,10 @@ public class TabelaCliente extends JPanel {
         panelSelecao.add(campoPesquisa);
         panelSelecao.add(botaoPesquisar);
 
+        //Painel responsável por aplicar filtro no que é listado na tabela
         add(panelSelecao, BorderLayout.NORTH);
 
+        //Cria a tabela
         String[] columnNames = {"Nome Completo", "Email", "Telefone", "Detalhes", "Selecionar"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel) {
@@ -94,14 +97,18 @@ public class TabelaCliente extends JPanel {
         table.setIntercellSpacing(new java.awt.Dimension(10, 10));
         table.setRowHeight(30);
 
+        //Adiciona a tabela num painel de scroll, para permitir rolagem
         JScrollPane scrollPane = new JScrollPane(table);
 
         JPanel panelTabela = new JPanel();
         panelTabela.setLayout(new BorderLayout());
         panelTabela.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        //Adiciona o painel de scroll num painel
         panelTabela.add(scrollPane, BorderLayout.CENTER);
         panelTabela.setBackground(Color.WHITE);
 
+        //Adicionao painel a tela
         add(panelTabela, BorderLayout.CENTER);
 
         atualizarTabelaClientes();
@@ -117,6 +124,7 @@ public class TabelaCliente extends JPanel {
         add(adicionar, BorderLayout.SOUTH);
     }
 
+    //Método auxiliar para abrir o formulário para inserir ou alterar um cliente
     private void abrirFormularioCliente() {
         JDialog dialog = new JDialog();
         dialog.setTitle("Adicionar Cliente");
@@ -131,6 +139,7 @@ public class TabelaCliente extends JPanel {
         selecaoPanel.add(tipoClienteCombo);
         selecaoPanel.add(botaoContinuar);
     
+        //Diálogo responsável por selecionar qual tipo de cliente desejo inserir ou alterar
         dialog.add(selecaoPanel, BorderLayout.NORTH);
     
         botaoContinuar.addActionListener(new ActionListener() {
@@ -145,6 +154,7 @@ public class TabelaCliente extends JPanel {
                 }
 
                 ClienteForms clienteForms = new ClienteForms(novoCliente, new FormCloseListener() {
+                    //Ao chamar este método, irá fechar a janela do formulário e atualizar a tabela deste painel
                     @Override
                     public void onClose() {
                         dialog.dispose();
@@ -153,6 +163,8 @@ public class TabelaCliente extends JPanel {
                 });
     
                 dialog.remove(selecaoPanel);
+
+                //Adiciona o formulário do cliente
                 dialog.add(clienteForms, BorderLayout.CENTER);
                 dialog.setSize(400, 600); 
     
@@ -164,6 +176,7 @@ public class TabelaCliente extends JPanel {
         dialog.setVisible(true);
     }
 
+    //Método responsável por atualizar a tabela, em caso de pesquisa, alteração ou adição de dados
     public void atualizarTabelaClientes() {
         tableModel.setRowCount(0);
         group.clearSelection();
@@ -206,6 +219,7 @@ public class TabelaCliente extends JPanel {
         }
     }
     
+    //Método responsável por recuperar o cliente que foi selecionado
     public Cliente getClienteSelecionado() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {

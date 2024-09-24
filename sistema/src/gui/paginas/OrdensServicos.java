@@ -28,6 +28,8 @@ import model.instrumento.Instrumento;
 import repositorio.RepositorioCliente;
 import repositorio.RepositorioInstrumento;
 
+//Painel reponsável por mostrar as ordens de serviços inseridos, assim como fazer alterações, remoções e adições com gui.
+//Também de gerar as notificações relacionadas a ordem de serviço
 public class OrdensServicos extends JPanel{
 
     private JTable table;
@@ -37,6 +39,8 @@ public class OrdensServicos extends JPanel{
 
     public OrdensServicos() {
         setLayout(new BorderLayout());
+
+        //Cria a tabela
         String[] columnNames = {"Código", "Instrumento", "Cliente", "Detalhes", "Excluir", "Gerar notificação"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel) {
@@ -58,11 +62,14 @@ public class OrdensServicos extends JPanel{
         table.setIntercellSpacing(new java.awt.Dimension(10, 10));
         table.setRowHeight(30);
 
+        //Adiciona a tabela num painel de scroll, para permitir rolagem
         JScrollPane scrollPane = new JScrollPane(table);
 
         JPanel panelTabela = new JPanel();
         panelTabela.setLayout(new BorderLayout());
         panelTabela.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        //Adiciona o painel de scroll num painel
         panelTabela.add(scrollPane, BorderLayout.CENTER);
         panelTabela.setBackground(Color.WHITE);
 
@@ -74,6 +81,7 @@ public class OrdensServicos extends JPanel{
         adicionar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Chama método para selecionar cliente
                 abrirSelecaoCliente();
             }
         });
@@ -81,6 +89,7 @@ public class OrdensServicos extends JPanel{
         add(adicionar, BorderLayout.SOUTH);
     }
 
+    //Método auxiliar responsável por selecionar o cliente relacionado a ordem de serviço a ser criada
     private void abrirSelecaoCliente() {
         JDialog dialogSelecionar = new JDialog();
         dialogSelecionar.setTitle("Selecionar Cliente");
@@ -101,6 +110,8 @@ public class OrdensServicos extends JPanel{
                 if (clienteSelecionado != null) {
                     cliente = clienteSelecionado; 
                     dialogSelecionar.dispose();
+
+                    //Chama método para selecionar instrumento
                     abrirSelecaoInstrumento();
                 } else {
                     JOptionPane.showMessageDialog(dialogSelecionar, 
@@ -118,7 +129,7 @@ public class OrdensServicos extends JPanel{
         dialogSelecionar.setVisible(true);
     }
     
-
+    //Método auxiliar responsável por selecionar o instrumento relacionado a ordem de serviço a ser criada
     private void abrirSelecaoInstrumento(){
         JDialog dialogSelecionar = new JDialog();
         dialogSelecionar.setTitle("Selecionar Instrumento");
@@ -139,6 +150,8 @@ public class OrdensServicos extends JPanel{
                 if (instrumentoSelecionado != null) {
                     instrumento = instrumentoSelecionado; 
                     dialogSelecionar.dispose();
+
+                    //Chama método para inserir ordem de serviço
                     abrirFormularioOrdemServico();
                 } else {
                     JOptionPane.showMessageDialog(dialogSelecionar, 
@@ -155,7 +168,7 @@ public class OrdensServicos extends JPanel{
         dialogSelecionar.setVisible(true);
     }
     
-
+    //Método responsável por inserir ou alterar uma ordem de serviço
     private void abrirFormularioOrdemServico() {
         JDialog dialog = new JDialog();
         dialog.setTitle("Adicionar Ordem Serviço");
@@ -169,6 +182,7 @@ public class OrdensServicos extends JPanel{
         ordemServico.setIdInstrumento(instrumento.getId());
 
         OrdemServicoForms ordemServicoForms = new OrdemServicoForms(ordemServico, new FormCloseListener() {
+            //Ao chamar este método, irá fechar a janela do formulário e atualizar a tabela deste painel
             @Override
             public void onClose() {
                 dialog.dispose();
@@ -176,12 +190,14 @@ public class OrdensServicos extends JPanel{
             }
         });
         
+        //Adiciona o formulário da ordem de serviço
         dialog.add(ordemServicoForms, BorderLayout.CENTER);
         dialog.revalidate();
         dialog.repaint(); 
         dialog.setVisible(true);
     }
 
+    //Método responsável por atualizar a tabela, em caso de alteração, adição ou remoção de dados
     public void atualizarTabelaOrdensServicos() {
         tableModel.setRowCount(0);
 
@@ -215,6 +231,7 @@ public class OrdensServicos extends JPanel{
         }
     }
 
+    //Método responsável por excluir a ordem de serviço selecionada
     public void excluirOrdemServico(OrdemServico ordemServico) {
         int resposta = JOptionPane.showConfirmDialog(this, 
             "Deseja realmente excluir esta ordem de serviço?", 
@@ -222,6 +239,7 @@ public class OrdensServicos extends JPanel{
             JOptionPane.YES_NO_OPTION);
         
         if (resposta == JOptionPane.YES_OPTION) {
+            //Chama o controlador Luthier
             new Luthier().remover(ordemServico);
             atualizarTabelaOrdensServicos();
         }

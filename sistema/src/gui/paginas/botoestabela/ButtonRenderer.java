@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+//Classe responsável por como os botãos das tabelas devem ser renderizados
 public class ButtonRenderer extends JButton implements TableCellRenderer {
 
     public ButtonRenderer(String label) {

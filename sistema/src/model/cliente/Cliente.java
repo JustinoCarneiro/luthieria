@@ -2,6 +2,7 @@ package model.cliente;
 
 import java.util.UUID;
 
+//Classe que define os atributos genéricos de um cliente, assim como getters e setters
 public abstract class Cliente {
     private UUID id;
     protected String nomeCompleto;

@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.Component;
 
+//Classe responsável por como os botãos de seleção das tabelas devem ser renderizados
 public class RadioButtonRenderer extends JRadioButton implements TableCellRenderer {
 
     public RadioButtonRenderer() {

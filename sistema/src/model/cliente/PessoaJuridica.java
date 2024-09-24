@@ -2,6 +2,7 @@ package model.cliente;
 
 import java.util.UUID;
 
+//Classe que define os atributos genéricos de uma pessoa jurídica que é uma cliente, assim como getters e setters
 public class PessoaJuridica extends Cliente{
     private String razaoSocial;
     private String inscricaoEstadual;
@@ -39,6 +40,7 @@ public class PessoaJuridica extends Cliente{
         this.cnpj = cnpj;
     }
 
+    //Método responsável por entregar o cliente, quando necessário, como string
     @Override
     public String toString() {
         return "PessoaJuridica { " +

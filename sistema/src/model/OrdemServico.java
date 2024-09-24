@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDate;
 import java.util.UUID;
 
+//Classe que define os atributos específicos de uma ordem de serviço, assim como getters e setters
 public class OrdemServico {
     private UUID id;
     private String codigo;
@@ -98,6 +99,7 @@ public class OrdemServico {
         this.previsaoEntrega = previsaoEntrega;
     }
 
+    //Método responsável por entregar a ordem de serviço, quando necessário, como string
     @Override
     public String toString() {
         return "OrdemServico{" +

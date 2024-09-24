@@ -20,6 +20,7 @@ import model.instrumento.Idiofone;
 import model.instrumento.Instrumento;
 import model.instrumento.Membranofone;
 
+//Painel responsável por inserir ou alterar clientes
 public class InstrumentoForms extends JPanel {
     private JTextField nomeField;
     private JTextField nomesAdicionaisField;
@@ -57,8 +58,10 @@ public class InstrumentoForms extends JPanel {
 
     private JButton salvarButton;
 
+    //Necessário para efetuar uma ação quando o formulário for fechado
     private FormCloseListener closeListener;
 
+    //Preenche formulário com dados pré-existentes caso existam
     public InstrumentoForms(Instrumento instrumento, FormCloseListener closeListener){
         setLayout(new GridLayout(36, 4, 10, 10));
         setPreferredSize(new Dimension(400, 800));
@@ -187,6 +190,7 @@ public class InstrumentoForms extends JPanel {
         });
     }
 
+    //Método auxiliar para preencher dados gerais de um instrumento
     private void preencherDadosInstrumento(Instrumento instrumento) {
         nomeField.setText(instrumento.getNome());
         nomesAdicionaisField.setText(instrumento.getNomesAdicionais());
@@ -215,29 +219,34 @@ public class InstrumentoForms extends JPanel {
         statusField.setText(instrumento.getStatus());
     }
 
+    //Método auxiliar para preencher dados específicos de um idiofone
     private void preencherDadosIdiofone(Idiofone idiofone) {
         metodoExecucao.setText(idiofone.getMetodoExecucao());
         tipoIdiofone.setText(idiofone.getTipoIdiofone());
     }
     
+    //Método auxiliar para preencher dados específicos de um cordofone
     private void preencherDadosCordofone(Cordofone cordofone) {
         numeroCordas.setText(String.valueOf(cordofone.getNumeroCordas()));
         tipoCordas.setText(cordofone.getTipoCordas());
         metodoExecucaoCorda.setText(cordofone.getMetodoExecucaoCorda());
     }
 
+    //Método auxiliar para preencher dados específicos de um membranofone
     private void preencherDadosMembranofone(Membranofone membranofone) {
         tipoMembrana.setText(membranofone.getTipoMembrana());
         metodoTocarMembrana.setText(membranofone.getMetodoTocarMembrana());
         ajusteTensao.setText(membranofone.getAjusteTensao());
     }
 
+    //Método auxiliar para preencher dados específicos de um aerofone
     private void preencherDadosAerofone(Aerofone aerofone) {
         tipoBocal.setText(aerofone.getTipoBocal());
         metodoProducaoSom.setText(aerofone.getMetodoProducaoSom());
         ajusteAfinacao.setText(aerofone.getAjusteAfinacao());
     }
 
+    //Método auxiliar responsável por alterar ou inserir o instrumento
     private void salvarAlteracoes(Instrumento instrumento) {
         instrumento.setNome(nomeField.getText());
         instrumento.setNomesAdicionais(nomesAdicionaisField.getText());
@@ -283,6 +292,7 @@ public class InstrumentoForms extends JPanel {
         }
 
         if (instrumento.getId() != null) {
+            //Chama o controlador Luthier
             new Luthier().alterar(instrumento);
             JOptionPane.showMessageDialog(this, "Dados do instrumento alterados com sucesso!");
         } else {
@@ -293,6 +303,7 @@ public class InstrumentoForms extends JPanel {
         onFormClose();
     }
 
+    //Método auxiliar para realizar uma ação quando o formulário for fechado
     private void onFormClose() {
         if (closeListener != null) {
             closeListener.onClose();

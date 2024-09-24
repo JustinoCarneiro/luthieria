@@ -21,6 +21,7 @@ import model.instrumento.Instrumento;
 import repositorio.RepositorioCliente;
 import repositorio.RepositorioInstrumento;
 
+//Painel responsável por inserir ou alterar ordens de serviços
 public class OrdemServicoForms extends JPanel{
     private JTextField tipoServicoField;
     private JTextField instrumentoField;
@@ -32,7 +33,10 @@ public class OrdemServicoForms extends JPanel{
     private JTextField previsaoEntregaField;
 
     private JButton salvarButton;
+
+    //Necessário para efetuar uma ação quando o formulário for fechado
     private FormCloseListener closeListener;
+
     private Instrumento instrumento;
     private Cliente cliente;
 
@@ -85,6 +89,7 @@ public class OrdemServicoForms extends JPanel{
         });
     }
 
+    //Método auxiliar para preencher dados da ordem de serviço
     private void preencherDados(OrdemServico ordemServico) {
         tipoServicoField.setText(ordemServico.getTipoServico());
 
@@ -116,6 +121,7 @@ public class OrdemServicoForms extends JPanel{
         }
     }
 
+    //Método auxiliar responsável por alterar ou inserir a ordem de serviço
     private void salvarAlteracoes(OrdemServico ordemServico) {
         ordemServico.setTipoServico(tipoServicoField.getText());
 
@@ -147,6 +153,7 @@ public class OrdemServicoForms extends JPanel{
         }
         
         if(ordemServico.getId() != null){
+            //Chama o controlador Luthier
             new Luthier().alterar(ordemServico);
             JOptionPane.showMessageDialog(this, "Dados da ordem de serviço alterados com sucesso!");
         } else {
@@ -157,6 +164,7 @@ public class OrdemServicoForms extends JPanel{
         onFormClose();
     }
 
+    //Método auxiliar para realizar uma ação quando o formulário for fechado
     private void onFormClose() {
         if (closeListener != null) {
             closeListener.onClose();

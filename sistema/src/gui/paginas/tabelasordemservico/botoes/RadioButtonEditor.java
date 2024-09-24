@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//Classe responsável por configurar as ações dos botões de seleção que ficam nas tabelas
 public class RadioButtonEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
 
     private JRadioButton radioButton;

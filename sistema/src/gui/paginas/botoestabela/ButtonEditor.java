@@ -30,6 +30,7 @@ import repositorio.RepositorioCliente;
 import repositorio.RepositorioInstrumento;
 import repositorio.RepositorioOrdemServico;
 
+//Classe responsável por configurar as ações dos botões que ficam nas tabelas
 public class ButtonEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
 
     private JButton button;
@@ -70,6 +71,7 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
         return itemId;
     }
 
+    //As ações possíveis são: excluir e detalhar o item selecionado, no caso da ordem de serviço, também por gerar notificação
     @Override
     public void actionPerformed(ActionEvent e) {
         if (isPushed) {
@@ -105,15 +107,19 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
                 }
             }
         }
+
+        //Notifica que a edição foi concluída
         fireEditingStopped();
     }
 
+    //Método auxiliar por chamar o formulário do cliente
     private void abrirFormularioCliente(Cliente cliente) {
         JDialog dialog = new JDialog((JFrame) null, "Formulário Cliente", true);
         dialog.setSize(500, 400);
         dialog.setLocationRelativeTo(null);
 
         ClienteForms clienteForms = new ClienteForms(cliente, new FormCloseListener() {
+            //Ao chamar este método, irá atualizar a tabela desto painel passado como argumento no construtor
             @Override
             public void onClose() {
                 ((Clientes) itemPanel).atualizarTabelaClientes();
@@ -125,12 +131,14 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
         dialog.setVisible(true);
     }
 
+    //Método auxiliar por chamar o formulário do instrumento
     private void abrirFormularioInstrumento(Instrumento instrumento) {
         JDialog dialog = new JDialog((JFrame) null, "Formulário Instrumento", true);
         dialog.setSize(400, 800);
         dialog.setLocationRelativeTo(null);
 
         InstrumentoForms instrumentoForms = new InstrumentoForms(instrumento, new FormCloseListener() {
+            //Ao chamar este método, irá atualizar a tabela desto painel passado como argumento no construtor
             @Override
             public void onClose() {
                 ((Instrumentos) itemPanel).atualizarTabelaInstrumentos();
@@ -142,12 +150,14 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
         dialog.setVisible(true);
     }
 
+    //Método auxiliar por chamar o formulário da ordem de serviço
     private void abrirFormularioOrdemServico(OrdemServico ordemServico) {
         JDialog dialog = new JDialog((JFrame) null, "Formulário Instrumento", true);
         dialog.setSize(500, 400);
         dialog.setLocationRelativeTo(null);
 
         OrdemServicoForms ordemServicoForms = new OrdemServicoForms(ordemServico, new FormCloseListener() {
+            //Ao chamar este método, irá atualizar a tabela desto painel passado como argumento no construtor
             @Override
             public void onClose() {
                 ((OrdensServicos) itemPanel).atualizarTabelaOrdensServicos();
@@ -159,6 +169,7 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor,
         dialog.setVisible(true);
     }
 
+    //Método auxiliar responsável por gerar a notificação relacionada a ordem de serviço selecionada
     private void gerarNotificacao(OrdemServico ordemServico) {
         String mensagem = new Luthier().gerarNotificacao(ordemServico.getId());
 

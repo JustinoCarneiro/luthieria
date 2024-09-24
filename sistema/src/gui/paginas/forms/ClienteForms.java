@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+//Painel responsável por inserir ou alterar clientes
 public class ClienteForms extends JPanel {
     private JTextField nomeCompletoField;
     private JTextField emailField;
@@ -35,8 +36,10 @@ public class ClienteForms extends JPanel {
 
     private JButton salvarButton;
 
+    //Necessário para efetuar uma ação quando o formulário for fechado
     private FormCloseListener closeListener;
 
+    //Preenche formulário com dados pré-existentes caso existam
     public ClienteForms(Cliente cliente, FormCloseListener closeListener) {
         setLayout(new GridLayout(13, 2, 10, 10));
 
@@ -106,6 +109,7 @@ public class ClienteForms extends JPanel {
         });
     }
 
+    //Método auxiliar para preencher dados específicos de uma pessoa física
     private void preencherDadosPessoaFisica(PessoaFisica pessoaFisica) {
         nomeCompletoField.setText(pessoaFisica.getNomeCompleto());
         emailField.setText(pessoaFisica.getEmail());
@@ -126,6 +130,7 @@ public class ClienteForms extends JPanel {
         }
     }
 
+    //Método auxiliar para preencher dados específicos de uma pessoa jurídica
     private void preencherDadosPessoaJuridica(PessoaJuridica pessoaJuridica) {
         nomeCompletoField.setText(pessoaJuridica.getNomeCompleto());
         emailField.setText(pessoaJuridica.getEmail());
@@ -141,6 +146,7 @@ public class ClienteForms extends JPanel {
         cnpjField.setText(pessoaJuridica.getCnpj());
     }
 
+    //Método auxiliar responsável por alterar ou inserir o cliente
     private void salvarAlteracoes(Cliente cliente) {
         cliente.setNomeCompleto(nomeCompletoField.getText());
         cliente.setEmail(emailField.getText());
@@ -169,6 +175,7 @@ public class ClienteForms extends JPanel {
         }
 
         if (cliente.getId() != null) {
+            //Chama o controlador Luthier
             new Luthier().alterar(cliente);
             JOptionPane.showMessageDialog(this, "Dados do cliente alterados com sucesso!");
         } else {
@@ -179,6 +186,7 @@ public class ClienteForms extends JPanel {
         onFormClose();
     }
 
+    //Método auxiliar para realizar uma ação quando o formulário for fechado
     private void onFormClose() {
         if (closeListener != null) {
             closeListener.onClose();

@@ -3,6 +3,7 @@ package model.instrumento;
 import java.time.LocalDate;
 import java.util.UUID;
 
+//Classe que define os atributos específicos de um aerofone que é um instrumento musical, assim como getters e setters
 public class Aerofone extends Instrumento{
     private String tipoBocal;
     private String metodoProducaoSom;
@@ -49,6 +50,7 @@ public class Aerofone extends Instrumento{
         this.ajusteAfinacao = ajusteAfinacao;
     }
 
+    //Método responsável por entregar o instrumento, quando necessário, como string
     @Override
     public String toString() {
         return "Aerofone{" +

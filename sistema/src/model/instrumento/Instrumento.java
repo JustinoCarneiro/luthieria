@@ -3,6 +3,7 @@ package model.instrumento;
 import java.time.LocalDate;
 import java.util.UUID;
 
+//Classe que define os atributos genéricos de um instrumento musical, assim como getters e setters
 public abstract class Instrumento {
     protected UUID id;
     protected String nome;

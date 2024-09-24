@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import gui.barranavegacao.BarraNavegacao;
 import gui.paginas.Home;
 
+//Frame principal da aplicação
 public class JanelaPrincipal extends JFrame{
     private JPanel panelCentral;
 
@@ -25,6 +26,7 @@ public class JanelaPrincipal extends JFrame{
         setVisible(true);
     }
 
+    //Método responsável por mostrar a página selecionada na barra de navegação, essa função é chamada na classe BarraNavegacao
     public void mostrarPagina(JPanel pagina) {
         remove(panelCentral);
         

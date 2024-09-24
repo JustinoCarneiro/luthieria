@@ -36,6 +36,7 @@ import model.instrumento.Instrumento;
 import model.instrumento.Membranofone;
 import repositorio.RepositorioInstrumento;
 
+//Painel responsável por mostrar os instrumentos inseridos, assim como fazer alterações, remoções e adições com gui
 public class TabelaInstrumento extends JPanel{
     private JTable table;
     private DefaultTableModel tableModel;
@@ -64,8 +65,10 @@ public class TabelaInstrumento extends JPanel{
         panelSelecao.add(campoPesquisa);
         panelSelecao.add(botaoPesquisar);
 
+        //Painel responsável por aplicar filtro no que é listado na tabela
         add(panelSelecao, BorderLayout.NORTH);
 
+        //Cria a tabela
         String[] columnNames = {"Nome", "Modelo", "Fabricante", "Detalhes", "Selecionar"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel) {
@@ -97,14 +100,18 @@ public class TabelaInstrumento extends JPanel{
         table.setIntercellSpacing(new java.awt.Dimension(10, 10));
         table.setRowHeight(30);
 
+        //Adiciona a tabela num painel de scroll, para permitir rolagem
         JScrollPane scrollPane = new JScrollPane(table);
 
         JPanel panelTabela = new JPanel();
         panelTabela.setLayout(new BorderLayout());
         panelTabela.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        //Adiciona o painel de scroll num painel
         panelTabela.add(scrollPane, BorderLayout.CENTER);
         panelTabela.setBackground(Color.WHITE);
 
+        //Adicionao painel a tela
         add(panelTabela, BorderLayout.CENTER);
 
         atualizarTabelaInstrumentos();
@@ -120,6 +127,7 @@ public class TabelaInstrumento extends JPanel{
         add(adicionar, BorderLayout.SOUTH);
     }
 
+    //Método auxiliar para abrir o formulário para inserir ou alterar um instrumento
     private void abrirFormularioInstrumento() {
         JDialog dialog = new JDialog();
         dialog.setTitle("Adicionar Instrumento");
@@ -134,6 +142,7 @@ public class TabelaInstrumento extends JPanel{
         selecaoPanel.add(tipoClienteCombo);
         selecaoPanel.add(botaoContinuar);
     
+        //Diálogo responsável por selecionar qual tipo de cliente desejo inserir ou alterar
         dialog.add(selecaoPanel, BorderLayout.NORTH);
     
         botaoContinuar.addActionListener(new ActionListener() {
@@ -152,6 +161,7 @@ public class TabelaInstrumento extends JPanel{
                 }
 
                 InstrumentoForms instrumentoForms = new InstrumentoForms(novoInstrumento, new FormCloseListener() {
+                    //Ao chamar este método, irá fechar a janela do formulário e atualizar a tabela deste painel
                     @Override
                     public void onClose() {
                         dialog.dispose();
@@ -160,6 +170,8 @@ public class TabelaInstrumento extends JPanel{
                 });
     
                 dialog.remove(selecaoPanel);
+
+                //Adiciona o formulário do cliente
                 dialog.add(instrumentoForms, BorderLayout.CENTER);
                 dialog.setSize(400, 600); 
     
@@ -171,6 +183,7 @@ public class TabelaInstrumento extends JPanel{
         dialog.setVisible(true);
     }
 
+    //Método responsável por atualizar a tabela, em caso de pesquisa, alteração ou adição de dados
     public void atualizarTabelaInstrumentos() {
         tableModel.setRowCount(0);
         group.clearSelection();
@@ -223,6 +236,7 @@ public class TabelaInstrumento extends JPanel{
         }
     }
 
+    //Método responsável por recuperar o cliente que foi selecionado
     public Instrumento getInstrumentoSelecionado(){
         int selectedRow = table.getSelectedRow();
         if(selectedRow != -1){

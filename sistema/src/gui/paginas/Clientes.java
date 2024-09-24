@@ -27,6 +27,7 @@ import model.cliente.PessoaFisica;
 import model.cliente.PessoaJuridica;
 import inicio.Luthier;
 
+//Painel responsável por mostrar os clientes inseridos, assim como fazer alterações, remoções e adições com gui
 public class Clientes extends JPanel {
 
     private JTable table;
@@ -54,8 +55,10 @@ public class Clientes extends JPanel {
         panelSelecao.add(campoPesquisa);
         panelSelecao.add(botaoPesquisar);
 
+        //Painel responsável por aplicar filtro no que é listado na tabela
         add(panelSelecao, BorderLayout.NORTH);
 
+        //Cria a tabela
         String[] columnNames = {"Nome Completo", "Email", "Telefone", "Detalhes", "Excluir"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel) {
@@ -75,14 +78,18 @@ public class Clientes extends JPanel {
         table.setIntercellSpacing(new java.awt.Dimension(10, 10));
         table.setRowHeight(30);
 
+        //Adiciona a tabela num painel de scroll, para permitir rolagem
         JScrollPane scrollPane = new JScrollPane(table);
 
         JPanel panelTabela = new JPanel();
         panelTabela.setLayout(new BorderLayout());
         panelTabela.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        //Adiciona o painel de scroll num painel
         panelTabela.add(scrollPane, BorderLayout.CENTER);
         panelTabela.setBackground(Color.WHITE);
 
+        //Adicionao painel a tela
         add(panelTabela, BorderLayout.CENTER);
 
         atualizarTabelaClientes();
@@ -98,6 +105,7 @@ public class Clientes extends JPanel {
         add(adicionar, BorderLayout.SOUTH);
     }
 
+    //Método auxiliar para abrir o formulário para inserir ou alterar um cliente
     private void abrirFormularioCliente() {
         JDialog dialog = new JDialog();
         dialog.setTitle("Adicionar Cliente");
@@ -112,6 +120,7 @@ public class Clientes extends JPanel {
         selecaoPanel.add(tipoClienteCombo);
         selecaoPanel.add(botaoContinuar);
     
+        //Diálogo responsável por selecionar qual tipo de cliente desejo inserir ou alterar
         dialog.add(selecaoPanel, BorderLayout.NORTH);
     
         botaoContinuar.addActionListener(new ActionListener() {
@@ -126,6 +135,7 @@ public class Clientes extends JPanel {
                 }
 
                 ClienteForms clienteForms = new ClienteForms(novoCliente, new FormCloseListener() {
+                    //Ao chamar este método, irá fechar a janela do formulário e atualizar a tabela deste painel
                     @Override
                     public void onClose() {
                         dialog.dispose();
@@ -134,6 +144,8 @@ public class Clientes extends JPanel {
                 });
     
                 dialog.remove(selecaoPanel);
+
+                //Adiciona o formulário do cliente
                 dialog.add(clienteForms, BorderLayout.CENTER);
                 dialog.setSize(400, 600); 
     
@@ -145,8 +157,7 @@ public class Clientes extends JPanel {
         dialog.setVisible(true);
     }
     
-    
-
+//Método responsável por atualizar a tabela, em caso de pesquisa, alteração, adição ou remoção de dados    
     public void atualizarTabelaClientes() {
         tableModel.setRowCount(0);
 
@@ -188,6 +199,7 @@ public class Clientes extends JPanel {
         }
     }
 
+    //Método responsável por excluir o cliente selecionado
     public void excluirCliente(Cliente cliente) {
         int resposta = JOptionPane.showConfirmDialog(this, 
             "Deseja realmente excluir este cliente?", 
@@ -195,6 +207,7 @@ public class Clientes extends JPanel {
             JOptionPane.YES_NO_OPTION);
         
         if (resposta == JOptionPane.YES_OPTION) {
+            //Chama o controlador Luthier
             new Luthier().remover(cliente);
             atualizarTabelaClientes();
         }

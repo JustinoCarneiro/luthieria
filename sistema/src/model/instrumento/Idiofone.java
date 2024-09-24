@@ -3,6 +3,7 @@ package model.instrumento;
 import java.time.LocalDate;
 import java.util.UUID;
 
+//Classe que define os atributos específicos de um idiofone que é um instrumento musical, assim como getters e setters
 public class Idiofone extends Instrumento{
     private String metodoExecucao;
     private String tipoIdiofone;
@@ -39,6 +40,7 @@ public class Idiofone extends Instrumento{
         this.tipoIdiofone = tipoIdiofone;
     }
 
+    //Método responsável por entregar o instrumento, quando necessário, como string
     @Override
     public String toString() {
         return "Idiofone{" +
